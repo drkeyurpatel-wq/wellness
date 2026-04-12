@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Wellness">
+<meta name="theme-color" content="#0c0c14">
+<link rel="manifest" href="/manifest.json">
+<title>Keyur's Wellness</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0c0c14;--card:rgba(255,255,255,0.025);--border:rgba(255,255,255,0.06);--gold:#D4A853;--green:#34D399;--blue:#60A5FA;--purple:#A78BFA;--red:#ef4444;--amber:#F59E0B;--txt:#e0e0e5;--txt2:#888;--txt3:#555;--glow:none}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);background-image:var(--glow);color:var(--txt);font-family:'DM Sans',system-ui,sans-serif;min-height:100vh;transition:background .8s,background-image .8s;overscroll-behavior:none}
+h1,h2,h3,.hf{font-family:'Outfit',sans-serif}
+.lbl{font-size:11px;letter-spacing:2px;font-weight:700;color:var(--txt3);font-family:'Outfit',sans-serif;margin-bottom:8px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px;transition:border-color .5s}
+.btn{border:none;border-radius:10px;padding:12px 20px;cursor:pointer;font-weight:700;font-size:14px;font-family:'Outfit',sans-serif;transition:transform .1s}
+.btn:active{transform:scale(0.96)}
+.inp{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:12px;color:#e0e0e5;font-size:16px;font-family:'DM Sans',sans-serif;outline:none;width:100%}
+.inp:focus{border-color:rgba(212,168,83,0.4)}
+textarea.inp{resize:vertical;min-height:60px;font-size:14px;line-height:1.6}
+.tab-content{animation:fadeIn .3s ease;padding:14px 16px 100px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;overflow-y:auto;backdrop-filter:blur(16px)}
+.ov-close{position:absolute;top:16px;right:16px;background:none;border:none;color:#666;font-size:24px;cursor:pointer;z-index:210}
+.habit-row{display:flex;align-items:center;gap:10px;padding:14px 14px;margin-bottom:4px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.04);transition:all .15s}
+.habit-row.on{background:rgba(52,211,153,0.06);border-color:rgba(52,211,153,0.15)}
+.habit-check{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;transition:all .15s}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(12,12,20,0.97);backdrop-filter:blur(16px);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 16px;z-index:100}
+.nav-btn{background:none;border:none;cursor:pointer;padding:6px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#444;border-radius:10px;transition:all .2s;font-family:'Outfit',sans-serif}
+.nav-btn.active{color:var(--gold);background:rgba(212,168,83,0.07)}
+.nav-btn .icon{font-size:22px;font-weight:300}
+.nav-btn .label{font-size:10px;font-weight:400}
+.nav-btn.active .label{font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.slider-row{display:flex;gap:6px;margin-top:4px}
+.slider-cell{flex:1;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,0.05);transition:all .15s}
+.water-dot{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;border:1px solid rgba(255,255,255,0.04);transition:all .1s}
+.water-dot.filled{background:rgba(96,165,250,0.12);border-color:rgba(96,165,250,0.2)}
+.ex-row{border-left:4px solid var(--purple);padding:0;overflow:hidden}
+.ex-header{padding:14px 14px;display:flex;align-items:center;gap:10px;cursor:pointer}
+.ex-detail{padding:4px 14px 14px;border-top:1px solid rgba(255,255,255,0.03)}
+.set-row{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.set-input{width:60px;text-align:center;padding:10px 4px;font-size:16px;border-radius:8px}
+.progress-bar{background:rgba(255,255,255,0.05);border-radius:4px;height:5px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;border-radius:4px;transition:width .6s ease}
+.dot-row{display:flex;gap:4px;justify-content:center;margin-top:12px}
+.dot{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,0.1)}
+.dot.done{background:var(--green)}.dot.active{background:var(--gold)}
+.hidden{display:none!important}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes toastIn{from{opacity:0;transform:translateY(20px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes toastOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-10px)}}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(52,211,153,0.95);color:#000;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:700;font-family:'Outfit',sans-serif;z-index:300;animation:toastIn .3s ease;pointer-events:none;white-space:nowrap}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header" style="padding:16px 16px 0">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div>
+      <div class="lbl" style="color:var(--gold);margin-bottom:2px;font-size:9px">PHASE 1 · IGNITION</div>
+      <h1 style="font-size:18px;font-weight:800;color:#fff;letter-spacing:-0.5px;font-family:'Outfit',sans-serif">Keyur's Wellness</h1>
+    </div>
+    <div style="font-size:12px;color:var(--txt3)" id="dateStr"></div>
+  </div>
+  <!-- Hero Score -->
+  <div style="display:flex;justify-content:center;padding:20px 0 16px">
+    <div style="position:relative;width:120px;height:120px">
+      <svg width="120" height="120" style="transform:rotate(-90deg)">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="8"/>
+        <circle id="scoreRing" cx="60" cy="60" r="52" fill="none" stroke="var(--gold)" stroke-width="8" stroke-dasharray="326.7" stroke-dashoffset="326.7" stroke-linecap="round" style="transition:stroke-dashoffset 1s ease,stroke .3s"/>
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+        <span id="scoreNum" class="hf" style="font-size:36px;font-weight:800;color:#fff">0</span>
+        <span style="font-size:10px;color:#888;margin-top:-2px">TODAY</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB CONTENT CONTAINER -->
+<div id="tabContent"></div>
+
+<!-- NAV -->
+<div class="nav" id="nav"></div>
+
+<!-- OVERLAYS -->
+<div id="overlayBreath" class="ov hidden"></div>
+<div id="overlayFlow" class="ov hidden"></div>
+<div id="overlayLetter" class="ov hidden"></div>
+<div id="overlayPorsche" class="ov hidden"></div>
+
+<script>
+/* ═══════════════════════════════════════
+   KEYUR'S WELLNESS — HTML EDITION
+   ═══════════════════════════════════════ */
+
+// ── DATA ──
+const INIT = {sw:115.9,tgt:90,days:{},wts:[{d:tod(),w:115.9}],ar:"5k_walk",rw:1,por:{},ltr:""};
+const HB = [
+  {id:"wake",l:"Up on time",i:"☀️",g:0},{id:"noDrift",l:"No drift",i:"⚡",g:0},
+  {id:"pranayama",l:"Pranayama",i:"🌬️",g:1},{id:"meditation",l:"Meditation",i:"🧘",g:1},
+  {id:"exercise",l:"Exercise",i:"💪",g:2},{id:"water",l:"Water 10+",i:"💧",g:2},
+  {id:"bfLight",l:"Light bfast",i:"🥣",g:3},{id:"noJunk",l:"No junk",i:"🚫",g:3},
+  {id:"homeFood",l:"Home dinner",i:"🏠",g:3},{id:"earlyDin",l:"By 8:30",i:"🕗",g:3},
+  {id:"noAlc",l:"No alcohol",i:"🍷",g:3},{id:"screenOff",l:"Screens off",i:"📵",g:4},
+  {id:"sleepOk",l:"Slept ok",i:"🌙",g:4}
+];
+const GN=["ROUTINE","MIND","BODY","FUEL","REST"];
+const MS=[{kg:108,r:"New Bike",i:"🏍️",c:"#D4A853"},{kg:100,r:"BYD Sealion 7",i:"🚗",c:"#60A5FA"},{kg:90,r:"Porsche",i:"🏎️",c:"#34D399"}];
+const PS=[{kg:113,s:"Model",o:["911 Carrera","Taycan","Cayenne"]},{kg:111,s:"Color",o:["Racing Yellow","GT Silver","Shark Blue","Black"]},{kg:108,s:"Interior",o:["Black Leather","Bordeaux Red","Espresso"]},{kg:105,s:"Wheels",o:['20" Carrera','21" Spyder']},{kg:102,s:"Tech",o:["Sport Chrono","Night Vision","PASM"]},{kg:90,s:"FULL SPEC",o:[]}];
+const EXW=[{n:"Warm-up",p:"5m",t:"W"},{n:"Brisk walk",p:"20m",t:"C"},{n:"Squats",p:"2×10",t:"S"},{n:"Push-ups",p:"2×8",t:"S"},{n:"Calf raises",p:"2×15",t:"S"},{n:"Plank",p:"2×20s",t:"K"},{n:"Cool-down",p:"5m",t:"W"}];
+const EXE=[{n:"Treadmill",p:"5m",t:"W"},{n:"Lat pulldown",p:"3×10",t:"S"},{n:"Chest press",p:"3×10",t:"S"},{n:"Leg press",p:"3×10",t:"S"},{n:"Seated rows",p:"3×10",t:"S"},{n:"Shoulder press",p:"3×10",t:"S"},{n:"Plank",p:"3×30s",t:"K"},{n:"Stretches",p:"10m",t:"W"}];
+const BRX=[{name:"Anulom Vilom",sec:300,d:"Calms nerves",st:["Close right nostril","Inhale left 4 counts","Close left nostril","Exhale right 4 counts","10 full rounds"]},{name:"Kapalbhati",sec:180,d:"Burns belly fat",st:["Sharp exhale, belly IN","Passive inhale","20 strokes × 3 rounds"]},{name:"Bhramari",sec:120,d:"Kills anxiety instantly",st:["Close ears with thumbs","Deep inhale","Exhale with HUMMM","5-7 rounds"]},{name:"Box Breathing",sec:180,d:"Navy SEAL reset",st:["Inhale 4, Hold 4","Exhale 4, Hold 4","6-8 rounds"]}];
+const MLs={"🌅 Breakfast 8AM":["Poha + boiled egg + fruit ~320 kcal","Moong dal chilla + chutney ~280 kcal","Idli (2) + sambar + egg whites ~300 kcal","Oats + banana + walnuts ~340 kcal"],"🥜 Mid-morning 10:30":["Buttermilk (chaas) ~60 kcal","10 almonds + 2 walnuts ~120 kcal","Coconut water ~50 kcal"],"🍱 Lunch 1PM":["Dal + sabzi + 2 roti + salad ~450 kcal","Rajma + roti + raita ~420 kcal","Egg curry (2) + 2 roti + salad ~460 kcal"],"🍵 Evening 4:30":["Green tea + roasted makhana ~80 kcal","Green tea + roasted chana ~100 kcal"],"🌙 Dinner 7:30PM":["Grilled paneer + sautéed veg + 1 roti ~380 kcal","Moong dal khichdi + kadhi ~340 kcal","Egg bhurji (2) + 1 roti + salad ~360 kcal","Palak dal + 1 roti + cucumber ~320 kcal","Dahi + sabzi + 1 bajra roti ~330 kcal"]};
+const MRN=[{l:"Get out of bed",i:"🛏️",d:0},{l:"Bathroom + face wash",i:"🚿",d:0},{l:"Glass of warm water",i:"💧",d:0},{l:"Go to balcony",i:"🌅",d:0},{l:"Anulom Vilom",i:"🌬️",d:180},{l:"Sit with eyes closed",i:"🧘",d:120},{l:"You're ready. Go conquer.",i:"⚡",d:0}];
+const EVN=[{l:"Phone OUTSIDE bedroom",i:"📱",d:0},{l:"Dim all lights",i:"🔅",d:0},{l:"Brain dump: 3 worries → notebook",i:"📓",d:300},{l:"Bhramari breathing",i:"🐝",d:120},{l:"Lights out. Eyes closed.",i:"🌙",d:0}];
+const RC=[{id:"5k_walk",n:"5K Walk",i:"🚶",c:"#F59E0B",u:999,w:6,p:["Walk 20 min easy","Walk 25 min","Walk 30 min","Walk 35 min + jog 2","Walk 30 + jog 5","5K test day"]},{id:"5k_run",n:"5K Run",i:"🏃",c:"#60A5FA",u:108,w:8,p:["Run1/Walk2 ×8","Run2/Walk1 ×7","Run3/Walk1 ×6","Run4/Walk1 ×5","Run5/Walk1 ×4","Run 8min ×3","Run 12min ×2","5K test"]},{id:"10k",n:"10K",i:"🏃‍♂️",c:"#A78BFA",u:105,w:8,p:["6K run","7K run","6K + speed work","8K run","7K + tempo","9K run","8K + speed","10K race"]},{id:"half",n:"Half Marathon",i:"🏅",c:"#EC4899",u:100,w:12,p:["10K easy","11K","12K + tempo","11K easy","13K","14K + hills","12K recovery","15K","16K + tempo","14K easy","18K long","21.1K race!"]},{id:"hyrox",n:"Hyrox",i:"💪",c:"#EF4444",u:95,w:10,p:["5K + sled intro","1K×4 + wall balls","Rowing + burpees","1K×4 + farmer carry","Sled pull + lunges","Half simulation","1K×6 all stations","Full sim 75%","Taper","Race day!"]},{id:"70.3",n:"Ironman 70.3",i:"🏊",c:"#06B6D4",u:90,w:16,p:["Swim 400m + Bike 20K + Run 5K","S600+B25+R6","S800+B30+R8","Recovery","S1K+B40+R10","S1.2K+B45+R10","S1.4K+B50+R12","Recovery","S1.5K+B55+R14","S1.6K+B65+R15","Recovery","S1.7K+B70+R16","S1.8K+B75+R18","Recovery","Taper","Race day!"]}];
+
+// ── UTILS ──
+function tod(){return new Date().toISOString().split("T")[0]}
+function cl(v,a,b){return Math.max(a,Math.min(b,v))}
+function hsc(day){if(!day||!day.h)return 0;return Math.round(Object.values(day.h).filter(Boolean).length/HB.length*100)}
+function eDay(){return{h:{},water:0,note:"",meals:[],ex:{},br:[],mood:0,energy:0,stress:0,bed:"",wake:""}}
+function bioA(bmi,act,slp,str,alc){let o=0;o+=bmi>35?8:bmi>30?5:bmi>25?2:-1;o+=act<1?4:act>=5?-2:0;o+=slp<5?4:slp>=7?-1:0;o+=str>=4?3:str<3?-1:0;o+=alc>=3?3:alc<1?-1:0;return getChronoAge()+o}
+function getChronoAge(){const b=new Date(1983,8,3),now=new Date();let age=now.getFullYear()-b.getFullYear();if(now.getMonth()<b.getMonth()||(now.getMonth()===b.getMonth()&&now.getDate()<b.getDate()))age--;return age;}
+function lerp(a,b,t){return a+(b-a)*cl(t,0,1)}
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function timeStr(){return new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"})}
+
+// ── STATE ──
+let D = JSON.parse(JSON.stringify(INIT));
+let currentTab = "home";
+let expandedEx = null;
+let expandedMeal = null;
+let breathInterval = null;
+let flowInterval = null;
+let charts = {};
+
+// Storage — localStorage for standalone, window.storage for artifact
+async function loadData(){
+  try{
+    if(window.storage){const r=await window.storage.get("kw-html-1");if(r&&r.value){D=JSON.parse(r.value);return;}}
+  }catch(e){}
+  try{const s=localStorage.getItem("kw-html-1");if(s)D=JSON.parse(s);}catch(e){}
+}
+async function saveData(){
+  try{localStorage.setItem("kw-html-1",JSON.stringify(D));}catch(e){}
+  try{if(window.storage)await window.storage.set("kw-html-1",JSON.stringify(D));}catch(e){}
+}
+
+function getDay(date){return D.days[date||tod()]||eDay()}
+function setDay(fn){
+  const k=tod();
+  if(!D.days[k])D.days[k]=eDay();
+  D.days[k]=fn(D.days[k]);
+  saveData();
+  render();
+}
+function getCW(){return D.wts.length?D.wts[D.wts.length-1].w:115.9}
+function getStreak(){
+  let s=0,d=new Date();
+  for(let i=0;i<365;i++){const k=d.toISOString().split("T")[0];if(D.days[k]&&hsc(D.days[k])>=54){s++;d.setDate(d.getDate()-1);}else break;}
+  return s;
+}
+function getVit(){
+  let t=0,n=0;
+  for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);const dd=D.days[d.toISOString().split("T")[0]];if(dd){t+=hsc(dd)/100;n++;}}
+  return n?t/n:0;
+}
+function getAI(){
+  const v=[];
+  for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);const dd=D.days[d.toISOString().split("T")[0]];if(dd)v.push(dd);}
+  if(v.length<2)return[{t:"Log 2+ days for AI insights",c:"#888"}];
+  const ins=[];
+  const alc=v.filter(d=>!d.h?.noAlc).length;
+  if(alc>2)ins.push({t:"🍷 Alcohol "+alc+"/7 days — each session ≈ 500 empty kcal + wrecked sleep",c:"#ef4444"});
+  const pr=v.filter(d=>d.h?.pranayama).length;
+  if(pr<3)ins.push({t:"🌬️ Pranayama only "+pr+"/7 days. Your stress stays elevated without it.",c:"#A78BFA"});
+  else if(pr>=5)ins.push({t:"🌬️ Pranayama "+pr+"/7 — excellent consistency!",c:"#34D399"});
+  const hd=v.filter(d=>d.h?.homeFood).length;
+  if(hd<4)ins.push({t:"🏠 Home dinner only "+hd+"/7 days. Each outside meal ≈ +400 kcal.",c:"#F59E0B"});
+  const avgS=v.filter(d=>d.stress).length?v.reduce((a,d)=>a+(d.stress||0),0)/v.filter(d=>d.stress).length:0;
+  if(avgS>=4)ins.push({t:"😰 Avg stress "+(avgS).toFixed(1)+"/5 — exercise + pranayama days show 40% lower.",c:"#ef4444"});
+  return ins.length?ins:[{t:"✨ Strong week. Keep showing up.",c:"#34D399"}];
+}
+function getBio(){
+  const cw=getCW(),bmi=cw/3.35,v=[];
+  for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);const dd=D.days[d.toISOString().split("T")[0]];if(dd)v.push(dd);}
+  const act=v.filter(d=>d.h?.exercise).length;
+  const avgStr=v.filter(d=>d.stress).length?v.reduce((a,d)=>a+(d.stress||0),0)/v.filter(d=>d.stress).length:4;
+  const alc=v.filter(d=>!d.h?.noAlc).length;
+  return bioA(bmi,act,5.5,avgStr,alc);
+}
+function getTimeMachine(){
+  const cw=getCW();
+  if(D.wts.length<2){
+    return{rate:0,dates:MS.map(m=>{const need=cw-m.kg;return{...m,dt:need<=0?"DONE ✅":"Log daily to predict"};}),msg:"⏳ Log weight for 3+ days to see predicted arrival dates"};
+  }
+  const r=D.wts.slice(-14);if(r.length<2)return{rate:0,dates:MS.map(m=>({...m,dt:"Need more data"})),msg:"⏳ Keep logging weight daily"};
+  const days=(new Date(r[r.length-1].d)-new Date(r[0].d))/86400000||1;
+  const rate=(r[0].w-r[r.length-1].w)/days;
+  if(rate<=0)return{rate:0,dates:MS.map(m=>{const need=cw-m.kg;return{...m,dt:need<=0?"DONE ✅":"STALLED ⚠️"};}),msg:"⚠️ Weight not dropping. Tighten diet + move more."};
+  return{rate,dates:MS.map(m=>{const need=cw-m.kg;if(need<=0)return{...m,dt:"DONE ✅"};const d=new Date();d.setDate(d.getDate()+Math.ceil(need/rate));return{...m,dt:d.toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})};})};
+}
+function getNM(){const cw=getCW();return MS.find(m=>cw>m.kg)||MS[2]}
+function getAR(){return RC.find(r=>r.id===D.ar)||RC[0]}
+
+// ── LIVING UI ──
+function updateLivingUI(){
+  const v=getVit();
+  const r=Math.round(lerp(8,14,v)),g=Math.round(lerp(8,14,v)),b=Math.round(lerp(12,22,v));
+  document.body.style.background=`rgb(${r},${g},${b})`;
+  if(v>0.5){
+    const col=v>0.7?"52,211,153":"212,168,83";
+    document.body.style.backgroundImage=`radial-gradient(ellipse at 50% 0%,rgba(${col},${(v*0.1).toFixed(2)}) 0%,transparent 50%)`;
+  }else{document.body.style.backgroundImage="none";}
+  document.documentElement.style.setProperty('--border',`rgba(255,255,255,${lerp(0.04,0.12,v).toFixed(2)})`);
+}
+
+// ── HEADER UPDATE ──
+function updateHeader(){
+  document.getElementById('dateStr').textContent=new Date().toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  const sc=hsc(getDay());
+  const ring=document.getElementById('scoreRing');
+  ring.setAttribute('stroke-dashoffset',326.7-cl(sc,0,100)/100*326.7);
+  ring.setAttribute('stroke',sc>=80?'#34D399':sc>=50?'#D4A853':'#ef4444');
+  document.getElementById('scoreNum').textContent=sc;
+}
+
+// ── TAB RENDERING ──
+function render(){
+  updateHeader();
+  updateLivingUI();
+  const el=document.getElementById('tabContent');
+  el.className='tab-content';
+  el.innerHTML=tabs[currentTab]();
+  // Destroy old charts
+  Object.values(charts).forEach(c=>{try{c.destroy();}catch(e){}});
+  charts={};
+  // Init charts if on stats tab
+  if(currentTab==='stats')setTimeout(initCharts,50);
+}
+
+function switchTab(id){
+  currentTab=id;
+  render();
+  document.querySelectorAll('.nav-btn').forEach(b=>{
+    b.classList.toggle('active',b.dataset.tab===id);
+  });
+}
+
+// ── NAV ──
+function initNav(){
+  const navEl=document.getElementById('nav');
+  const tabs=[{id:"home",ic:"🏠",n:"Home"},{id:"track",ic:"✅",n:"Track"},{id:"fuel",ic:"🍽️",n:"Fuel"},{id:"move",ic:"💪",n:"Move"},{id:"breathe",ic:"🧘",n:"Breathe"},{id:"stats",ic:"📊",n:"Stats"}];
+  navEl.innerHTML=tabs.map(t=>`<button class="nav-btn ${t.id==='home'?'active':''}" data-tab="${t.id}" onclick="switchTab('${t.id}')"><span class="icon">${t.ic}</span><span class="label">${t.n}</span></button>`).join('');
+}
+
+// ── TAB HTML GENERATORS ──
+const tabs={
+home(){
+  const cw=getCW(),nm=getNM(),tl=+(D.sw-cw).toFixed(1),streak=getStreak(),ai=getAI(),bio=getBio(),ar=getAR(),h=new Date().getHours();
+  const chronoAge=getChronoAge();
+  let html='';
+
+  // Quick Stats — hero strip with color accents
+  html+=`<div style="display:flex;gap:6px;margin-bottom:8px">
+    <div style="flex:1;background:linear-gradient(135deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));border-radius:14px;padding:14px;text-align:center;border:1px solid rgba(255,255,255,0.06)">
+      <div class="hf" style="font-size:24px;font-weight:800;color:#fff">${cw}</div>
+      <div style="font-size:10px;color:#888;margin-top:2px">kg</div>
+    </div>
+    <div style="flex:1;background:linear-gradient(135deg,rgba(212,168,83,0.06),rgba(212,168,83,0.02));border-radius:14px;padding:14px;text-align:center;border:1px solid rgba(212,168,83,0.1)">
+      <div class="hf" style="font-size:24px;font-weight:800;color:#D4A853">${streak}</div>
+      <div style="font-size:10px;color:#D4A853;margin-top:2px">streak</div>
+    </div>
+    <div style="flex:1;background:linear-gradient(135deg,${tl>0?'rgba(52,211,153,0.06)':'rgba(239,68,68,0.06)'},transparent);border-radius:14px;padding:14px;text-align:center;border:1px solid ${tl>0?'rgba(52,211,153,0.1)':'rgba(239,68,68,0.1)'}">
+      <div class="hf" style="font-size:24px;font-weight:800;color:${tl>0?'#34D399':'#ef4444'}">${tl>0?'-':'+'}${Math.abs(tl)}</div>
+      <div style="font-size:10px;color:#888;margin-top:2px">kg</div>
+    </div>
+  </div>`;
+
+  // Smart time-aware action — one card that changes
+  if(h>=5&&h<12){
+    html+=`<div class="card" style="cursor:pointer;padding:18px;background:rgba(245,158,11,0.06);border-color:rgba(245,158,11,0.15);display:flex;align-items:center;gap:16px" onclick="startFlow('morning')">
+      <div style="font-size:32px">🌅</div>
+      <div style="flex:1"><div class="hf" style="font-size:16px;font-weight:700;color:#F59E0B">Start Your Morning</div><div style="font-size:12px;color:#999;margin-top:2px">7 guided steps · 8 minutes</div></div>
+      <div style="font-size:20px;color:#F59E0B">→</div>
+    </div>`;
+  } else if(h>=18){
+    html+=`<div class="card" style="cursor:pointer;padding:18px;background:rgba(99,102,241,0.06);border-color:rgba(99,102,241,0.15);display:flex;align-items:center;gap:16px" onclick="startFlow('evening')">
+      <div style="font-size:32px">🌙</div>
+      <div style="flex:1"><div class="hf" style="font-size:16px;font-weight:700;color:#818CF8">Wind Down</div><div style="font-size:12px;color:#999;margin-top:2px">5 steps to better sleep</div></div>
+      <div style="font-size:20px;color:#818CF8">→</div>
+    </div>`;
+  } else {
+    html+=`<div class="grid2" style="margin-bottom:2px">
+      <div class="card" style="cursor:pointer;padding:14px;text-align:center" onclick="startFlow('morning')"><div style="font-size:22px">🌅</div><div class="hf" style="font-size:11px;font-weight:700;color:#777;margin-top:3px">Morning</div></div>
+      <div class="card" style="cursor:pointer;padding:14px;text-align:center" onclick="startFlow('evening')"><div style="font-size:22px">🌙</div><div class="hf" style="font-size:11px;font-weight:700;color:#777;margin-top:3px">Wind-Down</div></div>
+    </div>`;
+  }
+
+  // AI Coach
+  html+=`<div class="card" style="border-color:rgba(212,168,83,0.12);background:rgba(212,168,83,0.03)">
+    <div class="lbl">🧠 AI COACH</div>${ai.map(x=>`<div style="font-size:13px;color:${x.c};line-height:1.7;padding:3px 0">${esc(x.t)}</div>`).join('')}</div>`;
+
+  // Reward + Porsche
+  html+=`<div class="card" style="cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(150deg,rgba(0,0,0,0.4),${nm.c}08);border-color:${nm.c}25" onclick="showPorsche()">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div><div class="lbl" style="color:${nm.c}">NEXT REWARD · TAP TO CONFIGURE 🏎️</div>
+        <div class="hf" style="font-size:18px;font-weight:700;color:#fff;margin-top:4px">${nm.i} ${esc(nm.r)}</div></div>
+      <div style="text-align:right"><div class="hf" style="font-size:32px;font-weight:800;color:${nm.c}">${(cw-nm.kg).toFixed(1)}</div><div style="font-size:9px;color:#888;letter-spacing:1px">KG TO GO</div></div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="background:linear-gradient(90deg,${nm.c},${nm.c}88);width:${cl(((D.sw-cw)/(D.sw-nm.kg))*100,1,100)}%"></div></div>
+  </div>`;
+
+  // Time Machine - always shows
+  const tm=getTimeMachine();
+  html+=`<div class="card" style="border-color:rgba(96,165,250,0.12);background:rgba(96,165,250,0.03)">
+    <div class="lbl">⏰ TIME MACHINE</div>`;
+  if(tm.rate>0){
+    html+=`<div style="font-size:12px;color:#888;margin-bottom:8px">At ${(tm.rate*7).toFixed(2)} kg/week:</div>`;
+  }else if(tm.msg){
+    html+=`<div style="font-size:13px;color:#888;margin-bottom:8px">${esc(tm.msg)}</div>`;
+  }
+  tm.dates.forEach(d=>{
+    html+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)">
+      <span style="font-size:15px;color:#ddd">${d.i} ${esc(d.r)}</span>
+      <span class="hf" style="font-size:15px;font-weight:700;color:${d.dt.includes('✅')?'#34D399':d.dt.includes('STALLED')?'#ef4444':d.dt.includes('Log')?'#888':d.c}">${esc(d.dt)}</span>
+    </div>`;
+  });
+  html+=`</div>`;
+
+  // Bio Age — combined into one card
+  html+=`<div class="card" style="border-color:${bio>chronoAge?'rgba(239,68,68,0.12)':'rgba(52,211,153,0.12)'}">
+    <div class="lbl">🧬 BIOLOGICAL AGE</div>
+    <div style="display:flex;justify-content:space-around;text-align:center;padding:8px 0">
+      <div><div style="font-size:10px;color:#888;margin-bottom:4px">Chrono</div><div class="hf" style="font-size:32px;font-weight:800;color:#fff">${chronoAge}</div></div>
+      <div style="width:1px;background:rgba(255,255,255,0.06)"></div>
+      <div><div style="font-size:10px;color:#888;margin-bottom:4px">Bio</div><div class="hf" style="font-size:32px;font-weight:800;color:${bio>chronoAge?'#ef4444':'#34D399'}">${bio}</div></div>
+      <div style="width:1px;background:rgba(255,255,255,0.06)"></div>
+      <div><div style="font-size:10px;color:#888;margin-bottom:4px">Gap</div><div class="hf" style="font-size:32px;font-weight:800;color:${bio>chronoAge?'#ef4444':'#34D399'}">${bio>chronoAge?'+':'−'}${Math.abs(bio-chronoAge)}</div></div>
+    </div>
+    <div style="font-size:12px;color:${bio>chronoAge?'#ef4444':'#34D399'};text-align:center;margin-top:4px">${bio>chronoAge?'Your body is aging faster. Exercise + pranayama reverse this.':'Younger than your years. Keep it up.'}</div>
+  </div>`;
+
+  // Letter
+  html+=`<div class="card" style="cursor:pointer;padding:16px;border-color:rgba(52,211,153,0.12);background:rgba(52,211,153,0.03);display:flex;align-items:center;gap:14px" onclick="showLetter()">
+    <div style="font-size:28px">📨</div>
+    <div style="flex:1"><div class="hf" style="font-size:14px;font-weight:700;color:#34D399">Letter from Future Keyur</div><div style="font-size:11px;color:#666;margin-top:2px">The one at 90 kg, driving a Porsche</div></div>
+    <div style="font-size:16px;color:#555">→</div>
+  </div>`;
+
+  return html;
+},
+
+track(){
+  const dy=getDay();let html='';
+  
+  // Habits as visual grid
+  html+=`<div class="card" style="padding:20px">
+    <div class="lbl">TODAY'S HABITS · ${HB.filter(h=>dy.h[h.id]).length}/${HB.length}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px">`;
+  HB.forEach(h=>{
+    const on=!!dy.h[h.id];
+    const gc={0:'#F59E0B',1:'#A78BFA',2:'#60A5FA',3:'#34D399',4:'#818CF8'}[h.g];
+    html+=`<div onclick="toggleHabit('${h.id}')" style="width:72px;text-align:center;cursor:pointer;padding:8px 4px;border-radius:12px;background:${on?gc+'12':'rgba(255,255,255,0.02)'};border:1px solid ${on?gc+'30':'rgba(255,255,255,0.04)'};transition:all .2s" onpointerdown="this.style.transform='scale(0.92)'" onpointerup="this.style.transform='scale(1)'" onpointerleave="this.style.transform='scale(1)'">
+      <div style="width:36px;height:36px;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:18px;background:${on?gc+'20':'rgba(255,255,255,0.03)'};border:2px solid ${on?gc:'rgba(255,255,255,0.06)'};transition:all .2s">${h.i}</div>
+      <div style="font-size:9px;color:${on?gc:'#666'};margin-top:5px;font-weight:${on?'700':'400'};line-height:1.2">${esc(h.l)}</div>
+    </div>`;
+  });
+  html+=`</div></div>`;
+  // Mood/Energy/Stress — emoji selectors
+  html+=`<div class="card" style="padding:20px">
+    <div class="lbl">HOW DO YOU FEEL?</div>`;
+  [{k:"mood",l:"Mood",em:["😫","😕","😐","🙂","😊"],c:"#34D399"},{k:"energy",l:"Energy",em:["🪫","😮‍💨","😶","💪","⚡"],c:"#F59E0B"},{k:"stress",l:"Stress",em:["😌","🙂","😐","😰","🤯"],c:"#ef4444"}].forEach(s=>{
+    html+=`<div style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:14px;color:#bbb;font-weight:600">${s.l}</span><span class="hf" style="font-size:14px;font-weight:700;color:${dy[s.k]?s.c:'#444'}">${dy[s.k]||'—'}/5</span></div>
+      <div style="display:flex;gap:6px">${s.em.map((e,n)=>`<div onclick="setDayField('${s.k}',${n+1})" style="flex:1;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px;background:${n+1<=dy[s.k]?s.c+'15':'rgba(255,255,255,0.02)'};border:2px solid ${n+1<=dy[s.k]?s.c+'40':'rgba(255,255,255,0.04)'};transition:all .15s;opacity:${n+1<=dy[s.k]?'1':'0.4'}" onpointerdown="this.style.transform='scale(0.9)'" onpointerup="this.style.transform='scale(1)'" onpointerleave="this.style.transform='scale(1)'">${e}</div>`).join('')}</div>
+    </div>`;
+  });
+  html+=`</div>`;
+  // Sleep
+  html+=`<div class="card"><div class="lbl">😴 SLEEP</div>
+    <div style="display:flex;gap:10px">
+      <div style="flex:1"><div style="font-size:12px;color:#888;margin-bottom:4px">Bedtime</div><input class="inp" type="time" value="${dy.bed||''}" onchange="setDayField('bed',this.value)"></div>
+      <div style="flex:1"><div style="font-size:12px;color:#888;margin-bottom:4px">Wake time</div><input class="inp" type="time" value="${dy.wake||''}" onchange="setDayField('wake',this.value)"></div>
+    </div>
+    ${dy.bed&&dy.wake?`<div style="font-size:14px;color:#60A5FA;margin-top:8px;font-weight:600">💤 ${(()=>{let d=dy.wake.split(":").reduce((a,b,i)=>a+b*(i?1:60),0)-dy.bed.split(":").reduce((a,b,i)=>a+b*(i?1:60),0);if(d<0)d+=1440;return(d/60).toFixed(1)})()} hours of sleep</div>`:''}</div>`;
+  // Water
+  html+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div class="lbl">💧 WATER</div></div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:20px;padding:12px 0">
+      <button onclick="setDayField('water',Math.max(0,${dy.water}-1))" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(96,165,250,0.3);background:rgba(96,165,250,0.06);color:#60A5FA;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">−</button>
+      <div style="text-align:center"><div class="hf" style="font-size:40px;font-weight:800;color:${dy.water>=10?'#34D399':'#60A5FA'}">${dy.water}</div><div style="font-size:11px;color:#888;margin-top:2px">of 10 glasses</div></div>
+      <button onclick="setDayField('water',Math.min(15,${dy.water}+1))" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(96,165,250,0.3);background:rgba(96,165,250,0.06);color:#60A5FA;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">+</button>
+    </div>
+    <div class="progress-bar" style="height:6px"><div class="progress-fill" style="background:${dy.water>=10?'#34D399':'#60A5FA'};width:${Math.min(100,dy.water/10*100)}%"></div></div>
+  </div>`;
+  // Weight — prominent
+  html+=`<div class="card" style="background:linear-gradient(135deg,rgba(212,168,83,0.04),rgba(212,168,83,0.01));border-color:rgba(212,168,83,0.12);padding:20px">
+    <div class="lbl" style="color:#D4A853">⚖️ LOG WEIGHT</div>
+    <div style="display:flex;gap:8px;margin-top:6px"><input id="weightInput" class="inp" type="number" step="0.1" placeholder="e.g. ${getCW()}" style="font-size:18px;padding:14px"><button class="btn" style="background:#D4A853;color:#000;padding:14px 22px;font-size:16px" onclick="logWeight()">Log</button></div></div>`;
+  // Note — inviting
+  html+=`<div class="card" style="padding:20px"><div class="lbl">📝 JOURNAL</div>
+    <textarea class="inp" placeholder="How was your day? Any wins or struggles? Anything on your mind?" onchange="setDayField('note',this.value)" style="font-size:15px;min-height:70px">${esc(dy.note||'')}</textarea></div>`;
+  // Sync
+  html+=`<button class="btn" style="width:100%;padding:18px;font-size:16px;background:linear-gradient(135deg,#34D399,#059669);color:#000;margin-top:8px;border-radius:14px" onclick="syncToClaude()">📤 Send Check-in to Claude</button>
+    <div style="text-align:center;font-size:11px;color:#666;margin-top:6px;padding-bottom:8px">Full day summary → feedback + sync to Jivanam</div>`;
+  return html;
+},
+
+fuel(){
+  const dy=getDay();let html='';
+  const cals=todayCals(),target=1800,pct=Math.min(100,Math.round(cals/target*100));
+  const color=cals<=target?'#34D399':cals<=target*1.1?'#F59E0B':'#ef4444';
+
+  // Calorie summary — visual hero
+  const ringPct=Math.min(100,pct);
+  const calRingR=42,calRingC=2*Math.PI*calRingR;
+  html+=`<div class="card" style="border-color:${color}20;background:linear-gradient(135deg,${color}08,transparent);padding:20px">
+    <div style="display:flex;align-items:center;gap:20px">
+      <div style="position:relative;width:100px;height:100px;flex-shrink:0">
+        <svg width="100" height="100" style="transform:rotate(-90deg)">
+          <circle cx="50" cy="50" r="${calRingR}" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="8"/>
+          <circle cx="50" cy="50" r="${calRingR}" fill="none" stroke="${color}" stroke-width="8" stroke-dasharray="${calRingC}" stroke-dashoffset="${calRingC-ringPct/100*calRingC}" stroke-linecap="round" style="transition:stroke-dashoffset .6s"/>
+        </svg>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <span class="hf" style="font-size:22px;font-weight:800;color:${color}">${cals}</span>
+          <span style="font-size:9px;color:#888">kcal</span>
+        </div>
+      </div>
+      <div style="flex:1">
+        <div class="lbl" style="color:${color};margin-bottom:4px">🔥 CALORIES</div>
+        <div style="font-size:14px;color:#ddd;margin-bottom:4px">of <strong>${target}</strong> kcal budget</div>
+        <div style="font-size:16px;font-weight:700;color:${cals<=target?'#34D399':'#ef4444'}">${cals<=target?(target-cals)+' remaining':'Over by '+(cals-target)}</div>
+      </div>
+    </div>
+  </div>`;
+
+  // Today's logged meals with calories
+  if((dy.meals||[]).length){
+    html+=`<div class="card"><div class="lbl">✅ LOGGED TODAY</div>`;
+    (dy.meals||[]).forEach(m=>{
+      html+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)">
+        <div><span style="font-size:12px;color:#888">${esc(m.t)}</span> <span style="font-size:14px;color:#ddd">${esc(m.x)}</span></div>
+        ${m.cal?`<span class="hf" style="font-size:14px;font-weight:700;color:#D4A853">${m.cal} kcal</span>`:''}
+      </div>`;
+    });
+    html+=`</div>`;
+  }
+  Object.entries(MLs).forEach(([title,items])=>{
+    html+=`<div class="card"><div class="lbl">${esc(title)}</div>`;
+    items.forEach(it=>{
+      const cal=it.match(/~?(\d{2,4})/);
+      const calNum=cal?cal[1]:'';
+      const name=it.split('~')[0].trim();
+      html+=`<div onclick="quickLogMeal('${esc(it)}')" style="display:flex;justify-content:space-between;align-items:center;padding:14px 12px;margin-bottom:4px;border-radius:10px;cursor:pointer;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04)" onpointerdown="this.style.background='rgba(52,211,153,0.1)';this.style.borderColor='rgba(52,211,153,0.2)'" onpointerup="this.style.background='rgba(255,255,255,0.02)';this.style.borderColor='rgba(255,255,255,0.04)'" onpointerleave="this.style.background='rgba(255,255,255,0.02)';this.style.borderColor='rgba(255,255,255,0.04)'">
+        <span style="font-size:14px;color:#ccc;flex:1">${esc(name)}</span>
+        ${calNum?`<span class="hf" style="font-size:13px;font-weight:700;color:#D4A853;margin:0 12px">${calNum}</span>`:''}
+        <span style="font-size:20px;color:#34D399;font-weight:700">+</span>
+      </div>`;
+    });
+    html+=`</div>`;
+  });
+  // Meal logger
+  html+=`<div class="card" style="border-color:rgba(52,211,153,0.12);background:rgba(52,211,153,0.03)">
+    <div class="hf" style="font-size:12px;font-weight:700;color:#34D399;margin-bottom:8px">📝 LOG SOMETHING ELSE</div>
+    <div style="display:flex;gap:8px"><input id="mealInput" class="inp" placeholder="e.g. Chai + biscuit ~150 kcal" onkeydown="if(event.key==='Enter')logMeal()"><button class="btn" style="background:#34D399;color:#000;padding:12px 18px" onclick="logMeal()">+</button></div>
+  </div>`;
+  // Kill list
+  html+=`<div class="card" style="border-color:rgba(239,68,68,0.12);background:rgba(239,68,68,0.03)">
+    <div class="hf" style="font-size:12px;font-weight:700;color:#ef4444;margin-bottom:4px">🚫 KILL LIST</div>
+    <div style="font-size:13px;color:#999;line-height:1.9">Outside junk dinner · Fried hospital snacks · Extra chai · Heavy paratha breakfast · Rice (Phase 1-2) · Sugary drinks · Eating after 9 PM</div></div>`;
+  return html;
+},
+
+move(){
+  const dy=getDay(),exs=[0,6].includes(new Date().getDay())?EXE:EXW,ar=getAR();let html='';
+  // Race plan
+  html+=`<div class="card" style="background:${ar.c}06;border-color:${ar.c}15">
+    <div class="lbl" style="color:${ar.c}">${ar.i} ${esc(ar.n)} — WEEK ${D.rw}/${ar.w}</div>
+    <div style="font-size:13px;color:#ddd;font-weight:600;margin-top:3px">${esc(ar.p[Math.min(D.rw-1,ar.p.length-1)])}</div>
+    <div class="progress-bar" style="margin-top:8px"><div class="progress-fill" style="background:${ar.c};width:${(D.rw/ar.w*100)}%"></div></div></div>`;
+  // Exercises
+  exs.forEach((e,i)=>{
+    const xd=(dy.ex||{})[e.n]||{},has=e.t==="S"?(xd.s||[]).length>0:!!xd.dur||(e.t==="K"?!!xd.sets:false);
+    const tc=e.t==="W"?"#F59E0B":e.t==="C"?"#60A5FA":e.t==="K"?"#D4A853":"#A78BFA";
+    const open=expandedEx===e.n;
+
+    if(e.t==="W"||e.t==="C"){
+      // Warmup/Cardio — single row with quick Done button
+      html+=`<div class="card" style="border-left:4px solid ${tc};display:flex;align-items:center;justify-content:space-between;padding:16px">
+        <div style="display:flex;align-items:center;gap:10px;flex:1">
+          <div style="width:22px;height:22px;border-radius:6px;background:${has?'#34D399':'rgba(255,255,255,0.05)'};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:${has?'#000':'transparent'}">✓</div>
+          <div><div style="font-size:14px;color:${has?'#777':'#ddd'}">${esc(e.n)}</div><div style="font-size:11px;color:#666">${esc(e.p)}</div></div>
+        </div>
+        ${has?`<span style="font-size:13px;color:#34D399;font-weight:600">${xd.dur||''}m ✓</span>`
+        :`<button class="btn" style="padding:10px 20px;background:${tc}15;color:${tc};border:1px solid ${tc}30;font-size:13px" onclick="event.stopPropagation();quickExDone('${esc(e.n)}','${e.t}',${parseInt(e.p)||5})">Done</button>`}
+      </div>`;
+    } else {
+      // Strength / Core — expandable
+      html+=`<div class="card ex-row" style="border-left-color:${tc}">
+        <div class="ex-header" onclick="expandEx('${esc(e.n)}','${e.t}')">
+          <div style="width:22px;height:22px;border-radius:6px;background:${has?'#34D399':'rgba(255,255,255,0.05)'};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:${has?'#000':'transparent'}">✓</div>
+          <span style="flex:1;font-size:14px;color:${has?'#777':'#ddd'}">${esc(e.n)}</span>
+          <span class="hf" style="font-size:12px;color:#666">${esc(e.p)}</span>
+          <span style="color:#444;font-size:14px;transform:${open?'rotate(180deg)':'none'};transition:transform .2s;display:inline-block;margin-left:6px">▾</span>
+        </div>`;
+      if(open){
+        html+=`<div class="ex-detail">`;
+        if(e.t==="S"){
+          (xd.s||[]).forEach((s,si)=>{
+            html+=`<div class="set-row"><span style="font-size:13px;color:#888;width:24px;font-weight:600">S${s.n}</span>
+              <input class="inp set-input" type="number" value="${s.r||''}" placeholder="reps" onchange="updateSet('${esc(e.n)}',${si},'r',this.value)">
+              <span style="font-size:14px;color:#555;font-weight:700">×</span>
+              <input class="inp set-input" type="number" value="${s.w||''}" placeholder="kg" onchange="updateSet('${esc(e.n)}',${si},'w',this.value)">
+              <span style="font-size:12px;color:#888">kg</span>
+              <button style="background:none;border:none;color:#666;cursor:pointer;font-size:18px;padding:4px 8px" onclick="removeSet('${esc(e.n)}',${si})">×</button></div>`;
+          });
+          html+=`<button class="btn" style="padding:10px 20px;font-size:13px;background:rgba(167,139,250,0.08);color:#A78BFA;margin-top:8px" onclick="addSet('${esc(e.n)}')">+ Add Set</button>`;
+        }
+        if(e.t==="K"){
+          html+=`<div style="display:flex;gap:10px;align-items:center;margin-top:8px">
+            <input class="inp set-input" type="number" value="${xd.sets||''}" placeholder="sets" onchange="updateExField('${esc(e.n)}','K','sets',this.value)">
+            <span style="font-size:14px;color:#888">×</span>
+            <input class="inp set-input" type="number" value="${xd.sec||''}" placeholder="sec" onchange="updateExField('${esc(e.n)}','K','sec',this.value)">
+            <span style="font-size:14px;color:#888">sec</span>
+            <button class="btn" style="padding:8px 14px;background:rgba(52,211,153,0.08);color:#34D399;border:1px solid rgba(52,211,153,0.2);font-size:12px" onclick="toast('✓ Logged')">✓</button>
+          </div>`;
+        }
+        html+=`</div>`;
+      }
+      html+=`</div>`;
+    }
+  });
+  // Hip safety
+  html+=`<div class="card" style="border-color:rgba(239,68,68,0.1);background:rgba(239,68,68,0.03)">
+    <div class="hf" style="font-size:12px;font-weight:700;color:#ef4444;margin-bottom:4px">⚠️ HIP SAFETY</div>
+    <div style="font-size:13px;color:#999;line-height:1.8">No deep lunges · No single-leg deadlifts · Shallow leg press only · Stop immediately on sharp pain · Get X-ray + ortho consult at Shilaj</div></div>`;
+  // Race Ladder
+  const cw=getCW();
+  html+=`<div class="card"><div class="lbl">🏃 RACE TRAINING LADDER</div>`;
+  RC.forEach((r,i)=>{
+    const unlocked=cw<=r.u||r.id==="5k_walk",active=D.ar===r.id;
+    html+=`<div style="display:flex;align-items:center;gap:12px;padding:12px 0;${i<RC.length-1?'border-bottom:1px solid rgba(255,255,255,0.03)':''};opacity:${unlocked?1:0.3}">
+      <div style="width:32px;height:32px;border-radius:50%;background:${active?r.c+'20':'rgba(255,255,255,0.04)'};border:${active?'2px solid '+r.c:'1px solid rgba(255,255,255,0.06)'};display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${r.i}</div>
+      <div style="flex:1"><div class="hf" style="font-size:14px;font-weight:700;color:${active?r.c:'#bbb'}">${esc(r.n)}</div>
+        <div style="font-size:11px;color:#666;margin-top:2px">${unlocked?(active?'Week '+D.rw+'/'+r.w+' — '+esc(r.p[Math.min(D.rw-1,r.p.length-1)]):'Available'):'🔒 Unlock at '+r.u+' kg'}</div></div>
+      ${unlocked&&!active?`<button class="btn" style="padding:8px 16px;font-size:12px;background:${r.c}15;color:${r.c};border:1px solid ${r.c}30" onclick="event.stopPropagation();D.ar='${r.id}';D.rw=1;saveData();render()">Start</button>`:''}
+      ${active?`<button class="btn" style="padding:8px 14px;font-size:11px;background:${r.c}12;color:${r.c};border:1px solid ${r.c}20" onclick="event.stopPropagation();D.rw=Math.min(D.rw+1,${r.w});toast('Week '+(D.rw+1)+' started');saveData();render()">✓ Week</button>`:''}
+    </div>`;
+  });
+  html+=`</div>`;
+  return html;
+},
+
+breathe(){
+  const dy=getDay();let html='';
+  html+=`<div class="card" style="background:rgba(212,168,83,0.03);border-color:rgba(212,168,83,0.12)">
+    <div class="lbl" style="color:#D4A853">TODAY'S PRACTICE — PHASE 1</div>
+    <div style="font-size:13px;color:#ccc;line-height:2">1. Sit on balcony, spine straight<br>2. Anulom Vilom — 3 min<br>3. Sit with eyes closed — 2 min<br><br>→ 5 min total. That's all.</div></div>`;
+  BRX.forEach(b=>{
+    html+=`<div class="card" style="cursor:pointer;padding:18px;display:flex;align-items:center;gap:16px" onclick="startBreath('${esc(b.name)}')">
+      <div style="width:48px;height:48px;border-radius:50%;background:rgba(212,168,83,0.08);border:1px solid rgba(212,168,83,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:#D4A853">▶</div>
+      <div style="flex:1"><div class="hf" style="font-size:16px;font-weight:700;color:#ddd">${esc(b.name)}</div>
+        <div style="font-size:12px;color:#777;margin-top:3px">${Math.round(b.sec/60)} min · ${esc(b.d)}</div></div>
+    </div>`;
+  });
+  if((dy.br||[]).length){
+    html+=`<div class="card"><div class="lbl">✅ COMPLETED TODAY</div>`;
+    dy.br.forEach(b=>{html+=`<div style="font-size:14px;color:#34D399;padding:4px 0">✓ ${esc(b.n)} at ${esc(b.a)}</div>`;});
+    html+=`</div>`;
+  }
+  html+=`<div class="card" style="border-color:rgba(99,102,241,0.12);background:rgba(99,102,241,0.03)">
+    <div class="hf" style="font-size:12px;font-weight:700;color:#818CF8;margin-bottom:8px">🌙 SLEEP PROTOCOL</div>
+    ${["📱 Phone charges OUTSIDE bedroom","🔅 Dim all lights after 9 PM","❄️ Room at 22–24°C","📓 Brain dump: 3 worries → notebook → close it","🧘 5 min Bhramari or Box Breathing in bed","☕ No caffeine after 3 PM","🍽️ No food after 8:30 PM"].map(s=>`<div style="font-size:13px;color:#bbb;padding:4px 0;line-height:1.7">${s}</div>`).join('')}</div>`;
+  return html;
+},
+
+stats(){
+  const cw=getCW(),bio=getBio(),streak=getStreak();let html='';
+  // Mirror
+  html+=`<div class="card" style="border-color:rgba(212,168,83,0.12)">
+    <div class="lbl">🪞 THE MIRROR — Day 1 vs Today</div>
+    ${[{l:"Weight",a:D.sw+"kg",b:cw+"kg",g:cw<D.sw},{l:"BMI",a:(D.sw/3.35).toFixed(1),b:(cw/3.35).toFixed(1),g:cw<D.sw},{l:"Streak",a:"0",b:streak+"",g:streak>0},{l:"Bio Age",a:bioA(D.sw/3.35,0,5.5,5,3)+"",b:bio+"",g:bio<bioA(D.sw/3.35,0,5.5,5,3)}].map(r=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)"><span style="font-size:15px;color:#888">${esc(r.a)}</span><span style="font-size:13px;color:#666">${r.l} ${r.g?'🟢':'🔴'}</span><span class="hf" style="font-size:15px;color:${r.g?'#34D399':'#ef4444'};font-weight:700">${esc(r.b)}</span></div>`).join('')}</div>`;
+  // Heatmap
+  html+=`<div class="card"><div class="lbl">HABIT HEATMAP · 12 WEEKS</div><div id="heatmap" style="display:flex;gap:2px;justify-content:center"></div></div>`;
+  // Charts
+  html+=`<div class="card"><div class="lbl">WEIGHT TREND</div><canvas id="weightChart" height="130"></canvas></div>`;
+  html+=`<div class="card"><div class="lbl">7-DAY SCORE</div><canvas id="weekChart" height="100"></canvas></div>`;
+  // Streaks
+  html+=`<div class="grid2">
+    <div class="card" style="text-align:center;padding:12px"><div class="hf" style="font-size:24px;font-weight:800;color:#D4A853">${streak}</div><div class="lbl" style="margin-bottom:0">STREAK</div></div>
+    <div class="card" style="text-align:center;padding:12px"><div class="hf" style="font-size:24px;font-weight:800;color:#A78BFA">${D.bst||0}</div><div class="lbl" style="margin-bottom:0">BEST</div></div></div>`;
+  return html;
+}
+};
+
+// ── CHARTS ──
+function initCharts(){
+  // Heatmap
+  const hmEl=document.getElementById('heatmap');
+  if(hmEl){
+    let cells=[];
+    for(let i=83;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);cells.push(hsc(D.days[d.toISOString().split("T")[0]]));}
+    let html='';
+    for(let w=0;w<12;w++){
+      html+='<div style="display:flex;flex-direction:column;gap:2px">';
+      for(let d=0;d<7;d++){
+        const s=cells[w*7+d]||0;
+        const c=s===0?'rgba(255,255,255,0.03)':s<30?'#ef444440':s<60?'#f59e0b40':s<80?'#D4A85360':'#34D39960';
+        html+=`<div style="width:10px;height:10px;border-radius:2px;background:${c}"></div>`;
+      }
+      html+='</div>';
+    }
+    hmEl.innerHTML=html;
+  }
+  // Weight chart
+  const wCtx=document.getElementById('weightChart');
+  if(wCtx&&D.wts.length>1){
+    const data=D.wts.slice(-14);
+    charts.weight=new Chart(wCtx,{type:'line',data:{labels:data.map(p=>p.d.slice(5)),datasets:[{data:data.map(p=>p.w),borderColor:'#D4A853',backgroundColor:'rgba(212,168,83,0.1)',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#D4A853'}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1a1a2e',titleColor:'#888',bodyColor:'#D4A853'}},scales:{x:{grid:{display:false},ticks:{color:'#555',font:{size:9}}},y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#555',font:{size:9}}}}}});
+  }
+  // Week chart
+  const kCtx=document.getElementById('weekChart');
+  if(kCtx){
+    const wkData=Array.from({length:7}).map((_,i)=>{const d=new Date();d.setDate(d.getDate()-(6-i));const k=d.toISOString().split("T")[0];return{d:new Date(k+"T12:00:00").toLocaleDateString("en",{weekday:"short"}),s:hsc(D.days[k])};});
+    charts.week=new Chart(kCtx,{type:'bar',data:{labels:wkData.map(d=>d.d),datasets:[{data:wkData.map(d=>d.s),backgroundColor:'#D4A853',borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:'#555',font:{size:10}}},y:{max:100,grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#555',font:{size:9}}}}}});
+  }
+}
+
+// ── ACTIONS ──
+function toast(msg,color){
+  const el=document.createElement('div');
+  el.className='toast';
+  if(color)el.style.background=color;
+  el.textContent=msg;
+  document.body.appendChild(el);
+  setTimeout(()=>{el.style.animation='toastOut .3s ease forwards';setTimeout(()=>el.remove(),300);},1500);
+}
+function toggleHabit(id){setDay(c=>{const on=!c.h[id];toast(on?'✓ '+HB.find(h=>h.id===id).l:'✗ Unmarked','rgba('+(on?'52,211,153':'239,68,68')+',0.95)');return{...c,h:{...c.h,[id]:on}};})}
+function setDayField(k,v){setDay(c=>({...c,[k]:v}))}
+function logWeight(){
+  const el=document.getElementById('weightInput');if(!el)return;
+  const w=parseFloat(el.value);if(isNaN(w)||w<50||w>200)return;
+  const i=D.wts.findIndex(e=>e.d===tod());
+  if(i>=0)D.wts[i].w=w;else D.wts.push({d:tod(),w});
+  toast('⚖️ '+w+' kg logged');
+  saveData();render();
+}
+function logMeal(){
+  const el=document.getElementById('mealInput');if(!el||!el.value.trim())return;
+  const cal=parseCal(el.value);
+  toast('🍽️ Logged'+(cal?' · '+cal+' kcal':''));
+  setDay(c=>({...c,meals:[...(c.meals||[]),{t:timeStr(),x:el.value.trim(),cal}]}));
+}
+function quickLogMeal(item){
+  const cal=parseCal(item);
+  toast('🍽️ Logged'+(cal?' · '+cal+' kcal':''));
+  setDay(c=>({...c,meals:[...(c.meals||[]),{t:timeStr(),x:item,cal}]}));
+}
+function parseCal(str){
+  const m=str.match(/~?(\d{2,4})\s*kcal/i)||str.match(/~(\d{2,4})/);
+  return m?parseInt(m[1]):0;
+}
+function todayCals(){
+  const dy=getDay();
+  return(dy.meals||[]).reduce((sum,m)=>sum+(m.cal||0),0);
+}
+function addSet(name){
+  const dy=getDay(),xd=(dy.ex||{})[name]||{t:"S",s:[]};
+  const s=[...(xd.s||[]),{n:(xd.s||[]).length+1,r:0,w:0}];
+  setDay(c=>({...c,ex:{...(c.ex||{}),[name]:{t:"S",s}}}));
+}
+function updateSet(name,idx,field,val){
+  const dy=getDay(),xd=(dy.ex||{})[name]||{t:"S",s:[]};
+  const s=[...(xd.s||[])];
+  s[idx]={...s[idx],[field]:field==='w'?parseFloat(val)||0:parseInt(val)||0};
+  setDay(c=>({...c,ex:{...(c.ex||{}),[name]:{t:"S",s}}}));
+}
+function removeSet(name,idx){
+  const dy=getDay(),xd=(dy.ex||{})[name]||{t:"S",s:[]};
+  const s=(xd.s||[]).filter((_,j)=>j!==idx).map((x,j)=>({...x,n:j+1}));
+  setDay(c=>({...c,ex:{...(c.ex||{}),[name]:{t:"S",s}}}));
+}
+function updateExField(name,type,field,val){
+  const dy=getDay(),xd=(dy.ex||{})[name]||{};
+  setDay(c=>({...c,ex:{...(c.ex||{}),[name]:{...xd,t:type,[field]:parseInt(val)||0}}}));
+}
+function quickExDone(name,type,dur){
+  toast('✓ '+name+' done');
+  setDay(c=>({...c,ex:{...(c.ex||{}),[name]:{t:type,dur:dur}}}));
+}
+function expandEx(name,type){
+  if(expandedEx===name){expandedEx=null;render();return;}
+  expandedEx=name;
+  // Auto-add 2 sets for strength if empty
+  const dy=getDay(),xd=(dy.ex||{})[name]||{};
+  if(type==='S'&&!(xd.s||[]).length){
+    setDay(c=>({...c,ex:{...(c.ex||{}),[name]:{t:'S',s:[{n:1,r:0,w:0},{n:2,r:0,w:0}]}}}));
+    return; // setDay calls render
+  }
+  render();
+}
+
+// ── BREATHING TIMER ──
+function startBreath(name){
+  const tech=BRX.find(b=>b.name===name);if(!tech)return;
+  const ov=document.getElementById('overlayBreath');
+  let el=0,run=false;
+  function renderTimer(){
+    const done=el>=tech.sec&&el>0,rm=tech.sec-el;
+    const pct=tech.sec>0?(el/tech.sec*100):0;
+    const ringR=60,ringC=2*Math.PI*ringR;
+    ov.innerHTML=`<button class="ov-close" onclick="closeBreath()" style="font-size:28px">✕</button>
+      <div class="hf" style="font-size:14px;letter-spacing:4px;color:#888;margin-bottom:24px">${esc(tech.name.toUpperCase())}</div>
+      <div style="position:relative;width:160px;height:160px;margin-bottom:24px">
+        <svg width="160" height="160" style="transform:rotate(-90deg)">
+          <circle cx="80" cy="80" r="${ringR}" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="4"/>
+          <circle cx="80" cy="80" r="${ringR}" fill="none" stroke="${done?'#34D399':'#D4A853'}" stroke-width="4" stroke-dasharray="${ringC}" stroke-dashoffset="${ringC-pct/100*ringC}" stroke-linecap="round" style="transition:stroke-dashoffset 0.5s"/>
+        </svg>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          ${done?`<div style="font-size:48px">✨</div><div class="hf" style="font-size:14px;color:#34D399;margin-top:4px">DONE</div>`
+          :`<div class="hf" style="font-size:44px;font-weight:200;color:#fff">${Math.floor(rm/60)}:${(rm%60).toString().padStart(2,'0')}</div>`}
+        </div>
+      </div>
+      <button style="width:72px;height:72px;border-radius:50%;border:3px solid ${run?'#ef4444':done?'#34D399':'#D4A853'};background:${run?'rgba(239,68,68,0.06)':done?'rgba(52,211,153,0.06)':'rgba(212,168,83,0.06)'};color:${run?'#ef4444':done?'#34D399':'#D4A853'};font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center" onclick="toggleBreath()">${run?'❚❚':done?'✓':'▶'}</button>
+      ${!run&&!done?`<div style="margin-top:28px;max-width:280px;text-align:center">${tech.st.map((s,i)=>`<div style="font-size:14px;color:#777;line-height:2">${i+1}. ${esc(s)}</div>`).join('')}</div>`:''}
+      ${done?`<div class="hf" style="margin-top:16px;font-size:13px;color:#888">Tap ✓ to log</div>`:''}`;
+    ov.classList.remove('hidden');
+  }
+  window.toggleBreath=()=>{
+    if(el>=tech.sec){
+      toast('🧘 '+tech.name+' complete');
+      setDay(c=>({...c,br:[...(c.br||[]),{n:tech.name,a:timeStr()}]}));
+      closeBreath();return;
+    }
+    run=!run;
+    if(run){breathInterval=setInterval(()=>{el++;if(el>=tech.sec){run=false;clearInterval(breathInterval);}renderTimer();},1000);}
+    else{clearInterval(breathInterval);}
+    renderTimer();
+  };
+  window.closeBreath=()=>{clearInterval(breathInterval);ov.classList.add('hidden');run=false;el=0;};
+  renderTimer();
+}
+
+// ── GUIDED FLOW ──
+function startFlow(type){
+  const steps=type==='morning'?MRN:EVN;
+  const title=type==='morning'?'MORNING RUNWAY':'EVENING WIND-DOWN';
+  const ov=document.getElementById('overlayFlow');
+  let ci=0,tm=0,run=false,t0=Date.now();
+  function renderFlow(){
+    const s=steps[ci],rm=s.d?s.d-tm:0,last=ci===steps.length-1;
+    ov.innerHTML=`<button class="ov-close" onclick="closeFlow()">✕</button>
+      <div class="hf" style="font-size:10px;letter-spacing:3px;color:#D4A853">${title} · ${ci+1}/${steps.length}</div>
+      <div style="font-size:48px;margin:20px 0">${s.i}</div>
+      <div class="hf" style="font-size:20px;font-weight:700;color:#fff;text-align:center;max-width:260px">${esc(s.l)}</div>
+      ${s.d>0?`<div class="hf" style="font-size:32px;font-weight:200;color:#fff;margin:16px 0">${Math.floor(rm/60)}:${(rm%60).toString().padStart(2,'0')}</div>
+        ${tm<s.d?`<button class="btn" style="padding:6px 20px;border-radius:14px;border:1px solid #60A5FA;background:rgba(96,165,250,0.1);color:#60A5FA" onclick="toggleFlow()">${run?'Pause':'Start Timer'}</button>`:''}`:''}
+      <button class="btn" style="margin-top:20px;padding:12px 32px;background:${last?'linear-gradient(135deg,#34D399,#059669)':s.d&&tm<s.d?'#222':'#D4A853'};color:${last||!s.d||tm>=s.d?'#000':'#555'};font-size:15px;opacity:${s.d&&tm<s.d?0.4:1}" onclick="nextFlowStep()">${last?'✨ Complete':'Next →'}</button>
+      <div class="dot-row">${steps.map((_,j)=>`<div class="dot ${j<ci?'done':j===ci?'active':''}"></div>`).join('')}</div>`;
+    ov.classList.remove('hidden');
+  }
+  window.toggleFlow=()=>{
+    run=!run;
+    if(run){flowInterval=setInterval(()=>{tm++;if(tm>=steps[ci].d){run=false;clearInterval(flowInterval);}renderFlow();},1000);}
+    else{clearInterval(flowInterval);}
+    renderFlow();
+  };
+  window.nextFlowStep=()=>{
+    clearInterval(flowInterval);run=false;
+    if(ci<steps.length-1){ci++;tm=0;renderFlow();}
+    else{
+      const mins=Math.round((Date.now()-t0)/60000);
+      if(type==='morning')setDay(c=>({...c,h:{...c.h,wake:true,noDrift:mins<=30}}));
+      closeFlow();
+    }
+  };
+  window.closeFlow=()=>{clearInterval(flowInterval);ov.classList.add('hidden');run=false;};
+  renderFlow();
+}
+
+// ── LETTER ──
+function showLetter(){
+  const ov=document.getElementById('overlayLetter');
+  ov.innerHTML=`<button class="ov-close" onclick="document.getElementById('overlayLetter').classList.add('hidden')">✕</button>
+    <div style="max-width:320px;text-align:center">
+      <div class="hf" style="font-size:10px;letter-spacing:3px;color:#34D399">📨 LETTER FROM FUTURE KEYUR</div>
+      <div style="font-size:11px;color:#888;margin-top:6px;margin-bottom:16px">From the version of you at 90 kg, driving a Porsche</div>
+      ${D.ltr?`<div style="font-size:14px;color:#ddd;line-height:1.9;text-align:left;font-style:italic;padding:16px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid rgba(52,211,153,0.1)">${esc(D.ltr)}</div>
+        <button class="btn" style="margin-top:12px;background:rgba(255,255,255,0.05);color:#888" onclick="generateLetter()">Regenerate</button>`
+      :`<button class="btn" style="padding:14px 28px;border:1px solid rgba(52,211,153,0.3);background:rgba(52,211,153,0.08);color:#34D399;font-size:15px" onclick="generateLetter()">✨ Generate Letter</button>`}
+    </div>`;
+  ov.classList.remove('hidden');
+}
+async function generateLetter(){
+  const ov=document.getElementById('overlayLetter');
+  ov.querySelector('div > div:last-child').innerHTML='<div style="color:#888;animation:pulse 1.5s infinite;margin-top:16px">Writing from the future...</div>';
+  try{
+    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:"Write a 130-word first-person letter from Future Keyur Patel who has reached 90kg and drives a Porsche, to his current self at "+getCW()+"kg who just started this wellness journey. He's the MD of Health1 Super Speciality Hospitals in Ahmedabad. His wife Megha noticed the transformation first. His chronic hip pain is gone. His stress went from unbearable to manageable. Be deeply personal, warm, and specific. End with one line of tough love. Write raw text only — no greeting or sign-off formatting."}]})});
+    const data=await r.json();
+    D.ltr=data.content?.[0]?.text||"The future is being written. Every day you show up, you're building me.";
+  }catch(e){
+    D.ltr="I'm writing this from August 2026. The Porsche key is surprisingly heavy — or maybe my hands are just lighter without the weight. Megha noticed before I did. Not the number on the scale — the way I moved, the energy in my voice, the fact that I was awake before my alarm.\n\nThe hip pain vanished somewhere around 100 kg. I don't even remember when exactly. That's the thing about gradual transformation — you don't notice the exact moment everything changes.\n\nI take the stairs now. Two at a time. I ran a Half Marathon last month. Me. The guy who couldn't walk to Oxygen Park without getting winded.\n\nYou know what made the difference? Not the perfect days. The days I showed up anyway.\n\nDon't you dare stop.";
+  }
+  saveData();showLetter();
+}
+
+// ── PORSCHE ──
+function showPorsche(){
+  const ov=document.getElementById('overlayPorsche');const cw=getCW();const por=D.por||{};
+  const bodyColor=({"Racing Yellow":"#F5C518","GT Silver":"#A8B0B8","Shark Blue":"#1A5276","Black":"#1a1a1a"})[por.Color]||"#2a2a2a";
+  const intColor=({"Black Leather":"#1a1a1a","Bordeaux Red":"#6B1C2A","Espresso":"#3E2723"})[por.Interior]||"#222";
+  let html=`<button class="ov-close" onclick="document.getElementById('overlayPorsche').classList.add('hidden')">✕</button>
+    <div style="max-width:380px;width:100%;max-height:85vh;overflow-y:auto;padding:0 10px">
+    <div style="text-align:center;margin-bottom:6px"><div class="hf" style="font-size:22px;font-weight:800;color:#fff">YOUR PORSCHE</div><div style="font-size:12px;color:#888;margin-top:2px">Build it as you lose weight</div></div>
+    <div style="background:linear-gradient(165deg,#0c1a2e,#0a0a16);border-radius:20px;padding:0;margin-bottom:16px;position:relative;overflow:hidden;border:1px solid rgba(212,168,83,0.12)">
+      <!-- Top bar -->
+      <div style="padding:20px 24px 16px;border-bottom:1px solid rgba(212,168,83,0.08)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div style="font-size:9px;letter-spacing:4px;color:rgba(212,168,83,0.5);font-family:Outfit,sans-serif;font-weight:600">CUSTOM ORDER</div>
+            <div class="hf" style="font-size:26px;font-weight:800;color:#fff;margin-top:4px;letter-spacing:-0.5px">${por.Model||'Porsche'}</div>
+            ${por.Model?`<div style="font-size:11px;color:rgba(255,255,255,0.25);margin-top:2px;letter-spacing:1px">${por.Model==='911 Carrera'?'3.0L Twin-Turbo Flat-6 · 379 hp':por.Model==='Taycan'?'Dual Motor · 402 hp · All-Electric':por.Model==='Cayenne'?'3.0L V6 Turbo · 348 hp · AWD':'Configured by Dr. Keyur Patel'}</div>`:``}
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:9px;color:rgba(212,168,83,0.4);letter-spacing:2px;font-family:Outfit,sans-serif">PROGRESS</div>
+            <div class="hf" style="font-size:24px;font-weight:800;color:#D4A853;margin-top:2px">${Math.round(Object.keys(por).length/6*100)}%</div>
+          </div>
+        </div>
+      </div>
+      <!-- Visual config summary -->
+      <div style="padding:16px 24px 20px">
+        ${por.Color?`<div style="display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)">
+          <div style="width:44px;height:44px;border-radius:12px;background:${bodyColor};border:2px solid rgba(255,255,255,0.1);box-shadow:0 4px 16px ${bodyColor}40"></div>
+          <div><div style="font-size:9px;color:#888;letter-spacing:1.5px;font-family:Outfit,sans-serif">EXTERIOR</div><div style="font-size:15px;color:#fff;font-weight:600;margin-top:2px">${esc(por.Color)}</div></div>
+        </div>`:''}
+        ${por.Interior?`<div style="display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)">
+          <div style="width:44px;height:44px;border-radius:12px;background:${intColor};border:2px solid rgba(255,255,255,0.08);position:relative;overflow:hidden"><div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px)"></div></div>
+          <div><div style="font-size:9px;color:#888;letter-spacing:1.5px;font-family:Outfit,sans-serif">INTERIOR</div><div style="font-size:15px;color:#fff;font-weight:600;margin-top:2px">${esc(por.Interior)}</div></div>
+        </div>`:''}
+        ${por.Wheels?`<div style="display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)">
+          <div style="width:44px;height:44px;border-radius:50%;border:3px solid #888;display:flex;align-items:center;justify-content:center;position:relative"><div style="width:22px;height:22px;border-radius:50%;border:2px solid #666"></div><div style="position:absolute;width:2px;height:100%;background:#77777740;transform:rotate(45deg)"></div><div style="position:absolute;width:2px;height:100%;background:#77777740;transform:rotate(-45deg)"></div><div style="position:absolute;width:2px;height:100%;background:#77777740"></div></div>
+          <div><div style="font-size:9px;color:#888;letter-spacing:1.5px;font-family:Outfit,sans-serif">WHEELS</div><div style="font-size:15px;color:#fff;font-weight:600;margin-top:2px">${esc(por.Wheels)}</div></div>
+        </div>`:''}
+        ${por.Tech?`<div style="display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.2);display:flex;align-items:center;justify-content:center;font-size:18px">⚡</div>
+          <div><div style="font-size:9px;color:#888;letter-spacing:1.5px;font-family:Outfit,sans-serif">TECHNOLOGY</div><div style="font-size:15px;color:#fff;font-weight:600;margin-top:2px">${esc(por.Tech)}</div></div>
+        </div>`:''}
+        ${por.Accent?`<div style="display:flex;align-items:center;gap:16px;padding:10px 0">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(212,168,83,0.1);border:1px solid rgba(212,168,83,0.2);display:flex;align-items:center;justify-content:center;font-size:18px">✦</div>
+          <div><div style="font-size:9px;color:#888;letter-spacing:1.5px;font-family:Outfit,sans-serif">ACCENT</div><div style="font-size:15px;color:#fff;font-weight:600;margin-top:2px">${esc(por.Accent)}</div></div>
+        </div>`:''}
+        ${Object.keys(por).length===0?`<div style="text-align:center;padding:20px 0"><div style="font-size:40px;opacity:0.15;margin-bottom:8px">🔒</div><div style="font-size:13px;color:#555">Your configuration will appear here as you unlock steps</div></div>`:''}
+      </div>
+    </div>
+    ${Object.keys(por).length?`<div class="card" style="background:rgba(212,168,83,0.03);border-color:rgba(212,168,83,0.12)"><div class="lbl" style="color:#D4A853">SPEC SHEET</div>
+      ${["Model","Color","Interior","Wheels","Tech","Accent"].filter(k=>por[k]).map(k=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.03)"><span style="color:#888;font-size:13px">${k}</span><span style="color:#ddd;font-size:14px;font-weight:600">${k==="Color"?`<span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${bodyColor};vertical-align:middle;margin-right:6px"></span>`:``}${esc(por[k])}</span></div>`).join('')}
+    </div>`:``}`;
+  PS.forEach(p=>{
+    const ok=cw<=p.kg,ch=por[p.s],act=ok&&!ch&&p.o.length>0;
+    const colorMap={"Racing Yellow":"#F5C518","GT Silver":"#A8B0B8","Shark Blue":"#1A5276","Black":"#1a1a1a","Black Leather":"#1a1a1a","Bordeaux Red":"#6B1C2A","Espresso":"#3E2723"};
+    html+=`<div class="card" style="border-color:${ch?'rgba(52,211,153,0.15)':act?'rgba(212,168,83,0.15)':'rgba(255,255,255,0.04)'};background:${ch?'rgba(52,211,153,0.04)':act?'rgba(212,168,83,0.04)':'rgba(255,255,255,0.02)'}">
+      <div style="display:flex;justify-content:space-between;align-items:center"><span class="hf" style="font-size:15px;font-weight:700;color:${ch?'#34D399':act?'#D4A853':'#555'}">${esc(p.s)}</span><span style="font-size:11px;color:#666">${ok?'✅ Unlocked':'🔒 '+p.kg+'kg'}</span></div>
+      ${ch?`<div style="font-size:14px;color:#34D399;margin-top:6px;font-weight:600;display:flex;align-items:center;gap:8px">${colorMap[ch]?`<div style="width:20px;height:20px;border-radius:50%;background:${colorMap[ch]};border:2px solid rgba(255,255,255,0.1)"></div>`:``}✓ ${esc(ch)}</div>`:''}
+      ${act?`<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">${p.o.map(o=>{
+        const cc=colorMap[o];
+        return cc
+          ?`<button class="btn" style="padding:12px 18px;font-size:13px;border:1px solid rgba(212,168,83,0.3);background:rgba(212,168,83,0.06);color:#D4A853;display:flex;align-items:center;gap:8px" onclick="choosePorsche('${esc(p.s)}','${esc(o)}')"><div style="width:18px;height:18px;border-radius:50%;background:${cc};border:2px solid rgba(255,255,255,0.15)"></div>${esc(o)}</button>`
+          :`<button class="btn" style="padding:12px 18px;font-size:13px;border:1px solid rgba(212,168,83,0.3);background:rgba(212,168,83,0.06);color:#D4A853" onclick="choosePorsche('${esc(p.s)}','${esc(o)}')">${esc(o)}</button>`;
+      }).join('')}</div>`:''}
+      ${!ok?`<div style="font-size:12px;color:#555;margin-top:6px">Lose ${(cw-p.kg).toFixed(1)} more kg to unlock</div>`:''}
+    </div>`;
+  });
+  html+=`</div>`;ov.innerHTML=html;ov.classList.remove('hidden');
+}
+function choosePorsche(step,choice){
+  D.por={...D.por,[step]:choice};saveData();showPorsche();
+}
+
+// ── SYNC ──
+function syncToClaude(){
+  const d=getDay(),cw=getCW(),sc=hsc(d),bio=getBio(),ar=getAR();
+  const msg="DAILY WELLNESS CHECK-IN — "+tod()+
+    "\nWeight: "+cw+"kg | Water: "+d.water+" glasses | Score: "+sc+"% | Bio Age: "+bio+
+    "\nCalories: "+todayCals()+"/1800 kcal"+
+    "\nMood: "+d.mood+"/5 | Energy: "+d.energy+"/5 | Stress: "+d.stress+"/5"+
+    "\nSleep: "+(d.bed||"?")+" → "+(d.wake||"?")+
+    "\n✅ Done ("+HB.filter(h=>d.h[h.id]).length+"/"+HB.length+"): "+HB.filter(h=>d.h[h.id]).map(h=>h.l).join(", ")+
+    "\n❌ Missed: "+HB.filter(h=>!d.h[h.id]).map(h=>h.l).join(", ")+
+    "\n🍽️ Meals: "+((d.meals||[]).map(m=>m.t+": "+m.x).join("; ")||"not logged")+
+    "\n💪 Exercise: "+(Object.entries(d.ex||{}).map(([n,x])=>x.t==="S"?n+": "+(x.s||[]).map(s=>s.r+"×"+s.w+"kg").join(", "):n+": "+(x.dur||0)+"min").join("; ")||"none")+
+    "\n🧘 Breathing: "+((d.br||[]).map(b=>b.n+" at "+b.a).join(", ")||"none")+
+    "\n🏃 Race: "+ar.n+" Week "+D.rw+"/"+ar.w+
+    "\n📝 Note: "+(d.note||"—")+
+    "\n\nPlease log this to Jivanam Supabase and give me feedback.";
+  if(typeof sendPrompt==="function")sendPrompt(msg);
+}
+
+// ── INIT ──
+async function init(){
+  await loadData();
+  initNav();
+  render();
+}
+init();
+</script>
+</body>
+</html>
