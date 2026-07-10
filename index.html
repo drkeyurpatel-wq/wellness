@@ -121,13 +121,13 @@ const GN=["ROUTINE","MIND","BODY","FUEL","REST"];
 const MS=[{kg:108,r:"New Bike",i:"🏍️",c:"#D4A853"},{kg:100,r:"BYD Sealion 7",i:"🚗",c:"#60A5FA"},{kg:90,r:"Porsche",i:"🏎️",c:"#34D399"}];
 const PS=[{kg:113,s:"Model",o:["911 Carrera","Taycan","Cayenne"]},{kg:111,s:"Color",o:["Racing Yellow","GT Silver","Shark Blue","Black"]},{kg:108,s:"Interior",o:["Black Leather","Bordeaux Red","Espresso"]},{kg:105,s:"Wheels",o:['20" Carrera','21" Spyder']},{kg:102,s:"Tech",o:["Sport Chrono","Night Vision","PASM"]},{kg:90,s:"FULL SPEC",o:[]}];
 const WP={
-  1:{label:"Monday · Upper + Badminton",am:{t:"Upper Strength",ex:[{n:"Elliptical warm-up",p:"5m",t:"W"},{n:"Chest press machine",p:"3×10",t:"S"},{n:"Lat pulldown",p:"3×10",t:"S"},{n:"Seated shoulder press",p:"3×10",t:"S"},{n:"Seated cable row",p:"3×10",t:"S"},{n:"Tricep pushdown",p:"3×12",t:"S"},{n:"Bicep curl machine",p:"3×12",t:"S"},{n:"Plank hold",p:"3×30s",t:"K"},{n:"Pool + stretch",p:"25m",t:"W"}]},pm:{t:"Badminton + Walk",ex:[{n:"Warm-up walk",p:"5m",t:"W"},{n:"Badminton",p:"60m",t:"C",hip:"Sudden lateral moves — stop if hip flares"},{n:"Cool-down walk",p:"20m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
-  2:{label:"Tuesday · Lower + Pool",am:{t:"Lower Strength (hip-aware)",ex:[{n:"Bike warm-up",p:"5m",t:"W"},{n:"Leg press",p:"3×10",t:"S",hip:"Moderate depth only — NOT super deep"},{n:"Leg curl machine",p:"3×12",t:"S"},{n:"Leg extension",p:"3×12",t:"S"},{n:"Seated calf raise",p:"3×15",t:"S"},{n:"Glute bridge",p:"3×15",t:"S"},{n:"Cable wood-chop",p:"3×10",t:"S"},{n:"Hanging knee raise",p:"3×10",t:"K"},{n:"Elliptical + stretch",p:"25m",t:"W"}]},pm:{t:"Pool + Golf Walk",ex:[{n:"Pool entry",p:"5m",t:"W"},{n:"Swim",p:"30m",t:"C",hip:"Breaststroke kick aggravates — use freestyle/backstroke"},{n:"Golf course walk",p:"40m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
-  3:{label:"Wednesday · Push + Sport",am:{t:"Push Day",ex:[{n:"Bike warm-up",p:"5m",t:"W"},{n:"Incline chest press",p:"3×10",t:"S"},{n:"Flat DB chest press",p:"3×10",t:"S"},{n:"Machine shoulder press",p:"3×10",t:"S"},{n:"DB lateral raise",p:"3×12",t:"S"},{n:"Tricep pushdown",p:"3×12",t:"S"},{n:"Overhead tricep ext (DB)",p:"3×12",t:"S"},{n:"Cable crunch",p:"3×15",t:"K"},{n:"Bike + stretch",p:"25m",t:"W"}]},pm:{t:"Tennis or Racquetball",ex:[{n:"Dynamic warm-up",p:"8m",t:"W"},{n:"Tennis / Racquetball",p:"60m",t:"C",hip:"Racquetball = high hip torque. Pick tennis if tender"},{n:"Core circuit",p:"3×rounds",t:"K"},{n:"Stretch",p:"5m",t:"W"}]}},
-  4:{label:"Thursday · Active Recovery",am:{t:"Walk + Pool",ex:[{n:"Walk (golf course)",p:"45m",t:"C"},{n:"Pool easy swim",p:"30m",t:"C"},{n:"Full-body stretch",p:"15m",t:"W"}]},pm:{t:"Walk + Mobility",ex:[{n:"Walk",p:"50m",t:"C"},{n:"Mobility routine",p:"25m",t:"W"},{n:"Breath work",p:"15m",t:"W"}]}},
-  5:{label:"Friday · Pull + Badminton",am:{t:"Pull Day",ex:[{n:"Row warm-up",p:"5m",t:"W"},{n:"Lat pulldown (wide)",p:"3×10",t:"S"},{n:"Seated cable row",p:"3×10",t:"S"},{n:"Single-arm DB row",p:"3×10",t:"S"},{n:"Face pull",p:"3×12",t:"S"},{n:"DB curl",p:"3×12",t:"S"},{n:"Hammer curl",p:"3×12",t:"S"},{n:"Dead bug",p:"3×10",t:"K"},{n:"Elliptical + stretch",p:"25m",t:"W"}]},pm:{t:"Badminton + Walk",ex:[{n:"Warm-up walk",p:"5m",t:"W"},{n:"Badminton",p:"60m",t:"C",hip:"Sudden lunges can load hip"},{n:"Cool-down walk",p:"20m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
-  6:{label:"Saturday · Full-body + Sport",am:{t:"Full-body Circuit",ex:[{n:"Dynamic warm-up",p:"10m",t:"W"},{n:"Chest press",p:"3×10",t:"S"},{n:"Leg press (moderate)",p:"3×10",t:"S",hip:"Same — no super-deep"},{n:"Lat pulldown",p:"3×10",t:"S"},{n:"Leg curl",p:"3×12",t:"S"},{n:"Shoulder press",p:"3×10",t:"S"},{n:"Calf raise",p:"3×15",t:"S"},{n:"Plank",p:"3×30s",t:"K"},{n:"Pool + stretch",p:"25m",t:"W"}]},pm:{t:"Sport of Choice",ex:[{n:"Dynamic warm-up",p:"8m",t:"W"},{n:"Sport (badminton/tennis/racquetball)",p:"60m",t:"C",hip:"Pick based on how hip feels"},{n:"Cool-down walk",p:"20m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
-  0:{label:"Sunday · AM only (PM REST)",am:{t:"Long Walk + Pool",ex:[{n:"Long walk",p:"60m",t:"C"},{n:"Pool recovery",p:"20m",t:"C"},{n:"Full-body stretch",p:"10m",t:"W"}]},pm:null}
+  1:{label:"Monday · Push A + Badminton",am:{t:"Push A + Badminton",ex:[{n:"Elliptical warm-up",p:"5m",t:"W"},{n:"Chest press machine",p:"3×10",t:"S"},{n:"Incline chest press",p:"3×10",t:"S"},{n:"Seated shoulder press",p:"3×10",t:"S"},{n:"DB lateral raise",p:"3×12",t:"S"},{n:"Tricep pushdown",p:"3×12",t:"S"},{n:"Overhead tricep ext (DB)",p:"3×12",t:"S"},{n:"Plank hold",p:"3×30s",t:"K"},{n:"Badminton",p:"45m",t:"C",hip:"Sudden lateral lunges load the hip — ease off if it flares"}]},pm:{t:"4 km Evening Walk",ex:[{n:"Warm-up walk",p:"5m",t:"W"},{n:"Brisk 4 km walk",p:"45m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
+  2:{label:"Tuesday · Pull A + Badminton",am:{t:"Pull A + Badminton",ex:[{n:"Row machine warm-up",p:"5m",t:"W"},{n:"Lat pulldown (wide)",p:"3×10",t:"S"},{n:"Seated cable row",p:"3×10",t:"S"},{n:"Single-arm DB row",p:"3×10",t:"S"},{n:"Face pull",p:"3×12",t:"S"},{n:"DB curl",p:"3×12",t:"S"},{n:"Hammer curl",p:"3×12",t:"S"},{n:"Dead bug",p:"3×10",t:"K"},{n:"Badminton",p:"45m",t:"C",hip:"Sudden lateral lunges load the hip — ease off if it flares"}]},pm:{t:"4 km Evening Walk",ex:[{n:"Warm-up walk",p:"5m",t:"W"},{n:"Brisk 4 km walk",p:"45m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
+  3:{label:"Wednesday · Legs A + Badminton",am:{t:"Legs A (hip-aware) + Badminton",ex:[{n:"Bike warm-up",p:"5m",t:"W"},{n:"Leg press",p:"3×10",t:"S",hip:"Moderate depth only — NOT super deep"},{n:"Leg curl machine",p:"3×12",t:"S"},{n:"Leg extension",p:"3×12",t:"S"},{n:"Seated calf raise",p:"3×15",t:"S"},{n:"Glute bridge",p:"3×15",t:"S"},{n:"Cable wood-chop",p:"3×10",t:"S"},{n:"Hanging knee raise",p:"3×10",t:"K"},{n:"Badminton (light footwork)",p:"40m",t:"C",hip:"Leg day + badminton — keep rallies easy, no deep lunges"}]},pm:{t:"4 km Evening Walk",ex:[{n:"Warm-up walk",p:"5m",t:"W"},{n:"Brisk 4 km walk",p:"45m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
+  4:{label:"Thursday · Push B + Badminton",am:{t:"Push B + Badminton",ex:[{n:"Bike warm-up",p:"5m",t:"W"},{n:"Flat DB chest press",p:"3×10",t:"S"},{n:"Machine shoulder press",p:"3×10",t:"S"},{n:"Cable fly",p:"3×12",t:"S"},{n:"DB front raise",p:"3×12",t:"S"},{n:"Rope tricep pushdown",p:"3×12",t:"S"},{n:"Cable crunch",p:"3×15",t:"K"},{n:"Badminton",p:"45m",t:"C",hip:"Sudden lateral lunges load the hip — ease off if it flares"}]},pm:{t:"4 km Evening Walk",ex:[{n:"Warm-up walk",p:"5m",t:"W"},{n:"Brisk 4 km walk",p:"45m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
+  5:{label:"Friday · Pull B + Badminton",am:{t:"Pull B + Badminton",ex:[{n:"Elliptical warm-up",p:"5m",t:"W"},{n:"Close-grip lat pulldown",p:"3×10",t:"S"},{n:"Machine row",p:"3×10",t:"S"},{n:"Rear delt fly",p:"3×12",t:"S"},{n:"DB shrug",p:"3×12",t:"S"},{n:"Preacher/machine curl",p:"3×12",t:"S"},{n:"Reverse curl",p:"3×12",t:"S"},{n:"Bird-dog",p:"3×10",t:"K"},{n:"Badminton",p:"45m",t:"C",hip:"Sudden lateral lunges load the hip — ease off if it flares"}]},pm:{t:"4 km Evening Walk",ex:[{n:"Warm-up walk",p:"5m",t:"W"},{n:"Brisk 4 km walk",p:"45m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
+  6:{label:"Saturday · Legs B + Badminton",am:{t:"Legs B + Core + Badminton",ex:[{n:"Bike warm-up",p:"5m",t:"W"},{n:"Leg press (lighter, higher reps)",p:"3×15",t:"S",hip:"Moderate depth only"},{n:"Romanian DB deadlift (light)",p:"3×10",t:"S",hip:"Hinge carefully — stop if hip flares"},{n:"Leg curl",p:"3×12",t:"S"},{n:"Standing calf raise",p:"3×15",t:"S"},{n:"Adductor/abductor machine",p:"3×12",t:"S",hip:"Gentle range only"},{n:"Side plank",p:"3×20s",t:"K"},{n:"Badminton",p:"45m",t:"C",hip:"Leg day + badminton — keep rallies easy"}]},pm:{t:"4 km Evening Walk",ex:[{n:"Warm-up walk",p:"5m",t:"W"},{n:"Brisk 4 km walk",p:"45m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
+  0:{label:"Sunday · Active Recovery",am:{t:"Recovery — Walk + Pool",ex:[{n:"Long easy walk",p:"60m",t:"C"},{n:"Pool recovery",p:"20m",t:"C",hip:"Freestyle/backstroke — breaststroke kick aggravates the hip"},{n:"Full-body stretch",p:"10m",t:"W"}]},pm:{t:"Optional Light Walk",ex:[{n:"Easy 4 km walk (optional)",p:"45m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}}
 };
 const BRX=[{name:"Anulom Vilom",sec:300,d:"Calms nerves",st:["Close right nostril","Inhale left 4 counts","Close left nostril","Exhale right 4 counts","10 full rounds"]},{name:"Kapalbhati",sec:180,d:"Burns belly fat",st:["Sharp exhale, belly IN","Passive inhale","20 strokes × 3 rounds"]},{name:"Bhramari",sec:120,d:"Kills anxiety instantly",st:["Close ears with thumbs","Deep inhale","Exhale with HUMMM","5-7 rounds"]},{name:"Box Breathing",sec:180,d:"Navy SEAL reset",st:["Inhale 4, Hold 4","Exhale 4, Hold 4","6-8 rounds"]}];
 const MLs={"☀️ Pre-workout 7:20":["500ml water + pinch of salt + black coffee ~5 kcal","1 small date if low energy ~20 kcal"],"🌅 Post-workout Breakfast 9:45":["Whey 30g + 3 egg-white + 1 whole-egg omelette + 2 moong dal cheela + curd (100g) ~520 kcal 45g protein","Whey 30g + oats (50g) cooked in milk + 10 almonds + 1 apple + 2 egg whites ~520 kcal 40g protein","Whey 30g + paneer bhurji (100g) + 2 multigrain roti + salad ~500 kcal 42g protein"],"🍱 Lunch 1PM (hospital)":["2 multigrain roti + dal + sabzi + salad + curd (100g) ~500 kcal 30g protein","Brown rice (1 katori) + rajma/chole + sabzi + salad ~480 kcal 28g protein","Khichdi (1.5 katori) + kadhi + salad + 2 boiled eggs ~520 kcal 32g protein"],"🍵 Snack 5PM":["Greek yogurt (150g) + 10 almonds ~180 kcal 14g protein","Roasted chana (30g) + green tea ~110 kcal 7g protein","2 boiled eggs + cucumber ~160 kcal 13g protein"],"🌙 Dinner 8:30PM (light)":["Moong dal + sabzi + 1 roti + salad ~380 kcal 25g protein","Veg khichdi (1 katori) + curd + salad ~360 kcal 20g protein","Grilled paneer (100g) + stir-fry veg + salad ~400 kcal 28g protein"],"💪 Post-dinner (training days only)":["Whey 25g in water ~120 kcal 25g protein"]};
@@ -139,7 +139,7 @@ const RC=[{id:"5k_walk",n:"5K Walk",i:"🚶",c:"#F59E0B",u:999,w:6,p:["Walk 20 m
 function tod(){return new Date().toISOString().split("T")[0]}
 function cl(v,a,b){return Math.max(a,Math.min(b,v))}
 function hsc(day){if(!day||!day.h)return 0;return Math.round(Object.values(day.h).filter(Boolean).length/HB.length*100)}
-function eDay(){return{h:{},water:0,note:"",meals:[],ex:{},br:[],mood:0,energy:0,stress:0,bed:"",wake:""}}
+function eDay(){return{h:{},water:0,steps:0,note:"",meals:[],ex:{},br:[],mood:0,energy:0,stress:0,bed:"",wake:""}}
 function bioA(bmi,act,slp,str,alc){let o=0;o+=bmi>35?8:bmi>30?5:bmi>25?2:-1;o+=act<1?4:act>=5?-2:0;o+=slp<5?4:slp>=7?-1:0;o+=str>=4?3:str<3?-1:0;o+=alc>=3?3:alc<1?-1:0;return getChronoAge()+o}
 function getChronoAge(){const b=new Date(1983,8,3),now=new Date();let age=now.getFullYear()-b.getFullYear();if(now.getMonth()<b.getMonth()||(now.getMonth()===b.getMonth()&&now.getDate()<b.getDate()))age--;return age;}
 function lerp(a,b,t){return a+(b-a)*cl(t,0,1)}
@@ -415,6 +415,15 @@ track(){
     </div>
     <div class="progress-bar" style="height:6px"><div class="progress-fill" style="background:${dy.water>=10?'#34D399':'#60A5FA'};width:${Math.min(100,dy.water/10*100)}%"></div></div>
   </div>`;
+  // Steps
+  html+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div class="lbl">👟 STEPS</div></div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:20px;padding:12px 0">
+      <button onclick="setDayField('steps',Math.max(0,${dy.steps||0}-1000))" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(167,139,250,0.3);background:rgba(167,139,250,0.06);color:#A78BFA;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">−</button>
+      <div style="text-align:center"><div class="hf" style="font-size:40px;font-weight:800;color:${(dy.steps||0)>=8000?'#34D399':'#A78BFA'}">${((dy.steps||0)/1000).toFixed(1)}k</div><div style="font-size:11px;color:#888;margin-top:2px">of 8k steps</div></div>
+      <button onclick="setDayField('steps',Math.min(40000,${dy.steps||0}+1000))" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(167,139,250,0.3);background:rgba(167,139,250,0.06);color:#A78BFA;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">+</button>
+    </div>
+    <div class="progress-bar" style="height:6px"><div class="progress-fill" style="background:${(dy.steps||0)>=8000?'#34D399':'#A78BFA'};width:${Math.min(100,(dy.steps||0)/8000*100)}%"></div></div>
+  </div>`;
   // Weight — prominent
   html+=`<div class="card" style="background:linear-gradient(135deg,rgba(212,168,83,0.04),rgba(212,168,83,0.01));border-color:rgba(212,168,83,0.12);padding:20px">
     <div class="lbl" style="color:#D4A853">⚖️ LOG WEIGHT</div>
@@ -647,8 +656,25 @@ stats(){
   // Heatmap
   html+=`<div class="card"><div class="lbl">HABIT HEATMAP · 12 WEEKS</div><div id="heatmap" style="display:flex;gap:2px;justify-content:center"></div></div>`;
   // Charts
+  // Plan projection at 1.25 kg/week
+  {const PACE=1.25,bd=new Date("2026-09-03T00:00:00"),now_=new Date(),dl=Math.max(0,Math.ceil((bd-now_)/86400000)),cw_=getCW();
+  const proj=(cw_-dl/7*PACE);
+  const dt=k=>{if(cw_<=k)return "DONE ✓";const d=new Date();d.setDate(d.getDate()+Math.ceil((cw_-k)/PACE*7));return d.toLocaleDateString("en-IN",{day:"numeric",month:"short"})+" "+String(d.getFullYear()).slice(2)};
+  html+=`<div class="card" style="background:linear-gradient(135deg,rgba(245,158,11,0.05),rgba(245,158,11,0.01));border-color:rgba(245,158,11,0.15)">
+    <div class="lbl" style="color:#F59E0B">🎯 THE PLAN · 1.25 KG / WEEK</div>
+    <div style="display:flex;justify-content:space-around;text-align:center;padding:8px 0">
+      <div><div class="hf" style="font-size:24px;font-weight:800;color:#F59E0B">${proj.toFixed(1)}</div><div style="font-size:11px;color:#888">🎂 by 3 Sep (${dl}d)</div></div>
+      <div><div class="hf" style="font-size:24px;font-weight:800;color:#60A5FA">${dt(100)}</div><div style="font-size:11px;color:#888">below 100 kg</div></div>
+      <div><div class="hf" style="font-size:24px;font-weight:800;color:#34D399">${dt(90)}</div><div style="font-size:11px;color:#888">at 90 kg 🏎️</div></div>
+    </div></div>`;}
   html+=`<div class="card"><div class="lbl">WEIGHT TREND</div><canvas id="weightChart" height="130"></canvas></div>`;
   html+=`<div class="card"><div class="lbl">7-DAY SCORE</div><canvas id="weekChart" height="100"></canvas></div>`;
+  // Export
+  html+=`<div class="card"><div class="lbl">📤 EXPORT DATA</div>
+    <div style="display:flex;gap:10px;margin-top:8px">
+      <button class="btn" style="flex:1;background:rgba(96,165,250,0.12);color:#60A5FA;border:1px solid rgba(96,165,250,0.3)" onclick="exportCSV()">CSV</button>
+      <button class="btn" style="flex:1;background:rgba(167,139,250,0.12);color:#A78BFA;border:1px solid rgba(167,139,250,0.3)" onclick="exportJSON()">JSON</button>
+    </div></div>`;
   // Streaks
   html+=`<div class="grid2">
     <div class="card" style="text-align:center;padding:12px"><div class="hf" style="font-size:24px;font-weight:800;color:#D4A853">${streak}</div><div class="lbl" style="margin-bottom:0">STREAK</div></div>
@@ -679,8 +705,8 @@ function initCharts(){
   // Weight chart
   const wCtx=document.getElementById('weightChart');
   if(wCtx&&D.wts.length>1){
-    const data=D.wts.slice(-14);
-    charts.weight=new Chart(wCtx,{type:'line',data:{labels:data.map(p=>p.d.slice(5)),datasets:[{data:data.map(p=>p.w),borderColor:'#D4A853',backgroundColor:'rgba(212,168,83,0.1)',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#D4A853'}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1a1a2e',titleColor:'#888',bodyColor:'#D4A853'}},scales:{x:{grid:{display:false},ticks:{color:'#555',font:{size:9}}},y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#555',font:{size:9}}}}}});
+    const data=D.wts.slice(-30);const g999=data.map(()=>99.9),g90=data.map(()=>90);
+    charts.weight=new Chart(wCtx,{type:'line',data:{labels:data.map(p=>p.d.slice(5)),datasets:[{data:data.map(p=>p.w),borderColor:'#D4A853',backgroundColor:'rgba(212,168,83,0.1)',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#D4A853'},{data:g999,borderColor:'#F59E0B',borderDash:[6,4],borderWidth:1.5,pointRadius:0,fill:false},{data:g90,borderColor:'#34D399',borderDash:[2,3],borderWidth:1.5,pointRadius:0,fill:false}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1a1a2e',titleColor:'#888',bodyColor:'#D4A853'}},scales:{x:{grid:{display:false},ticks:{color:'#555',font:{size:9}}},y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#555',font:{size:9}}}}}});
   }
   // Week chart
   const kCtx=document.getElementById('weekChart');
@@ -958,10 +984,21 @@ function choosePorsche(step,choice){
 }
 
 // ── SYNC ──
+function dlBlob(txt,name,mime){const b=new Blob([txt],{type:mime}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);toast("📤 "+name+" downloaded");}
+function exportCSV(){
+  const wmap={};D.wts.forEach(p=>{wmap[p.d]=p.w});
+  const rows=[["date","weight_kg","score_pct","water_glasses","steps","calories","mood","energy","stress","bed","wake","habits_done","note"]];
+  Object.keys(D.days).sort().forEach(k=>{const d=D.days[k];
+    const cals=(d.meals||[]).reduce((a,m)=>a+(parseCal(m.x)||0),0);
+    rows.push([k,wmap[k]!==undefined?wmap[k]:"",hsc(d),d.water||0,d.steps||0,cals,d.mood||0,d.energy||0,d.stress||0,d.bed||"",d.wake||"",HB.filter(h=>(d.h||{})[h.id]).length,String(d.note||"").replace(/"/g,"'")]);
+  });
+  dlBlob(rows.map(r=>r.map(c=>'"'+String(c)+'"').join(",")).join("\n"),"wellness-"+tod()+".csv","text/csv");
+}
+function exportJSON(){dlBlob(JSON.stringify(D,null,2),"wellness-"+tod()+".json","application/json");}
 function syncToClaude(){
   const d=getDay(),cw=getCW(),sc=hsc(d),bio=getBio(),ar=getAR();
   const msg="DAILY WELLNESS CHECK-IN — "+tod()+
-    "\nWeight: "+cw+"kg | Water: "+d.water+" glasses | Score: "+sc+"% | Bio Age: "+bio+
+    "\nWeight: "+cw+"kg | Water: "+d.water+" glasses | Steps: "+(d.steps||0)+" | Score: "+sc+"% | Bio Age: "+bio+
     "\nCalories: "+todayCals()+"/1800 kcal"+
     "\nMood: "+d.mood+"/5 | Energy: "+d.energy+"/5 | Stress: "+d.stress+"/5"+
     "\nSleep: "+(d.bed||"?")+" → "+(d.wake||"?")+
