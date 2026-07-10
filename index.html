@@ -160,13 +160,13 @@ let selSes = 'am';  // 'am' or 'pm' session selection
 // Storage — localStorage for standalone, window.storage for artifact
 async function loadData(){
   try{
-    if(window.storage){const r=await window.storage.get("kw-html-1");if(r&&r.value){D=JSON.parse(r.value);return;}}
+    if(window.storage){const r=await window.storage.get("kw-html-2");if(r&&r.value){D=JSON.parse(r.value);return;}}
   }catch(e){}
-  try{const s=localStorage.getItem("kw-html-1");if(s)D=JSON.parse(s);}catch(e){}
+  try{const s=localStorage.getItem("kw-html-2");if(s)D=JSON.parse(s);}catch(e){}
 }
 async function saveData(){
-  try{localStorage.setItem("kw-html-1",JSON.stringify(D));}catch(e){}
-  try{if(window.storage)await window.storage.set("kw-html-1",JSON.stringify(D));}catch(e){}
+  try{localStorage.setItem("kw-html-2",JSON.stringify(D));}catch(e){}
+  try{if(window.storage)await window.storage.set("kw-html-2",JSON.stringify(D));}catch(e){}
 }
 
 function getDay(date){return D.days[date||tod()]||eDay()}

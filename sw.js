@@ -1,4 +1,4 @@
-const CACHE = "keyur-wellness-v2";
+const CACHE = "keyur-wellness-v3";
 const SHELL = [
   "./",
   "./index.html",
