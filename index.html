@@ -157,6 +157,7 @@ function bioA(bmi,act,slp,str,alc){let o=0;o+=bmi>35?8:bmi>30?5:bmi>25?2:-1;o+=a
 function getChronoAge(){const b=new Date(1983,8,3),now=new Date();let age=now.getFullYear()-b.getFullYear();if(now.getMonth()<b.getMonth()||(now.getMonth()===b.getMonth()&&now.getDate()<b.getDate()))age--;return age;}
 function lerp(a,b,t){return a+(b-a)*cl(t,0,1)}
 function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function futureStamp(){const d=new Date();d.setMonth(d.getMonth()+12);return d.toLocaleDateString("en-IN",{month:"long",year:"numeric"})}
 function timeStr(){return new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"})}
 
 // ── STATE ──
@@ -176,6 +177,7 @@ async function loadData(){
     if(window.storage){const r=await window.storage.get("kw-html-2");if(r&&r.value){D=JSON.parse(r.value);return;}}
   }catch(e){}
   try{const s=localStorage.getItem("kw-html-2");if(s)D=JSON.parse(s);}catch(e){}
+  if(D.ltr&&/August 2026/.test(D.ltr))D.ltr="";
 }
 async function saveData(){
   try{localStorage.setItem("kw-html-2",JSON.stringify(D));}catch(e){}
@@ -820,11 +822,11 @@ async function generateLetter(){
   const ov=document.getElementById('overlayLetter');
   ov.querySelector('div > div:last-child').innerHTML='<div style="color:#64748B;animation:pulse 1.5s infinite;margin-top:16px">Writing from the future...</div>';
   try{
-    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:"Write a 130-word first-person letter from Future Keyur Patel who has reached 90kg and drives a Porsche, to his current self at "+getCW()+"kg who just started this wellness journey. He's the MD of Health1 Super Speciality Hospitals in Ahmedabad. His wife Megha noticed the transformation first. His chronic hip pain is gone. His stress went from unbearable to manageable. Be deeply personal, warm, and specific. End with one line of tough love. Write raw text only — no greeting or sign-off formatting."}]})});
+    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:"Today is "+new Date().toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"})+". Write a 130-word first-person letter dated "+futureStamp()+" from Future Keyur Patel who has reached 90kg and drives a Porsche, to his current self at "+getCW()+"kg who just started this wellness journey. He's the MD of Health1 Super Speciality Hospitals in Ahmedabad. His wife Megha noticed the transformation first. His chronic hip pain is gone. His stress went from unbearable to manageable. Be deeply personal, warm, and specific. End with one line of tough love. Write raw text only — no greeting or sign-off formatting."}]})});
     const data=await r.json();
     D.ltr=data.content?.[0]?.text||"The future is being written. Every day you show up, you're building me.";
   }catch(e){
-    D.ltr="I'm writing this from August 2026. The Porsche key is surprisingly heavy — or maybe my hands are just lighter without the weight. Megha noticed before I did. Not the number on the scale — the way I moved, the energy in my voice, the fact that I was awake before my alarm.\n\nThe hip pain vanished somewhere around 100 kg. I don't even remember when exactly. That's the thing about gradual transformation — you don't notice the exact moment everything changes.\n\nI take the stairs now. Two at a time. I ran a Half Marathon last month. Me. The guy who couldn't walk to Oxygen Park without getting winded.\n\nYou know what made the difference? Not the perfect days. The days I showed up anyway.\n\nDon't you dare stop.";
+    D.ltr="I'm writing this from "+futureStamp()+". The Porsche key is surprisingly heavy — or maybe my hands are just lighter without the weight. Megha noticed before I did. Not the number on the scale — the way I moved, the energy in my voice, the fact that I was awake before my alarm.\n\nThe hip pain vanished somewhere around 100 kg. I don't even remember when exactly. That's the thing about gradual transformation — you don't notice the exact moment everything changes.\n\nI take the stairs now. Two at a time. I ran a Half Marathon last month. Me. The guy who couldn't walk to Oxygen Park without getting winded.\n\nYou know what made the difference? Not the perfect days. The days I showed up anyway.\n\nDon't you dare stop.";
   }
   saveData();showLetter();
 }
