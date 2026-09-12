@@ -125,13 +125,10 @@ textarea.inp{resize:vertical;min-height:60px;font-size:14px;line-height:1.6}
 // ── DATA ──
 const INIT = {sw:117.5,tgt:90,days:{},wts:[{d:tod(),w:117.5}],ar:"5k_walk",rw:1,por:{},ltr:""};
 const HB = [
-  {id:"wake",l:"Up on time",i:"☀️",g:0},{id:"noDrift",l:"No drift",i:"⚡",g:0},
-  {id:"pranayama",l:"Pranayama",i:"🌬️",g:1},{id:"meditation",l:"Meditation",i:"🧘",g:1},
+  {id:"wake",l:"Up on time",i:"☀️",g:0},{id:"pranayama",l:"Pranayama",i:"🌬️",g:1},
   {id:"exercise",l:"Exercise",i:"💪",g:2},{id:"water",l:"Water 10+",i:"💧",g:2},
-  {id:"bfLight",l:"Light bfast",i:"🥣",g:3},{id:"noJunk",l:"No junk",i:"🚫",g:3},
-  {id:"homeFood",l:"Home dinner",i:"🏠",g:3},{id:"earlyDin",l:"By 8:30",i:"🕗",g:3},
-  {id:"noAlc",l:"No alcohol",i:"🍷",g:3},{id:"screenOff",l:"Screens off",i:"📵",g:4},
-  {id:"sleepOk",l:"Slept ok",i:"🌙",g:4}
+  {id:"noJunk",l:"No junk",i:"🚫",g:3},{id:"homeFood",l:"Home dinner",i:"🏠",g:3},
+  {id:"noAlc",l:"No alcohol",i:"🍷",g:3},{id:"sleepOk",l:"Slept ok",i:"🌙",g:4}
 ];
 const GN=["ROUTINE","MIND","BODY","FUEL","REST"];
 const MS=[{kg:108,r:"New Bike",i:"🏍️",c:"#D97706"},{kg:100,r:"BYD Sealion 7",i:"🚗",c:"#2563EB"},{kg:90,r:"Porsche",i:"🏎️",c:"#059669"}];
@@ -288,58 +285,26 @@ function switchTab(id){
 // ── NAV ──
 function initNav(){
   const navEl=document.getElementById('nav');
-  const tabs=[{id:"home",ic:"🏠",n:"Home"},{id:"track",ic:"✅",n:"Track"},{id:"fuel",ic:"🍽️",n:"Fuel"},{id:"move",ic:"💪",n:"Move"},{id:"breathe",ic:"🧘",n:"Breathe"},{id:"stats",ic:"📊",n:"Stats"}];
+  const tabs=[{id:"home",ic:"☀️",n:"Today"},{id:"fuel",ic:"🍽️",n:"Fuel"},{id:"move",ic:"💪",n:"Move"},{id:"breathe",ic:"🧘",n:"Breathe"},{id:"stats",ic:"📈",n:"Progress"}];
   navEl.innerHTML=tabs.map(t=>`<button class="nav-btn ${t.id==='home'?'active':''}" data-tab="${t.id}" onclick="switchTab('${t.id}')"><span class="icon">${t.ic}</span><span class="label">${t.n}</span></button>`).join('');
 }
 
 // ── TAB HTML GENERATORS ──
 const tabs={
 home(){
-  const cw=getCW(),nm=getNM(),tl=+(D.sw-cw).toFixed(1),streak=getStreak(),ai=getAI(),bio=getBio(),ar=getAR(),h=new Date().getHours();
-  const chronoAge=getChronoAge();
+  const dy=getDay(),cw=getCW(),nm=getNM(),tl=+(D.sw-cw).toFixed(1),streak=getStreak(),h=new Date().getHours();
   let html='';
 
-  // Quick Stats — hero strip with color accents
-  html+=`<div style="display:flex;gap:6px;margin-bottom:8px">
-    <div style="flex:1;background:linear-gradient(135deg,rgba(15,23,42,0.056),rgba(15,23,42,0.028));border-radius:14px;padding:14px;text-align:center;border:1px solid rgba(15,23,42,0.084)">
-      <div class="hf" style="font-size:24px;font-weight:800;color:#0F172A">${cw}</div>
-      <div style="font-size:10px;color:#64748B;margin-top:2px">kg</div>
+  // Weight log — first thing
+  html+=`<div class="card" style="background:linear-gradient(135deg,rgba(217,119,6,0.06),rgba(217,119,6,0.01));border-color:rgba(217,119,6,0.15);padding:18px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px">
+      <div><span class="hf" style="font-size:34px;font-weight:800;color:#0F172A">${cw}</span><span style="font-size:13px;color:#64748B;margin-left:4px">kg</span></div>
+      <div style="text-align:right"><span class="hf" style="font-size:18px;font-weight:800;color:${tl>0?'#059669':'#DC2626'}">${tl>0?'−':'+'}${Math.abs(tl)} kg</span><div style="font-size:10px;color:#94A3B8">since day 1 · 🔥 ${streak} day streak</div></div>
     </div>
-    <div style="flex:1;background:linear-gradient(135deg,rgba(217,119,6,0.06),rgba(217,119,6,0.02));border-radius:14px;padding:14px;text-align:center;border:1px solid rgba(217,119,6,0.1)">
-      <div class="hf" style="font-size:24px;font-weight:800;color:#D97706">${streak}</div>
-      <div style="font-size:10px;color:#D97706;margin-top:2px">streak</div>
-    </div>
-    <div style="flex:1;background:linear-gradient(135deg,${tl>0?'rgba(5,150,105,0.06)':'rgba(220,38,38,0.06)'},transparent);border-radius:14px;padding:14px;text-align:center;border:1px solid ${tl>0?'rgba(5,150,105,0.1)':'rgba(220,38,38,0.1)'}">
-      <div class="hf" style="font-size:24px;font-weight:800;color:${tl>0?'#059669':'#DC2626'}">${tl>0?'-':'+'}${Math.abs(tl)}</div>
-      <div style="font-size:10px;color:#64748B;margin-top:2px">kg</div>
-    </div>
+    <div style="display:flex;gap:8px"><input id="weightInput" class="inp" type="number" step="0.1" placeholder="Today's weight" style="font-size:18px;padding:14px"><button class="btn" style="background:#D97706;color:#fff;padding:14px 22px;font-size:16px" onclick="logWeight()">Log</button></div>
   </div>`;
 
-  // Smart time-aware action — one card that changes
-  if(h>=5&&h<12){
-    html+=`<div class="card" style="cursor:pointer;padding:18px;background:rgba(234,88,12,0.06);border-color:rgba(234,88,12,0.15);display:flex;align-items:center;gap:16px" onclick="startFlow('morning')">
-      <div style="font-size:32px">🌅</div>
-      <div style="flex:1"><div class="hf" style="font-size:16px;font-weight:700;color:#EA580C">Start Your Morning</div><div style="font-size:12px;color:#64748B;margin-top:2px">7 guided steps · 8 minutes</div></div>
-      <div style="font-size:20px;color:#EA580C">→</div>
-    </div>`;
-  } else if(h>=18){
-    html+=`<div class="card" style="cursor:pointer;padding:18px;background:rgba(79,70,229,0.06);border-color:rgba(79,70,229,0.15);display:flex;align-items:center;gap:16px" onclick="startFlow('evening')">
-      <div style="font-size:32px">🌙</div>
-      <div style="flex:1"><div class="hf" style="font-size:16px;font-weight:700;color:#4F46E5">Wind Down</div><div style="font-size:12px;color:#64748B;margin-top:2px">5 steps to better sleep</div></div>
-      <div style="font-size:20px;color:#4F46E5">→</div>
-    </div>`;
-  } else {
-    html+=`<div class="grid2" style="margin-bottom:2px">
-      <div class="card" style="cursor:pointer;padding:14px;text-align:center" onclick="startFlow('morning')"><div style="font-size:22px">🌅</div><div class="hf" style="font-size:11px;font-weight:700;color:#94A3B8;margin-top:3px">Morning</div></div>
-      <div class="card" style="cursor:pointer;padding:14px;text-align:center" onclick="startFlow('evening')"><div style="font-size:22px">🌙</div><div class="hf" style="font-size:11px;font-weight:700;color:#94A3B8;margin-top:3px">Wind-Down</div></div>
-    </div>`;
-  }
-
-  // AI Coach
-  html+=`<div class="card" style="border-color:rgba(217,119,6,0.12);background:rgba(217,119,6,0.03)">
-    <div class="lbl">🧠 AI COACH</div>${ai.map(x=>`<div style="font-size:13px;color:${x.c};line-height:1.7;padding:3px 0">${esc(x.t)}</div>`).join('')}</div>`;
-
-  // Reward + Porsche
+  // Next reward
   html+=`<div class="card" style="cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(150deg,#fff,${nm.c}14);border-color:${nm.c}40" onclick="showPorsche()">
     <div style="display:flex;justify-content:space-between;align-items:center">
       <div><div class="lbl" style="color:${nm.c}">NEXT REWARD · TAP TO CONFIGURE 🏎️</div>
@@ -349,106 +314,50 @@ home(){
     <div class="progress-bar"><div class="progress-fill" style="background:linear-gradient(90deg,${nm.c},${nm.c}88);width:${cl(((D.sw-cw)/(D.sw-nm.kg))*100,1,100)}%"></div></div>
   </div>`;
 
-  // Time Machine - always shows
-  const tm=getTimeMachine();
-  html+=`<div class="card" style="border-color:rgba(37,99,235,0.12);background:rgba(37,99,235,0.03)">
-    <div class="lbl">⏰ TIME MACHINE</div>`;
-  if(tm.rate>0){
-    html+=`<div style="font-size:12px;color:#64748B;margin-bottom:8px">At ${(tm.rate*7).toFixed(2)} kg/week:</div>`;
-  }else if(tm.msg){
-    html+=`<div style="font-size:13px;color:#64748B;margin-bottom:8px">${esc(tm.msg)}</div>`;
-  }
-  tm.dates.forEach(d=>{
-    html+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(15,23,42,0.042)">
-      <span style="font-size:15px;color:#1E293B">${d.i} ${esc(d.r)}</span>
-      <span class="hf" style="font-size:15px;font-weight:700;color:${d.dt.includes('✅')?'#059669':d.dt.includes('STALLED')?'#DC2626':d.dt.includes('Log')?'#64748B':d.c}">${esc(d.dt)}</span>
+  // Time-aware flow
+  if(h>=5&&h<12){
+    html+=`<div class="card" style="cursor:pointer;padding:16px;background:rgba(234,88,12,0.06);border-color:rgba(234,88,12,0.15);display:flex;align-items:center;gap:14px" onclick="startFlow('morning')">
+      <div style="font-size:28px">🌅</div>
+      <div style="flex:1"><div class="hf" style="font-size:15px;font-weight:700;color:#EA580C">Start Your Morning</div><div style="font-size:12px;color:#64748B;margin-top:2px">7 guided steps · 8 minutes</div></div>
+      <div style="font-size:20px;color:#EA580C">→</div>
     </div>`;
-  });
-  html+=`</div>`;
+  } else if(h>=18){
+    html+=`<div class="card" style="cursor:pointer;padding:16px;background:rgba(79,70,229,0.06);border-color:rgba(79,70,229,0.15);display:flex;align-items:center;gap:14px" onclick="startFlow('evening')">
+      <div style="font-size:28px">🌙</div>
+      <div style="flex:1"><div class="hf" style="font-size:15px;font-weight:700;color:#4F46E5">Wind Down</div><div style="font-size:12px;color:#64748B;margin-top:2px">5 steps to better sleep</div></div>
+      <div style="font-size:20px;color:#4F46E5">→</div>
+    </div>`;
+  }
 
-  // Bio Age — combined into one card
-  html+=`<div class="card" style="border-color:${bio>chronoAge?'rgba(220,38,38,0.12)':'rgba(5,150,105,0.12)'}">
-    <div class="lbl">🧬 BIOLOGICAL AGE</div>
-    <div style="display:flex;justify-content:space-around;text-align:center;padding:8px 0">
-      <div><div style="font-size:10px;color:#64748B;margin-bottom:4px">Chrono</div><div class="hf" style="font-size:32px;font-weight:800;color:#0F172A">${chronoAge}</div></div>
-      <div style="width:1px;background:rgba(15,23,42,0.084)"></div>
-      <div><div style="font-size:10px;color:#64748B;margin-bottom:4px">Bio</div><div class="hf" style="font-size:32px;font-weight:800;color:${bio>chronoAge?'#DC2626':'#059669'}">${bio}</div></div>
-      <div style="width:1px;background:rgba(15,23,42,0.084)"></div>
-      <div><div style="font-size:10px;color:#64748B;margin-bottom:4px">Gap</div><div class="hf" style="font-size:32px;font-weight:800;color:${bio>chronoAge?'#DC2626':'#059669'}">${bio>chronoAge?'+':'−'}${Math.abs(bio-chronoAge)}</div></div>
-    </div>
-    <div style="font-size:12px;color:${bio>chronoAge?'#DC2626':'#059669'};text-align:center;margin-top:4px">${bio>chronoAge?'Your body is aging faster. Exercise + pranayama reverse this.':'Younger than your years. Keep it up.'}</div>
-  </div>`;
-
-  // Letter
-  html+=`<div class="card" style="cursor:pointer;padding:16px;border-color:rgba(5,150,105,0.12);background:rgba(5,150,105,0.03);display:flex;align-items:center;gap:14px" onclick="showLetter()">
-    <div style="font-size:28px">📨</div>
-    <div style="flex:1"><div class="hf" style="font-size:14px;font-weight:700;color:#059669">Letter from Future Keyur</div><div style="font-size:11px;color:#94A3B8;margin-top:2px">The one at 90 kg, driving a Porsche</div></div>
-    <div style="font-size:16px;color:#94A3B8">→</div>
-  </div>`;
-
-  return html;
-},
-
-track(){
-  const dy=getDay();let html='';
-  
-  // Habits as visual grid
-  html+=`<div class="card" style="padding:20px">
+  // Habits
+  html+=`<div class="card" style="padding:18px">
     <div class="lbl">TODAY'S HABITS · ${HB.filter(h=>dy.h[h.id]).length}/${HB.length}</div>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px">`;
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px">`;
   HB.forEach(h=>{
     const on=!!dy.h[h.id];
     const gc={0:'#EA580C',1:'#7C3AED',2:'#2563EB',3:'#059669',4:'#4F46E5'}[h.g];
-    html+=`<div onclick="toggleHabit('${h.id}')" style="width:72px;text-align:center;cursor:pointer;padding:8px 4px;border-radius:12px;background:${on?gc+'12':'rgba(15,23,42,0.028)'};border:1px solid ${on?gc+'30':'rgba(15,23,42,0.056)'};transition:all .2s" onpointerdown="this.style.transform='scale(0.92)'" onpointerup="this.style.transform='scale(1)'" onpointerleave="this.style.transform='scale(1)'">
-      <div style="width:36px;height:36px;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:18px;background:${on?gc+'20':'rgba(15,23,42,0.042)'};border:2px solid ${on?gc:'rgba(15,23,42,0.084)'};transition:all .2s">${h.i}</div>
-      <div style="font-size:9px;color:${on?gc:'#94A3B8'};margin-top:5px;font-weight:${on?'700':'400'};line-height:1.2">${esc(h.l)}</div>
+    html+=`<div onclick="toggleHabit('${h.id}')" style="text-align:center;cursor:pointer;padding:10px 4px;border-radius:12px;background:${on?gc+'12':'rgba(15,23,42,0.028)'};border:1px solid ${on?gc+'30':'rgba(15,23,42,0.056)'};transition:all .2s" onpointerdown="this.style.transform='scale(0.92)'" onpointerup="this.style.transform='scale(1)'" onpointerleave="this.style.transform='scale(1)'">
+      <div style="width:38px;height:38px;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:19px;background:${on?gc+'20':'rgba(15,23,42,0.042)'};border:2px solid ${on?gc:'rgba(15,23,42,0.084)'};transition:all .2s">${h.i}</div>
+      <div style="font-size:10px;color:${on?gc:'#94A3B8'};margin-top:5px;font-weight:${on?'700':'400'};line-height:1.2">${esc(h.l)}</div>
     </div>`;
   });
   html+=`</div></div>`;
-  // Mood/Energy/Stress — emoji selectors
-  html+=`<div class="card" style="padding:20px">
-    <div class="lbl">HOW DO YOU FEEL?</div>`;
-  [{k:"mood",l:"Mood",em:["😫","😕","😐","🙂","😊"],c:"#059669"},{k:"energy",l:"Energy",em:["🪫","😮‍💨","😶","💪","⚡"],c:"#EA580C"},{k:"stress",l:"Stress",em:["😌","🙂","😐","😰","🤯"],c:"#DC2626"}].forEach(s=>{
-    html+=`<div style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:14px;color:#475569;font-weight:600">${s.l}</span><span class="hf" style="font-size:14px;font-weight:700;color:${dy[s.k]?s.c:'#94A3B8'}">${dy[s.k]||'—'}/5</span></div>
-      <div style="display:flex;gap:6px">${s.em.map((e,n)=>`<div onclick="setDayField('${s.k}',${n+1})" style="flex:1;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px;background:${n+1<=dy[s.k]?s.c+'15':'rgba(15,23,42,0.028)'};border:2px solid ${n+1<=dy[s.k]?s.c+'40':'rgba(15,23,42,0.056)'};transition:all .15s;opacity:${n+1<=dy[s.k]?'1':'0.4'}" onpointerdown="this.style.transform='scale(0.9)'" onpointerup="this.style.transform='scale(1)'" onpointerleave="this.style.transform='scale(1)'">${e}</div>`).join('')}</div>
-    </div>`;
-  });
-  html+=`</div>`;
-  // Sleep
-  html+=`<div class="card"><div class="lbl">😴 SLEEP</div>
-    <div style="display:flex;gap:10px">
-      <div style="flex:1"><div style="font-size:12px;color:#64748B;margin-bottom:4px">Bedtime</div><input class="inp" type="time" value="${dy.bed||''}" onchange="setDayField('bed',this.value)"></div>
-      <div style="flex:1"><div style="font-size:12px;color:#64748B;margin-bottom:4px">Wake time</div><input class="inp" type="time" value="${dy.wake||''}" onchange="setDayField('wake',this.value)"></div>
-    </div>
-    ${dy.bed&&dy.wake?`<div style="font-size:14px;color:#2563EB;margin-top:8px;font-weight:600">💤 ${(()=>{let d=dy.wake.split(":").reduce((a,b,i)=>a+b*(i?1:60),0)-dy.bed.split(":").reduce((a,b,i)=>a+b*(i?1:60),0);if(d<0)d+=1440;return(d/60).toFixed(1)})()} hours of sleep</div>`:''}</div>`;
+
   // Water
-  html+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div class="lbl">💧 WATER</div></div>
-    <div style="display:flex;align-items:center;justify-content:center;gap:20px;padding:12px 0">
-      <button onclick="setDayField('water',Math.max(0,${dy.water}-1))" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(37,99,235,0.3);background:rgba(37,99,235,0.06);color:#2563EB;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">−</button>
-      <div style="text-align:center"><div class="hf" style="font-size:40px;font-weight:800;color:${dy.water>=10?'#059669':'#2563EB'}">${dy.water}</div><div style="font-size:11px;color:#64748B;margin-top:2px">of 10 glasses</div></div>
-      <button onclick="setDayField('water',Math.min(15,${dy.water}+1))" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(37,99,235,0.3);background:rgba(37,99,235,0.06);color:#2563EB;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">+</button>
+  html+=`<div class="card"><div class="lbl">💧 WATER</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:20px;padding:6px 0">
+      <button onclick="setDayField('water',Math.max(0,${dy.water}-1))" style="width:48px;height:48px;border-radius:50%;border:2px solid rgba(37,99,235,0.3);background:rgba(37,99,235,0.06);color:#2563EB;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">−</button>
+      <div style="text-align:center"><div class="hf" style="font-size:36px;font-weight:800;color:${dy.water>=10?'#059669':'#2563EB'}">${dy.water}</div><div style="font-size:11px;color:#64748B">of 10 glasses</div></div>
+      <button onclick="setDayField('water',Math.min(15,${dy.water}+1))" style="width:48px;height:48px;border-radius:50%;border:2px solid rgba(37,99,235,0.3);background:rgba(37,99,235,0.06);color:#2563EB;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">+</button>
     </div>
     <div class="progress-bar" style="height:6px"><div class="progress-fill" style="background:${dy.water>=10?'#059669':'#2563EB'};width:${Math.min(100,dy.water/10*100)}%"></div></div>
   </div>`;
-  // Steps
-  html+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div class="lbl">👟 STEPS</div></div>
-    <div style="display:flex;align-items:center;justify-content:center;gap:20px;padding:12px 0">
-      <button onclick="setDayField('steps',Math.max(0,${dy.steps||0}-1000))" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(124,58,237,0.3);background:rgba(124,58,237,0.06);color:#7C3AED;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">−</button>
-      <div style="text-align:center"><div class="hf" style="font-size:40px;font-weight:800;color:${(dy.steps||0)>=8000?'#059669':'#7C3AED'}">${((dy.steps||0)/1000).toFixed(1)}k</div><div style="font-size:11px;color:#64748B;margin-top:2px">of 8k steps</div></div>
-      <button onclick="setDayField('steps',Math.min(40000,${dy.steps||0}+1000))" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(124,58,237,0.3);background:rgba(124,58,237,0.06);color:#7C3AED;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">+</button>
-    </div>
-    <div class="progress-bar" style="height:6px"><div class="progress-fill" style="background:${(dy.steps||0)>=8000?'#059669':'#7C3AED'};width:${Math.min(100,(dy.steps||0)/8000*100)}%"></div></div>
+
+  // Mood
+  const s={k:"mood",l:"Mood",em:["😫","😕","😐","🙂","😊"],c:"#059669"};
+  html+=`<div class="card"><div class="lbl">HOW DO YOU FEEL?</div>
+    <div style="display:flex;gap:6px">${s.em.map((e,n)=>`<div onclick="setDayField('${s.k}',${n+1})" style="flex:1;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px;background:${n+1<=dy[s.k]?s.c+'15':'rgba(15,23,42,0.028)'};border:2px solid ${n+1<=dy[s.k]?s.c+'40':'rgba(15,23,42,0.056)'};transition:all .15s;opacity:${n+1<=dy[s.k]?'1':'0.4'}">${e}</div>`).join('')}</div>
   </div>`;
-  // Weight — prominent
-  html+=`<div class="card" style="background:linear-gradient(135deg,rgba(217,119,6,0.04),rgba(217,119,6,0.01));border-color:rgba(217,119,6,0.12);padding:20px">
-    <div class="lbl" style="color:#D97706">⚖️ LOG WEIGHT</div>
-    <div style="display:flex;gap:8px;margin-top:6px"><input id="weightInput" class="inp" type="number" step="0.1" placeholder="e.g. ${getCW()}" style="font-size:18px;padding:14px"><button class="btn" style="background:#D97706;color:#fff;padding:14px 22px;font-size:16px" onclick="logWeight()">Log</button></div></div>`;
-  // Note — inviting
-  html+=`<div class="card" style="padding:20px"><div class="lbl">📝 JOURNAL</div>
-    <textarea class="inp" placeholder="How was your day? Any wins or struggles? Anything on your mind?" onchange="setDayField('note',this.value)" style="font-size:15px;min-height:70px">${esc(dy.note||'')}</textarea></div>`;
-  // Sync
-  html+=`<button class="btn" style="width:100%;padding:18px;font-size:16px;background:linear-gradient(135deg,#047857,#059669);color:#fff;margin-top:8px;border-radius:14px" onclick="syncToClaude()">📤 Send Check-in to Claude</button>
-    <div style="text-align:center;font-size:11px;color:#94A3B8;margin-top:6px;padding-bottom:8px">Full day summary → feedback + sync to Jivanam</div>`;
   return html;
 },
 
@@ -510,29 +419,17 @@ fuel(){
     <div class="hf" style="font-size:12px;font-weight:700;color:#059669;margin-bottom:8px">📝 LOG SOMETHING ELSE</div>
     <div style="display:flex;gap:8px"><input id="mealInput" class="inp" placeholder="e.g. Chai + biscuit ~150 kcal" onkeydown="if(event.key==='Enter')logMeal()"><button class="btn" style="background:#059669;color:#fff;padding:12px 18px" onclick="logMeal()">+</button></div>
   </div>`;
-  // Kill list
-  html+=`<div class="card" style="border-color:rgba(220,38,38,0.12);background:rgba(220,38,38,0.03)">
-    <div class="hf" style="font-size:12px;font-weight:700;color:#DC2626;margin-bottom:4px">🚫 KILL LIST</div>
-    <div style="font-size:13px;color:#64748B;line-height:1.9">Outside junk dinner · Fried hospital snacks · Extra chai · Heavy paratha breakfast · Rice (Phase 1-2) · Sugary drinks · Eating after 9 PM</div></div>`;
   return html;
 },
 
 move(){
   const dy=getDay(),ar=getAR();let html='';
   const todayIdx=new Date().getDay();
-  const dayIdx=selDay!==null?selDay:todayIdx;
+  const dayIdx=todayIdx;
   const plan=WP[dayIdx]||WP[todayIdx];
   const session=selSes;
   const activeSess=session==='am'?plan.am:plan.pm;
   const dayNames=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-
-  // Day picker
-  html+=`<div style="display:flex;gap:6px;overflow-x:auto;margin-bottom:10px;padding-bottom:4px;-webkit-overflow-scrolling:touch">`;
-  for(let i=0;i<7;i++){
-    const isToday=i===todayIdx,isSel=i===dayIdx;
-    html+=`<button onclick="selectDay(${i})" style="flex-shrink:0;padding:10px 14px;border-radius:10px;font-size:12px;font-weight:700;font-family:'Outfit',sans-serif;border:1px solid ${isSel?'#D97706':isToday?'rgba(217,119,6,0.3)':'rgba(15,23,42,0.084)'};background:${isSel?'rgba(217,119,6,0.15)':'rgba(15,23,42,0.028)'};color:${isSel?'#D97706':isToday?'#D97706':'#64748B'};cursor:pointer">${dayNames[i]}</button>`;
-  }
-  html+=`</div>`;
 
   // Day header
   html+=`<div class="card" style="padding:18px;background:linear-gradient(135deg,rgba(217,119,6,0.06),transparent);border-color:rgba(217,119,6,0.15)">
@@ -617,25 +514,6 @@ move(){
     }
   });
 
-  // Hip safety
-  html+=`<div class="card" style="border-color:rgba(220,38,38,0.1);background:rgba(220,38,38,0.03)">
-    <div class="hf" style="font-size:12px;font-weight:700;color:#DC2626;margin-bottom:4px">⚠️ SAFETY RULES</div>
-    <div style="font-size:13px;color:#64748B;line-height:1.8">Sharp hip pain → stop & sub upper/pool · HR &gt; 150 + dizzy → eat a date, sit 3 min · DOMS blocking function → swap for recovery · Sleep &lt; 6 hrs → cut intensity 30%</div></div>`;
-
-  // Race Ladder
-  const cw=getCW();
-  html+=`<div class="card"><div class="lbl">🏃 RACE TRAINING LADDER</div>`;
-  RC.forEach((r,i)=>{
-    const unlocked=cw<=r.u||r.id==="5k_walk",active=D.ar===r.id;
-    html+=`<div style="display:flex;align-items:center;gap:12px;padding:12px 0;${i<RC.length-1?'border-bottom:1px solid rgba(15,23,42,0.042)':''};opacity:${unlocked?1:0.3}">
-      <div style="width:32px;height:32px;border-radius:50%;background:${active?r.c+'20':'rgba(15,23,42,0.056)'};border:${active?'2px solid '+r.c:'1px solid rgba(15,23,42,0.084)'};display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${r.i}</div>
-      <div style="flex:1"><div class="hf" style="font-size:14px;font-weight:700;color:${active?r.c:'#475569'}">${esc(r.n)}</div>
-        <div style="font-size:11px;color:#94A3B8;margin-top:2px">${unlocked?(active?'Week '+D.rw+'/'+r.w+' — '+esc(r.p[Math.min(D.rw-1,r.p.length-1)]):'Available'):'🔒 Unlock at '+r.u+' kg'}</div></div>
-      ${unlocked&&!active?`<button class="btn" style="padding:8px 16px;font-size:12px;background:${r.c}15;color:${r.c};border:1px solid ${r.c}30" onclick="event.stopPropagation();D.ar='${r.id}';D.rw=1;saveData();render()">Start</button>`:''}
-      ${active?`<button class="btn" style="padding:8px 14px;font-size:11px;background:${r.c}12;color:${r.c};border:1px solid ${r.c}20" onclick="event.stopPropagation();D.rw=Math.min(D.rw+1,${r.w});toast('Week '+(D.rw+1)+' started');saveData();render()">✓ Week</button>`:''}
-    </div>`;
-  });
-  html+=`</div>`;
   return html;
 },
 
@@ -664,6 +542,37 @@ breathe(){
 
 stats(){
   const cw=getCW(),bio=getBio(),streak=getStreak();let html='';
+  const tm=getTimeMachine(),chronoAge=getChronoAge();
+  // Time Machine
+  html+=`<div class="card" style="border-color:rgba(37,99,235,0.12);background:rgba(37,99,235,0.03)">
+    <div class="lbl">⏰ TIME MACHINE</div>`;
+  if(tm.rate>0){html+=`<div style="font-size:12px;color:#64748B;margin-bottom:8px">At ${(tm.rate*7).toFixed(2)} kg/week:</div>`;}
+  else if(tm.msg){html+=`<div style="font-size:13px;color:#64748B;margin-bottom:8px">${esc(tm.msg)}</div>`;}
+  tm.dates.forEach(d=>{
+    html+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(15,23,42,0.042)">
+      <span style="font-size:15px;color:#1E293B">${d.i} ${esc(d.r)}</span>
+      <span class="hf" style="font-size:15px;font-weight:700;color:${d.dt.includes('✅')?'#059669':d.dt.includes('STALLED')?'#DC2626':d.dt.includes('Log')?'#64748B':d.c}">${esc(d.dt)}</span>
+    </div>`;
+  });
+  html+=`</div>`;
+  // Bio Age
+  html+=`<div class="card" style="border-color:${bio>chronoAge?'rgba(220,38,38,0.12)':'rgba(5,150,105,0.12)'}">
+    <div class="lbl">🧬 BIOLOGICAL AGE</div>
+    <div style="display:flex;justify-content:space-around;text-align:center;padding:8px 0">
+      <div><div style="font-size:10px;color:#64748B;margin-bottom:4px">Chrono</div><div class="hf" style="font-size:32px;font-weight:800;color:#0F172A">${chronoAge}</div></div>
+      <div style="width:1px;background:rgba(15,23,42,0.084)"></div>
+      <div><div style="font-size:10px;color:#64748B;margin-bottom:4px">Bio</div><div class="hf" style="font-size:32px;font-weight:800;color:${bio>chronoAge?'#DC2626':'#059669'}">${bio}</div></div>
+      <div style="width:1px;background:rgba(15,23,42,0.084)"></div>
+      <div><div style="font-size:10px;color:#64748B;margin-bottom:4px">Gap</div><div class="hf" style="font-size:32px;font-weight:800;color:${bio>chronoAge?'#DC2626':'#059669'}">${bio>chronoAge?'+':'−'}${Math.abs(bio-chronoAge)}</div></div>
+    </div>
+    <div style="font-size:12px;color:${bio>chronoAge?'#DC2626':'#059669'};text-align:center;margin-top:4px">${bio>chronoAge?'Your body is aging faster. Exercise + pranayama reverse this.':'Younger than your years. Keep it up.'}</div>
+  </div>`;
+  // Letter
+  html+=`<div class="card" style="cursor:pointer;padding:16px;border-color:rgba(5,150,105,0.12);background:rgba(5,150,105,0.03);display:flex;align-items:center;gap:14px" onclick="showLetter()">
+    <div style="font-size:28px">📨</div>
+    <div style="flex:1"><div class="hf" style="font-size:14px;font-weight:700;color:#059669">Letter from Future Keyur</div><div style="font-size:11px;color:#94A3B8;margin-top:2px">The one at 90 kg, driving a Porsche</div></div>
+    <div style="font-size:16px;color:#94A3B8">→</div>
+  </div>`;
   // Mirror
   html+=`<div class="card" style="border-color:rgba(217,119,6,0.12)">
     <div class="lbl">🪞 THE MIRROR — Day 1 vs Today</div>
@@ -671,17 +580,6 @@ stats(){
   // Heatmap
   html+=`<div class="card"><div class="lbl">HABIT HEATMAP · 12 WEEKS</div><div id="heatmap" style="display:flex;gap:2px;justify-content:center"></div></div>`;
   // Charts
-  // Plan projection at 1.25 kg/week
-  {const PACE=1.25,bd=new Date("2026-09-03T00:00:00"),now_=new Date(),dl=Math.max(0,Math.ceil((bd-now_)/86400000)),cw_=getCW();
-  const proj=(cw_-dl/7*PACE);
-  const dt=k=>{if(cw_<=k)return "DONE ✓";const d=new Date();d.setDate(d.getDate()+Math.ceil((cw_-k)/PACE*7));return d.toLocaleDateString("en-IN",{day:"numeric",month:"short"})+" "+String(d.getFullYear()).slice(2)};
-  html+=`<div class="card" style="background:linear-gradient(135deg,rgba(234,88,12,0.05),rgba(234,88,12,0.01));border-color:rgba(234,88,12,0.15)">
-    <div class="lbl" style="color:#EA580C">🎯 THE PLAN · 1.25 KG / WEEK</div>
-    <div style="display:flex;justify-content:space-around;text-align:center;padding:8px 0">
-      <div><div class="hf" style="font-size:24px;font-weight:800;color:#EA580C">${proj.toFixed(1)}</div><div style="font-size:11px;color:#64748B">🎂 by 3 Sep (${dl}d)</div></div>
-      <div><div class="hf" style="font-size:24px;font-weight:800;color:#2563EB">${dt(100)}</div><div style="font-size:11px;color:#64748B">below 100 kg</div></div>
-      <div><div class="hf" style="font-size:24px;font-weight:800;color:#059669">${dt(90)}</div><div style="font-size:11px;color:#64748B">at 90 kg 🏎️</div></div>
-    </div></div>`;}
   html+=`<div class="card"><div class="lbl">WEIGHT TREND</div><canvas id="weightChart" height="130"></canvas></div>`;
   html+=`<div class="card"><div class="lbl">7-DAY SCORE</div><canvas id="weekChart" height="100"></canvas></div>`;
   // Export
