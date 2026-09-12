@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
-<meta name="theme-color" content="#13151a" />
+<meta name="theme-color" content="#FFF9F2" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="H1 Train" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="../icon-192.png" />
@@ -13,8 +13,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
   :root{
-    --bg:#13151a; --panel:#1b1e25; --panel2:#23272f; --line:#2c313b;
-    --text:#e9ecf1; --dim:#8a909c; --amber:#e0a13c; --green:#5fb98a; --red:#d96a6a; --blue:#6aa9d9;
+    --bg:#FFF9F2; --panel:#ffffff; --panel2:#FEF3E2; --line:#E7E2DA;
+    --text:#1E293B; --dim:#64748B; --amber:#D97706; --green:#059669; --red:#DC2626; --blue:#2563EB;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
@@ -96,9 +96,9 @@
 // ── constants ───────────────────────────────────────────────
 var START_WT=117.5, GOAL_WT=99.9, BIRTHDAY=new Date("2026-09-03T00:00:00");
 var PPL={
-  Push:{accent:"#d96a6a",lifts:[["Machine chest press","3 × 10"],["Incline DB press","3 × 10"],["Machine shoulder press","3 × 10"],["DB lateral raise","3 × 12"],["Tricep pushdown","3 × 12"],["Overhead tricep ext.","3 × 12"],["Plank","3 × 30s"]]},
-  Pull:{accent:"#6aa9d9",lifts:[["Lat pulldown (wide)","3 × 10"],["Seated cable row","3 × 10"],["Single-arm DB row","3 × 10/side"],["Face pull (cable)","3 × 12"],["DB curl","3 × 12"],["Hammer curl","3 × 12"],["Dead bug","3 × 10/side"]]},
-  Legs:{accent:"#5fb98a",note:"Hip-aware — moderate depth only, stop on sharp hip pain",lifts:[["Leg press (moderate depth)","3 × 10"],["Leg curl machine","3 × 12"],["Leg extension","3 × 12"],["Seated calf raise","3 × 15"],["Glute bridge on mat","3 × 15"],["Cable wood-chop","3 × 10/side"],["Hanging knee raise","3 × 10"]]}
+  Push:{accent:"#DC2626",lifts:[["Machine chest press","3 × 10"],["Incline DB press","3 × 10"],["Machine shoulder press","3 × 10"],["DB lateral raise","3 × 12"],["Tricep pushdown","3 × 12"],["Overhead tricep ext.","3 × 12"],["Plank","3 × 30s"]]},
+  Pull:{accent:"#2563EB",lifts:[["Lat pulldown (wide)","3 × 10"],["Seated cable row","3 × 10"],["Single-arm DB row","3 × 10/side"],["Face pull (cable)","3 × 12"],["DB curl","3 × 12"],["Hammer curl","3 × 12"],["Dead bug","3 × 10/side"]]},
+  Legs:{accent:"#059669",note:"Hip-aware — moderate depth only, stop on sharp hip pain",lifts:[["Leg press (moderate depth)","3 × 10"],["Leg curl machine","3 × 12"],["Leg extension","3 × 12"],["Seated calf raise","3 × 15"],["Glute bridge on mat","3 × 15"],["Cable wood-chop","3 × 10/side"],["Hanging knee raise","3 × 10"]]}
 };
 var ROT=["Push","Pull","Legs"];
 var MEALS=[["Breakfast (9:30)","4 egg whites + 2 whole eggs bhurji · 2 multigrain roti · curd"],["Mid-morning","Whey 30g in water · handful almonds"],["Lunch","Dal/rajma · 1 cup rice or 2 roti · paneer or soy sabzi · salad (no raw tomato)"],["Evening","Besan chilla or roasted chana · masala chai (1)"],["Dinner (by 21:00)","Soy chunk or paneer curry · sautéed veg · 1 roti"]];
@@ -207,10 +207,10 @@ function bindTogs(){Array.prototype.forEach.call(document.querySelectorAll(".tog
 
 function drawChart(s){
   var ctx=document.getElementById("cv");if(!ctx)return;
-  var goalLine={id:"goal",afterDraw:function(c){var y=c.scales.y.getPixelForValue(GOAL_WT);var a=c.chartArea;var x=c.ctx;x.save();x.strokeStyle="#e0a13c";x.setLineDash([5,4]);x.lineWidth=1.5;x.beginPath();x.moveTo(a.left,y);x.lineTo(a.right,y);x.stroke();x.setLineDash([]);x.fillStyle="#e0a13c";x.font="10px system-ui";x.fillText("goal "+GOAL_WT,a.left+4,y-4);x.restore()}};
-  chart=new Chart(ctx,{type:"line",data:{labels:s.map(function(d){return d.label}),datasets:[{data:s.map(function(d){return d.weight}),borderColor:"#5fb98a",borderWidth:2.5,pointBackgroundColor:"#5fb98a",pointRadius:3,tension:.3,fill:false}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:"#23272f",borderColor:"#2c313b",borderWidth:1}},
-    scales:{y:{min:Math.floor(GOAL_WT-2),max:Math.ceil(START_WT+1),grid:{color:"#2c313b"},ticks:{color:"#8a909c",font:{size:10}}},x:{grid:{display:false},ticks:{color:"#8a909c",font:{size:10}}}}},plugins:[goalLine]});
+  var goalLine={id:"goal",afterDraw:function(c){var y=c.scales.y.getPixelForValue(GOAL_WT);var a=c.chartArea;var x=c.ctx;x.save();x.strokeStyle="#D97706";x.setLineDash([5,4]);x.lineWidth=1.5;x.beginPath();x.moveTo(a.left,y);x.lineTo(a.right,y);x.stroke();x.setLineDash([]);x.fillStyle="#D97706";x.font="10px system-ui";x.fillText("goal "+GOAL_WT,a.left+4,y-4);x.restore()}};
+  chart=new Chart(ctx,{type:"line",data:{labels:s.map(function(d){return d.label}),datasets:[{data:s.map(function(d){return d.weight}),borderColor:"#059669",borderWidth:2.5,pointBackgroundColor:"#059669",pointRadius:3,tension:.3,fill:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:"#FEF3E2",borderColor:"#E7E2DA",borderWidth:1}},
+    scales:{y:{min:Math.floor(GOAL_WT-2),max:Math.ceil(START_WT+1),grid:{color:"#E7E2DA"},ticks:{color:"#64748B",font:{size:10}}},x:{grid:{display:false},ticks:{color:"#64748B",font:{size:10}}}}},plugins:[goalLine]});
 }
 
 document.getElementById("tabs").addEventListener("click",function(e){if(e.target.dataset.t)render(e.target.dataset.t)});

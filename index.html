@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Wellness">
-<meta name="theme-color" content="#0c0c14">
+<meta name="theme-color" content="#FFF9F2">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
@@ -16,7 +16,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-:root{--bg:#0c0c14;--card:rgba(255,255,255,0.025);--border:rgba(255,255,255,0.06);--gold:#D4A853;--green:#34D399;--blue:#60A5FA;--purple:#A78BFA;--red:#ef4444;--amber:#F59E0B;--txt:#e0e0e5;--txt2:#888;--txt3:#555;--glow:none}
+:root{--bg:#FFF9F2;--card:#FFFFFF;--border:rgba(15,23,42,0.07);--gold:#D97706;--green:#059669;--blue:#2563EB;--purple:#7C3AED;--red:#DC2626;--amber:#D97706;--txt:#1E293B;--txt2:#64748B;--txt3:#94A3B8;--glow:none;--shadow:0 2px 10px rgba(217,119,6,0.06),0 1px 3px rgba(15,23,42,0.05)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);background-image:var(--glow);color:var(--txt);font-family:'DM Sans',system-ui,sans-serif;min-height:100vh;transition:background .8s,background-image .8s;overscroll-behavior:none}
 h1,h2,h3,.hf{font-family:'Outfit',sans-serif}
@@ -24,43 +24,59 @@ h1,h2,h3,.hf{font-family:'Outfit',sans-serif}
 .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px;transition:border-color .5s}
 .btn{border:none;border-radius:10px;padding:12px 20px;cursor:pointer;font-weight:700;font-size:14px;font-family:'Outfit',sans-serif;transition:transform .1s}
 .btn:active{transform:scale(0.96)}
-.inp{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:12px;color:#e0e0e5;font-size:16px;font-family:'DM Sans',sans-serif;outline:none;width:100%}
-.inp:focus{border-color:rgba(212,168,83,0.4)}
+.inp{background:rgba(15,23,42,0.056);border:1px solid rgba(15,23,42,0.098);border-radius:8px;padding:12px;color:#1E293B;font-size:16px;font-family:'DM Sans',sans-serif;outline:none;width:100%}
+.inp:focus{border-color:rgba(217,119,6,0.4)}
 textarea.inp{resize:vertical;min-height:60px;font-size:14px;line-height:1.6}
 .tab-content{animation:fadeIn .3s ease;padding:14px 16px 100px}
-.ov{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;overflow-y:auto;backdrop-filter:blur(16px)}
-.ov-close{position:absolute;top:16px;right:16px;background:none;border:none;color:#666;font-size:24px;cursor:pointer;z-index:210}
-.habit-row{display:flex;align-items:center;gap:10px;padding:14px 14px;margin-bottom:4px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,0.04);transition:all .15s}
-.habit-row.on{background:rgba(52,211,153,0.06);border-color:rgba(52,211,153,0.15)}
+.ov{position:fixed;inset:0;background:rgba(255,249,242,0.97);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;overflow-y:auto;backdrop-filter:blur(16px)}
+.ov-close{position:absolute;top:16px;right:16px;background:none;border:none;color:#94A3B8;font-size:24px;cursor:pointer;z-index:210}
+.habit-row{display:flex;align-items:center;gap:10px;padding:14px 14px;margin-bottom:4px;border-radius:10px;cursor:pointer;border:1px solid rgba(15,23,42,0.056);transition:all .15s}
+.habit-row.on{background:rgba(5,150,105,0.06);border-color:rgba(5,150,105,0.15)}
 .habit-check{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;transition:all .15s}
-.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(12,12,20,0.97);backdrop-filter:blur(16px);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 16px;z-index:100}
-.nav-btn{background:none;border:none;cursor:pointer;padding:6px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#444;border-radius:10px;transition:all .2s;font-family:'Outfit',sans-serif}
-.nav-btn.active{color:var(--gold);background:rgba(212,168,83,0.07)}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.96);box-shadow:0 -4px 20px rgba(15,23,42,0.06);backdrop-filter:blur(16px);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 16px;z-index:100}
+.nav-btn{background:none;border:none;cursor:pointer;padding:6px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#94A3B8;border-radius:10px;transition:all .2s;font-family:'Outfit',sans-serif}
+.nav-btn.active{color:var(--gold);background:rgba(217,119,6,0.07)}
 .nav-btn .icon{font-size:22px;font-weight:300}
 .nav-btn .label{font-size:10px;font-weight:400}
 .nav-btn.active .label{font-weight:700}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 .slider-row{display:flex;gap:6px;margin-top:4px}
-.slider-cell{flex:1;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;font-weight:700;border:1px solid rgba(255,255,255,0.05);transition:all .15s}
-.water-dot{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;border:1px solid rgba(255,255,255,0.04);transition:all .1s}
-.water-dot.filled{background:rgba(96,165,250,0.12);border-color:rgba(96,165,250,0.2)}
+.slider-cell{flex:1;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;font-weight:700;border:1px solid rgba(15,23,42,0.07);transition:all .15s}
+.water-dot{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;border:1px solid rgba(15,23,42,0.056);transition:all .1s}
+.water-dot.filled{background:rgba(37,99,235,0.12);border-color:rgba(37,99,235,0.2)}
 .ex-row{border-left:4px solid var(--purple);padding:0;overflow:hidden}
 .ex-header{padding:14px 14px;display:flex;align-items:center;gap:10px;cursor:pointer}
-.ex-detail{padding:4px 14px 14px;border-top:1px solid rgba(255,255,255,0.03)}
+.ex-detail{padding:4px 14px 14px;border-top:1px solid rgba(15,23,42,0.042)}
 .set-row{display:flex;gap:8px;align-items:center;margin-bottom:6px}
 .set-input{width:60px;text-align:center;padding:10px 4px;font-size:16px;border-radius:8px}
-.progress-bar{background:rgba(255,255,255,0.05);border-radius:4px;height:5px;overflow:hidden;margin-top:8px}
+.progress-bar{background:rgba(15,23,42,0.07);border-radius:4px;height:5px;overflow:hidden;margin-top:8px}
 .progress-fill{height:100%;border-radius:4px;transition:width .6s ease}
 .dot-row{display:flex;gap:4px;justify-content:center;margin-top:12px}
-.dot{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,0.1)}
+.dot{width:6px;height:6px;border-radius:3px;background:rgba(15,23,42,0.14)}
 .dot.done{background:var(--green)}.dot.active{background:var(--gold)}
 .hidden{display:none!important}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 @keyframes toastIn{from{opacity:0;transform:translateY(20px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes toastOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-10px)}}
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(52,211,153,0.95);color:#000;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:700;font-family:'Outfit',sans-serif;z-index:300;animation:toastIn .3s ease;pointer-events:none;white-space:nowrap}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(5,150,105,0.95);color:#fff;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:700;font-family:'Outfit',sans-serif;z-index:300;animation:toastIn .3s ease;pointer-events:none;white-space:nowrap}
+
+.card{background:var(--card);box-shadow:var(--shadow)}
+.inp{background:#fff;border:1px solid rgba(15,23,42,0.12);color:#1E293B}
+.inp::placeholder{color:#94A3B8}
+.inp:focus{border-color:#D97706;box-shadow:0 0 0 3px rgba(217,119,6,0.15)}
+.habit-row{background:#fff;border:1px solid rgba(15,23,42,0.06)}
+.habit-row.on{background:#ECFDF5;border-color:#6EE7B7}
+.nav-btn{color:#94A3B8}.nav-btn.active{color:#D97706;background:#FEF3C7}
+.slider-cell,.water-dot{background:#fff}
+.water-dot.filled{background:#DBEAFE;border-color:#93C5FD}
+.progress-bar{background:#F1F5F9}
+.dot{background:#E2E8F0}
+.toast{background:#059669;color:#fff;box-shadow:0 8px 24px rgba(5,150,105,0.35)}
+.ov{backdrop-filter:blur(20px)}
+.ov-close{color:#64748B}
+#header h1{color:#0F172A}
 </style>
 </head>
 <body>
@@ -70,7 +86,7 @@ textarea.inp{resize:vertical;min-height:60px;font-size:14px;line-height:1.6}
   <div style="display:flex;justify-content:space-between;align-items:center">
     <div>
       <div class="lbl" style="color:var(--gold);margin-bottom:2px;font-size:9px">PHASE 1 · IGNITION</div>
-      <h1 style="font-size:18px;font-weight:800;color:#fff;letter-spacing:-0.5px;font-family:'Outfit',sans-serif">Keyur's Wellness</h1>
+      <h1 style="font-size:18px;font-weight:800;color:#0F172A;letter-spacing:-0.5px;font-family:'Outfit',sans-serif">Keyur's Wellness</h1>
     </div>
     <div style="font-size:12px;color:var(--txt3)" id="dateStr"></div>
   </div>
@@ -78,12 +94,12 @@ textarea.inp{resize:vertical;min-height:60px;font-size:14px;line-height:1.6}
   <div style="display:flex;justify-content:center;padding:20px 0 16px">
     <div style="position:relative;width:120px;height:120px">
       <svg width="120" height="120" style="transform:rotate(-90deg)">
-        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="8"/>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(15,23,42,0.056)" stroke-width="8"/>
         <circle id="scoreRing" cx="60" cy="60" r="52" fill="none" stroke="var(--gold)" stroke-width="8" stroke-dasharray="326.7" stroke-dashoffset="326.7" stroke-linecap="round" style="transition:stroke-dashoffset 1s ease,stroke .3s"/>
       </svg>
       <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
-        <span id="scoreNum" class="hf" style="font-size:36px;font-weight:800;color:#fff">0</span>
-        <span style="font-size:10px;color:#888;margin-top:-2px">TODAY</span>
+        <span id="scoreNum" class="hf" style="font-size:36px;font-weight:800;color:#0F172A">0</span>
+        <span style="font-size:10px;color:#64748B;margin-top:-2px">TODAY</span>
       </div>
     </div>
   </div>
@@ -118,7 +134,7 @@ const HB = [
   {id:"sleepOk",l:"Slept ok",i:"🌙",g:4}
 ];
 const GN=["ROUTINE","MIND","BODY","FUEL","REST"];
-const MS=[{kg:108,r:"New Bike",i:"🏍️",c:"#D4A853"},{kg:100,r:"BYD Sealion 7",i:"🚗",c:"#60A5FA"},{kg:90,r:"Porsche",i:"🏎️",c:"#34D399"}];
+const MS=[{kg:108,r:"New Bike",i:"🏍️",c:"#D97706"},{kg:100,r:"BYD Sealion 7",i:"🚗",c:"#2563EB"},{kg:90,r:"Porsche",i:"🏎️",c:"#059669"}];
 const PS=[{kg:113,s:"Model",o:["911 Carrera","Taycan","Cayenne"]},{kg:111,s:"Color",o:["Racing Yellow","GT Silver","Shark Blue","Black"]},{kg:108,s:"Interior",o:["Black Leather","Bordeaux Red","Espresso"]},{kg:105,s:"Wheels",o:['20" Carrera','21" Spyder']},{kg:102,s:"Tech",o:["Sport Chrono","Night Vision","PASM"]},{kg:90,s:"FULL SPEC",o:[]}];
 const WP={
   1:{label:"Monday · Push A + Badminton",am:{t:"Push A + Badminton",ex:[{n:"Elliptical warm-up",p:"5m",t:"W"},{n:"Chest press machine",p:"3×10",t:"S"},{n:"Incline chest press",p:"3×10",t:"S"},{n:"Seated shoulder press",p:"3×10",t:"S"},{n:"DB lateral raise",p:"3×12",t:"S"},{n:"Tricep pushdown",p:"3×12",t:"S"},{n:"Overhead tricep ext (DB)",p:"3×12",t:"S"},{n:"Plank hold",p:"3×30s",t:"K"},{n:"Badminton",p:"45m",t:"C",hip:"Sudden lateral lunges load the hip — ease off if it flares"}]},pm:{t:"4 km Evening Walk",ex:[{n:"Warm-up walk",p:"5m",t:"W"},{n:"Brisk 4 km walk",p:"45m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
@@ -133,7 +149,7 @@ const BRX=[{name:"Anulom Vilom",sec:300,d:"Calms nerves",st:["Close right nostri
 const MLs={"☀️ Pre-workout 7:20":["500ml water + pinch of salt + black coffee ~5 kcal","1 small date if low energy ~20 kcal"],"🌅 Post-workout Breakfast 9:45":["Whey 30g + 3 egg-white + 1 whole-egg omelette + 2 moong dal cheela + curd (100g) ~520 kcal 45g protein","Whey 30g + oats (50g) cooked in milk + 10 almonds + 1 apple + 2 egg whites ~520 kcal 40g protein","Whey 30g + paneer bhurji (100g) + 2 multigrain roti + salad ~500 kcal 42g protein"],"🍱 Lunch 1PM (hospital)":["2 multigrain roti + dal + sabzi + salad + curd (100g) ~500 kcal 30g protein","Brown rice (1 katori) + rajma/chole + sabzi + salad ~480 kcal 28g protein","Khichdi (1.5 katori) + kadhi + salad + 2 boiled eggs ~520 kcal 32g protein"],"🍵 Snack 5PM":["Greek yogurt (150g) + 10 almonds ~180 kcal 14g protein","Roasted chana (30g) + green tea ~110 kcal 7g protein","2 boiled eggs + cucumber ~160 kcal 13g protein"],"🌙 Dinner 8:30PM (light)":["Moong dal + sabzi + 1 roti + salad ~380 kcal 25g protein","Veg khichdi (1 katori) + curd + salad ~360 kcal 20g protein","Grilled paneer (100g) + stir-fry veg + salad ~400 kcal 28g protein"],"💪 Post-dinner (training days only)":["Whey 25g in water ~120 kcal 25g protein"]};
 const MRN=[{l:"Get out of bed",i:"🛏️",d:0},{l:"Bathroom + face wash",i:"🚿",d:0},{l:"Glass of warm water",i:"💧",d:0},{l:"Go to balcony",i:"🌅",d:0},{l:"Anulom Vilom",i:"🌬️",d:180},{l:"Sit with eyes closed",i:"🧘",d:120},{l:"You're ready. Go conquer.",i:"⚡",d:0}];
 const EVN=[{l:"Phone OUTSIDE bedroom",i:"📱",d:0},{l:"Dim all lights",i:"🔅",d:0},{l:"Brain dump: 3 worries → notebook",i:"📓",d:300},{l:"Bhramari breathing",i:"🐝",d:120},{l:"Lights out. Eyes closed.",i:"🌙",d:0}];
-const RC=[{id:"5k_walk",n:"5K Walk",i:"🚶",c:"#F59E0B",u:999,w:6,p:["Walk 20 min easy","Walk 25 min","Walk 30 min","Walk 35 min + jog 2","Walk 30 + jog 5","5K test day"]},{id:"5k_run",n:"5K Run",i:"🏃",c:"#60A5FA",u:108,w:8,p:["Run1/Walk2 ×8","Run2/Walk1 ×7","Run3/Walk1 ×6","Run4/Walk1 ×5","Run5/Walk1 ×4","Run 8min ×3","Run 12min ×2","5K test"]},{id:"10k",n:"10K",i:"🏃‍♂️",c:"#A78BFA",u:105,w:8,p:["6K run","7K run","6K + speed work","8K run","7K + tempo","9K run","8K + speed","10K race"]},{id:"half",n:"Half Marathon",i:"🏅",c:"#EC4899",u:100,w:12,p:["10K easy","11K","12K + tempo","11K easy","13K","14K + hills","12K recovery","15K","16K + tempo","14K easy","18K long","21.1K race!"]},{id:"hyrox",n:"Hyrox",i:"💪",c:"#EF4444",u:95,w:10,p:["5K + sled intro","1K×4 + wall balls","Rowing + burpees","1K×4 + farmer carry","Sled pull + lunges","Half simulation","1K×6 all stations","Full sim 75%","Taper","Race day!"]},{id:"70.3",n:"Ironman 70.3",i:"🏊",c:"#06B6D4",u:90,w:16,p:["Swim 400m + Bike 20K + Run 5K","S600+B25+R6","S800+B30+R8","Recovery","S1K+B40+R10","S1.2K+B45+R10","S1.4K+B50+R12","Recovery","S1.5K+B55+R14","S1.6K+B65+R15","Recovery","S1.7K+B70+R16","S1.8K+B75+R18","Recovery","Taper","Race day!"]}];
+const RC=[{id:"5k_walk",n:"5K Walk",i:"🚶",c:"#EA580C",u:999,w:6,p:["Walk 20 min easy","Walk 25 min","Walk 30 min","Walk 35 min + jog 2","Walk 30 + jog 5","5K test day"]},{id:"5k_run",n:"5K Run",i:"🏃",c:"#2563EB",u:108,w:8,p:["Run1/Walk2 ×8","Run2/Walk1 ×7","Run3/Walk1 ×6","Run4/Walk1 ×5","Run5/Walk1 ×4","Run 8min ×3","Run 12min ×2","5K test"]},{id:"10k",n:"10K",i:"🏃‍♂️",c:"#7C3AED",u:105,w:8,p:["6K run","7K run","6K + speed work","8K run","7K + tempo","9K run","8K + speed","10K race"]},{id:"half",n:"Half Marathon",i:"🏅",c:"#DB2777",u:100,w:12,p:["10K easy","11K","12K + tempo","11K easy","13K","14K + hills","12K recovery","15K","16K + tempo","14K easy","18K long","21.1K race!"]},{id:"hyrox",n:"Hyrox",i:"💪",c:"#DC2626",u:95,w:10,p:["5K + sled intro","1K×4 + wall balls","Rowing + burpees","1K×4 + farmer carry","Sled pull + lunges","Half simulation","1K×6 all stations","Full sim 75%","Taper","Race day!"]},{id:"70.3",n:"Ironman 70.3",i:"🏊",c:"#0891B2",u:90,w:16,p:["Swim 400m + Bike 20K + Run 5K","S600+B25+R6","S800+B30+R8","Recovery","S1K+B40+R10","S1.2K+B45+R10","S1.4K+B50+R12","Recovery","S1.5K+B55+R14","S1.6K+B65+R15","Recovery","S1.7K+B70+R16","S1.8K+B75+R18","Recovery","Taper","Race day!"]}];
 
 // ── UTILS ──
 function tod(){return new Date().toISOString().split("T")[0]}
@@ -191,18 +207,18 @@ function getVit(){
 function getAI(){
   const v=[];
   for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);const dd=D.days[d.toISOString().split("T")[0]];if(dd)v.push(dd);}
-  if(v.length<2)return[{t:"Log 2+ days for AI insights",c:"#888"}];
+  if(v.length<2)return[{t:"Log 2+ days for AI insights",c:"#64748B"}];
   const ins=[];
   const alc=v.filter(d=>!d.h?.noAlc).length;
-  if(alc>2)ins.push({t:"🍷 Alcohol "+alc+"/7 days — each session ≈ 500 empty kcal + wrecked sleep",c:"#ef4444"});
+  if(alc>2)ins.push({t:"🍷 Alcohol "+alc+"/7 days — each session ≈ 500 empty kcal + wrecked sleep",c:"#DC2626"});
   const pr=v.filter(d=>d.h?.pranayama).length;
-  if(pr<3)ins.push({t:"🌬️ Pranayama only "+pr+"/7 days. Your stress stays elevated without it.",c:"#A78BFA"});
-  else if(pr>=5)ins.push({t:"🌬️ Pranayama "+pr+"/7 — excellent consistency!",c:"#34D399"});
+  if(pr<3)ins.push({t:"🌬️ Pranayama only "+pr+"/7 days. Your stress stays elevated without it.",c:"#7C3AED"});
+  else if(pr>=5)ins.push({t:"🌬️ Pranayama "+pr+"/7 — excellent consistency!",c:"#059669"});
   const hd=v.filter(d=>d.h?.homeFood).length;
-  if(hd<4)ins.push({t:"🏠 Home dinner only "+hd+"/7 days. Each outside meal ≈ +400 kcal.",c:"#F59E0B"});
+  if(hd<4)ins.push({t:"🏠 Home dinner only "+hd+"/7 days. Each outside meal ≈ +400 kcal.",c:"#EA580C"});
   const avgS=v.filter(d=>d.stress).length?v.reduce((a,d)=>a+(d.stress||0),0)/v.filter(d=>d.stress).length:0;
-  if(avgS>=4)ins.push({t:"😰 Avg stress "+(avgS).toFixed(1)+"/5 — exercise + pranayama days show 40% lower.",c:"#ef4444"});
-  return ins.length?ins:[{t:"✨ Strong week. Keep showing up.",c:"#34D399"}];
+  if(avgS>=4)ins.push({t:"😰 Avg stress "+(avgS).toFixed(1)+"/5 — exercise + pranayama days show 40% lower.",c:"#DC2626"});
+  return ins.length?ins:[{t:"✨ Strong week. Keep showing up.",c:"#059669"}];
 }
 function getBio(){
   const cw=getCW(),bmi=cw/3.35,v=[];
@@ -229,13 +245,12 @@ function getAR(){return RC.find(r=>r.id===D.ar)||RC[0]}
 // ── LIVING UI ──
 function updateLivingUI(){
   const v=getVit();
-  const r=Math.round(lerp(8,14,v)),g=Math.round(lerp(8,14,v)),b=Math.round(lerp(12,22,v));
-  document.body.style.background=`rgb(${r},${g},${b})`;
-  if(v>0.5){
-    const col=v>0.7?"52,211,153":"212,168,83";
-    document.body.style.backgroundImage=`radial-gradient(ellipse at 50% 0%,rgba(${col},${(v*0.1).toFixed(2)}) 0%,transparent 50%)`;
-  }else{document.body.style.backgroundImage="none";}
-  document.documentElement.style.setProperty('--border',`rgba(255,255,255,${lerp(0.04,0.12,v).toFixed(2)})`);
+  document.body.style.background='#FFF9F2';
+  const col=v>0.7?"5,150,105":v>0.4?"217,119,6":"251,146,60";
+  const a=(0.10+v*0.12).toFixed(2);
+  document.body.style.backgroundImage=`radial-gradient(ellipse 120% 60% at 50% -10%,rgba(${col},${a}) 0%,rgba(253,224,71,0.06) 35%,transparent 70%)`;
+  document.body.style.backgroundAttachment='fixed';
+  document.documentElement.style.setProperty('--border',`rgba(15,23,42,${lerp(0.06,0.12,v).toFixed(2)})`);
 }
 
 // ── HEADER UPDATE ──
@@ -244,7 +259,7 @@ function updateHeader(){
   const sc=hsc(getDay());
   const ring=document.getElementById('scoreRing');
   ring.setAttribute('stroke-dashoffset',326.7-cl(sc,0,100)/100*326.7);
-  ring.setAttribute('stroke',sc>=80?'#34D399':sc>=50?'#D4A853':'#ef4444');
+  ring.setAttribute('stroke',sc>=80?'#059669':sc>=50?'#D97706':'#DC2626');
   document.getElementById('scoreNum').textContent=sc;
 }
 
@@ -286,89 +301,89 @@ home(){
 
   // Quick Stats — hero strip with color accents
   html+=`<div style="display:flex;gap:6px;margin-bottom:8px">
-    <div style="flex:1;background:linear-gradient(135deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));border-radius:14px;padding:14px;text-align:center;border:1px solid rgba(255,255,255,0.06)">
-      <div class="hf" style="font-size:24px;font-weight:800;color:#fff">${cw}</div>
-      <div style="font-size:10px;color:#888;margin-top:2px">kg</div>
+    <div style="flex:1;background:linear-gradient(135deg,rgba(15,23,42,0.056),rgba(15,23,42,0.028));border-radius:14px;padding:14px;text-align:center;border:1px solid rgba(15,23,42,0.084)">
+      <div class="hf" style="font-size:24px;font-weight:800;color:#0F172A">${cw}</div>
+      <div style="font-size:10px;color:#64748B;margin-top:2px">kg</div>
     </div>
-    <div style="flex:1;background:linear-gradient(135deg,rgba(212,168,83,0.06),rgba(212,168,83,0.02));border-radius:14px;padding:14px;text-align:center;border:1px solid rgba(212,168,83,0.1)">
-      <div class="hf" style="font-size:24px;font-weight:800;color:#D4A853">${streak}</div>
-      <div style="font-size:10px;color:#D4A853;margin-top:2px">streak</div>
+    <div style="flex:1;background:linear-gradient(135deg,rgba(217,119,6,0.06),rgba(217,119,6,0.02));border-radius:14px;padding:14px;text-align:center;border:1px solid rgba(217,119,6,0.1)">
+      <div class="hf" style="font-size:24px;font-weight:800;color:#D97706">${streak}</div>
+      <div style="font-size:10px;color:#D97706;margin-top:2px">streak</div>
     </div>
-    <div style="flex:1;background:linear-gradient(135deg,${tl>0?'rgba(52,211,153,0.06)':'rgba(239,68,68,0.06)'},transparent);border-radius:14px;padding:14px;text-align:center;border:1px solid ${tl>0?'rgba(52,211,153,0.1)':'rgba(239,68,68,0.1)'}">
-      <div class="hf" style="font-size:24px;font-weight:800;color:${tl>0?'#34D399':'#ef4444'}">${tl>0?'-':'+'}${Math.abs(tl)}</div>
-      <div style="font-size:10px;color:#888;margin-top:2px">kg</div>
+    <div style="flex:1;background:linear-gradient(135deg,${tl>0?'rgba(5,150,105,0.06)':'rgba(220,38,38,0.06)'},transparent);border-radius:14px;padding:14px;text-align:center;border:1px solid ${tl>0?'rgba(5,150,105,0.1)':'rgba(220,38,38,0.1)'}">
+      <div class="hf" style="font-size:24px;font-weight:800;color:${tl>0?'#059669':'#DC2626'}">${tl>0?'-':'+'}${Math.abs(tl)}</div>
+      <div style="font-size:10px;color:#64748B;margin-top:2px">kg</div>
     </div>
   </div>`;
 
   // Smart time-aware action — one card that changes
   if(h>=5&&h<12){
-    html+=`<div class="card" style="cursor:pointer;padding:18px;background:rgba(245,158,11,0.06);border-color:rgba(245,158,11,0.15);display:flex;align-items:center;gap:16px" onclick="startFlow('morning')">
+    html+=`<div class="card" style="cursor:pointer;padding:18px;background:rgba(234,88,12,0.06);border-color:rgba(234,88,12,0.15);display:flex;align-items:center;gap:16px" onclick="startFlow('morning')">
       <div style="font-size:32px">🌅</div>
-      <div style="flex:1"><div class="hf" style="font-size:16px;font-weight:700;color:#F59E0B">Start Your Morning</div><div style="font-size:12px;color:#999;margin-top:2px">7 guided steps · 8 minutes</div></div>
-      <div style="font-size:20px;color:#F59E0B">→</div>
+      <div style="flex:1"><div class="hf" style="font-size:16px;font-weight:700;color:#EA580C">Start Your Morning</div><div style="font-size:12px;color:#64748B;margin-top:2px">7 guided steps · 8 minutes</div></div>
+      <div style="font-size:20px;color:#EA580C">→</div>
     </div>`;
   } else if(h>=18){
-    html+=`<div class="card" style="cursor:pointer;padding:18px;background:rgba(99,102,241,0.06);border-color:rgba(99,102,241,0.15);display:flex;align-items:center;gap:16px" onclick="startFlow('evening')">
+    html+=`<div class="card" style="cursor:pointer;padding:18px;background:rgba(79,70,229,0.06);border-color:rgba(79,70,229,0.15);display:flex;align-items:center;gap:16px" onclick="startFlow('evening')">
       <div style="font-size:32px">🌙</div>
-      <div style="flex:1"><div class="hf" style="font-size:16px;font-weight:700;color:#818CF8">Wind Down</div><div style="font-size:12px;color:#999;margin-top:2px">5 steps to better sleep</div></div>
-      <div style="font-size:20px;color:#818CF8">→</div>
+      <div style="flex:1"><div class="hf" style="font-size:16px;font-weight:700;color:#4F46E5">Wind Down</div><div style="font-size:12px;color:#64748B;margin-top:2px">5 steps to better sleep</div></div>
+      <div style="font-size:20px;color:#4F46E5">→</div>
     </div>`;
   } else {
     html+=`<div class="grid2" style="margin-bottom:2px">
-      <div class="card" style="cursor:pointer;padding:14px;text-align:center" onclick="startFlow('morning')"><div style="font-size:22px">🌅</div><div class="hf" style="font-size:11px;font-weight:700;color:#777;margin-top:3px">Morning</div></div>
-      <div class="card" style="cursor:pointer;padding:14px;text-align:center" onclick="startFlow('evening')"><div style="font-size:22px">🌙</div><div class="hf" style="font-size:11px;font-weight:700;color:#777;margin-top:3px">Wind-Down</div></div>
+      <div class="card" style="cursor:pointer;padding:14px;text-align:center" onclick="startFlow('morning')"><div style="font-size:22px">🌅</div><div class="hf" style="font-size:11px;font-weight:700;color:#94A3B8;margin-top:3px">Morning</div></div>
+      <div class="card" style="cursor:pointer;padding:14px;text-align:center" onclick="startFlow('evening')"><div style="font-size:22px">🌙</div><div class="hf" style="font-size:11px;font-weight:700;color:#94A3B8;margin-top:3px">Wind-Down</div></div>
     </div>`;
   }
 
   // AI Coach
-  html+=`<div class="card" style="border-color:rgba(212,168,83,0.12);background:rgba(212,168,83,0.03)">
+  html+=`<div class="card" style="border-color:rgba(217,119,6,0.12);background:rgba(217,119,6,0.03)">
     <div class="lbl">🧠 AI COACH</div>${ai.map(x=>`<div style="font-size:13px;color:${x.c};line-height:1.7;padding:3px 0">${esc(x.t)}</div>`).join('')}</div>`;
 
   // Reward + Porsche
-  html+=`<div class="card" style="cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(150deg,rgba(0,0,0,0.4),${nm.c}08);border-color:${nm.c}25" onclick="showPorsche()">
+  html+=`<div class="card" style="cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(150deg,#fff,${nm.c}14);border-color:${nm.c}40" onclick="showPorsche()">
     <div style="display:flex;justify-content:space-between;align-items:center">
       <div><div class="lbl" style="color:${nm.c}">NEXT REWARD · TAP TO CONFIGURE 🏎️</div>
-        <div class="hf" style="font-size:18px;font-weight:700;color:#fff;margin-top:4px">${nm.i} ${esc(nm.r)}</div></div>
-      <div style="text-align:right"><div class="hf" style="font-size:32px;font-weight:800;color:${nm.c}">${(cw-nm.kg).toFixed(1)}</div><div style="font-size:9px;color:#888;letter-spacing:1px">KG TO GO</div></div>
+        <div class="hf" style="font-size:18px;font-weight:700;color:#0F172A;margin-top:4px">${nm.i} ${esc(nm.r)}</div></div>
+      <div style="text-align:right"><div class="hf" style="font-size:32px;font-weight:800;color:${nm.c}">${(cw-nm.kg).toFixed(1)}</div><div style="font-size:9px;color:#64748B;letter-spacing:1px">KG TO GO</div></div>
     </div>
     <div class="progress-bar"><div class="progress-fill" style="background:linear-gradient(90deg,${nm.c},${nm.c}88);width:${cl(((D.sw-cw)/(D.sw-nm.kg))*100,1,100)}%"></div></div>
   </div>`;
 
   // Time Machine - always shows
   const tm=getTimeMachine();
-  html+=`<div class="card" style="border-color:rgba(96,165,250,0.12);background:rgba(96,165,250,0.03)">
+  html+=`<div class="card" style="border-color:rgba(37,99,235,0.12);background:rgba(37,99,235,0.03)">
     <div class="lbl">⏰ TIME MACHINE</div>`;
   if(tm.rate>0){
-    html+=`<div style="font-size:12px;color:#888;margin-bottom:8px">At ${(tm.rate*7).toFixed(2)} kg/week:</div>`;
+    html+=`<div style="font-size:12px;color:#64748B;margin-bottom:8px">At ${(tm.rate*7).toFixed(2)} kg/week:</div>`;
   }else if(tm.msg){
-    html+=`<div style="font-size:13px;color:#888;margin-bottom:8px">${esc(tm.msg)}</div>`;
+    html+=`<div style="font-size:13px;color:#64748B;margin-bottom:8px">${esc(tm.msg)}</div>`;
   }
   tm.dates.forEach(d=>{
-    html+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)">
-      <span style="font-size:15px;color:#ddd">${d.i} ${esc(d.r)}</span>
-      <span class="hf" style="font-size:15px;font-weight:700;color:${d.dt.includes('✅')?'#34D399':d.dt.includes('STALLED')?'#ef4444':d.dt.includes('Log')?'#888':d.c}">${esc(d.dt)}</span>
+    html+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(15,23,42,0.042)">
+      <span style="font-size:15px;color:#1E293B">${d.i} ${esc(d.r)}</span>
+      <span class="hf" style="font-size:15px;font-weight:700;color:${d.dt.includes('✅')?'#059669':d.dt.includes('STALLED')?'#DC2626':d.dt.includes('Log')?'#64748B':d.c}">${esc(d.dt)}</span>
     </div>`;
   });
   html+=`</div>`;
 
   // Bio Age — combined into one card
-  html+=`<div class="card" style="border-color:${bio>chronoAge?'rgba(239,68,68,0.12)':'rgba(52,211,153,0.12)'}">
+  html+=`<div class="card" style="border-color:${bio>chronoAge?'rgba(220,38,38,0.12)':'rgba(5,150,105,0.12)'}">
     <div class="lbl">🧬 BIOLOGICAL AGE</div>
     <div style="display:flex;justify-content:space-around;text-align:center;padding:8px 0">
-      <div><div style="font-size:10px;color:#888;margin-bottom:4px">Chrono</div><div class="hf" style="font-size:32px;font-weight:800;color:#fff">${chronoAge}</div></div>
-      <div style="width:1px;background:rgba(255,255,255,0.06)"></div>
-      <div><div style="font-size:10px;color:#888;margin-bottom:4px">Bio</div><div class="hf" style="font-size:32px;font-weight:800;color:${bio>chronoAge?'#ef4444':'#34D399'}">${bio}</div></div>
-      <div style="width:1px;background:rgba(255,255,255,0.06)"></div>
-      <div><div style="font-size:10px;color:#888;margin-bottom:4px">Gap</div><div class="hf" style="font-size:32px;font-weight:800;color:${bio>chronoAge?'#ef4444':'#34D399'}">${bio>chronoAge?'+':'−'}${Math.abs(bio-chronoAge)}</div></div>
+      <div><div style="font-size:10px;color:#64748B;margin-bottom:4px">Chrono</div><div class="hf" style="font-size:32px;font-weight:800;color:#0F172A">${chronoAge}</div></div>
+      <div style="width:1px;background:rgba(15,23,42,0.084)"></div>
+      <div><div style="font-size:10px;color:#64748B;margin-bottom:4px">Bio</div><div class="hf" style="font-size:32px;font-weight:800;color:${bio>chronoAge?'#DC2626':'#059669'}">${bio}</div></div>
+      <div style="width:1px;background:rgba(15,23,42,0.084)"></div>
+      <div><div style="font-size:10px;color:#64748B;margin-bottom:4px">Gap</div><div class="hf" style="font-size:32px;font-weight:800;color:${bio>chronoAge?'#DC2626':'#059669'}">${bio>chronoAge?'+':'−'}${Math.abs(bio-chronoAge)}</div></div>
     </div>
-    <div style="font-size:12px;color:${bio>chronoAge?'#ef4444':'#34D399'};text-align:center;margin-top:4px">${bio>chronoAge?'Your body is aging faster. Exercise + pranayama reverse this.':'Younger than your years. Keep it up.'}</div>
+    <div style="font-size:12px;color:${bio>chronoAge?'#DC2626':'#059669'};text-align:center;margin-top:4px">${bio>chronoAge?'Your body is aging faster. Exercise + pranayama reverse this.':'Younger than your years. Keep it up.'}</div>
   </div>`;
 
   // Letter
-  html+=`<div class="card" style="cursor:pointer;padding:16px;border-color:rgba(52,211,153,0.12);background:rgba(52,211,153,0.03);display:flex;align-items:center;gap:14px" onclick="showLetter()">
+  html+=`<div class="card" style="cursor:pointer;padding:16px;border-color:rgba(5,150,105,0.12);background:rgba(5,150,105,0.03);display:flex;align-items:center;gap:14px" onclick="showLetter()">
     <div style="font-size:28px">📨</div>
-    <div style="flex:1"><div class="hf" style="font-size:14px;font-weight:700;color:#34D399">Letter from Future Keyur</div><div style="font-size:11px;color:#666;margin-top:2px">The one at 90 kg, driving a Porsche</div></div>
-    <div style="font-size:16px;color:#555">→</div>
+    <div style="flex:1"><div class="hf" style="font-size:14px;font-weight:700;color:#059669">Letter from Future Keyur</div><div style="font-size:11px;color:#94A3B8;margin-top:2px">The one at 90 kg, driving a Porsche</div></div>
+    <div style="font-size:16px;color:#94A3B8">→</div>
   </div>`;
 
   return html;
@@ -383,64 +398,64 @@ track(){
     <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px">`;
   HB.forEach(h=>{
     const on=!!dy.h[h.id];
-    const gc={0:'#F59E0B',1:'#A78BFA',2:'#60A5FA',3:'#34D399',4:'#818CF8'}[h.g];
-    html+=`<div onclick="toggleHabit('${h.id}')" style="width:72px;text-align:center;cursor:pointer;padding:8px 4px;border-radius:12px;background:${on?gc+'12':'rgba(255,255,255,0.02)'};border:1px solid ${on?gc+'30':'rgba(255,255,255,0.04)'};transition:all .2s" onpointerdown="this.style.transform='scale(0.92)'" onpointerup="this.style.transform='scale(1)'" onpointerleave="this.style.transform='scale(1)'">
-      <div style="width:36px;height:36px;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:18px;background:${on?gc+'20':'rgba(255,255,255,0.03)'};border:2px solid ${on?gc:'rgba(255,255,255,0.06)'};transition:all .2s">${h.i}</div>
-      <div style="font-size:9px;color:${on?gc:'#666'};margin-top:5px;font-weight:${on?'700':'400'};line-height:1.2">${esc(h.l)}</div>
+    const gc={0:'#EA580C',1:'#7C3AED',2:'#2563EB',3:'#059669',4:'#4F46E5'}[h.g];
+    html+=`<div onclick="toggleHabit('${h.id}')" style="width:72px;text-align:center;cursor:pointer;padding:8px 4px;border-radius:12px;background:${on?gc+'12':'rgba(15,23,42,0.028)'};border:1px solid ${on?gc+'30':'rgba(15,23,42,0.056)'};transition:all .2s" onpointerdown="this.style.transform='scale(0.92)'" onpointerup="this.style.transform='scale(1)'" onpointerleave="this.style.transform='scale(1)'">
+      <div style="width:36px;height:36px;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:18px;background:${on?gc+'20':'rgba(15,23,42,0.042)'};border:2px solid ${on?gc:'rgba(15,23,42,0.084)'};transition:all .2s">${h.i}</div>
+      <div style="font-size:9px;color:${on?gc:'#94A3B8'};margin-top:5px;font-weight:${on?'700':'400'};line-height:1.2">${esc(h.l)}</div>
     </div>`;
   });
   html+=`</div></div>`;
   // Mood/Energy/Stress — emoji selectors
   html+=`<div class="card" style="padding:20px">
     <div class="lbl">HOW DO YOU FEEL?</div>`;
-  [{k:"mood",l:"Mood",em:["😫","😕","😐","🙂","😊"],c:"#34D399"},{k:"energy",l:"Energy",em:["🪫","😮‍💨","😶","💪","⚡"],c:"#F59E0B"},{k:"stress",l:"Stress",em:["😌","🙂","😐","😰","🤯"],c:"#ef4444"}].forEach(s=>{
-    html+=`<div style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:14px;color:#bbb;font-weight:600">${s.l}</span><span class="hf" style="font-size:14px;font-weight:700;color:${dy[s.k]?s.c:'#444'}">${dy[s.k]||'—'}/5</span></div>
-      <div style="display:flex;gap:6px">${s.em.map((e,n)=>`<div onclick="setDayField('${s.k}',${n+1})" style="flex:1;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px;background:${n+1<=dy[s.k]?s.c+'15':'rgba(255,255,255,0.02)'};border:2px solid ${n+1<=dy[s.k]?s.c+'40':'rgba(255,255,255,0.04)'};transition:all .15s;opacity:${n+1<=dy[s.k]?'1':'0.4'}" onpointerdown="this.style.transform='scale(0.9)'" onpointerup="this.style.transform='scale(1)'" onpointerleave="this.style.transform='scale(1)'">${e}</div>`).join('')}</div>
+  [{k:"mood",l:"Mood",em:["😫","😕","😐","🙂","😊"],c:"#059669"},{k:"energy",l:"Energy",em:["🪫","😮‍💨","😶","💪","⚡"],c:"#EA580C"},{k:"stress",l:"Stress",em:["😌","🙂","😐","😰","🤯"],c:"#DC2626"}].forEach(s=>{
+    html+=`<div style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:14px;color:#475569;font-weight:600">${s.l}</span><span class="hf" style="font-size:14px;font-weight:700;color:${dy[s.k]?s.c:'#94A3B8'}">${dy[s.k]||'—'}/5</span></div>
+      <div style="display:flex;gap:6px">${s.em.map((e,n)=>`<div onclick="setDayField('${s.k}',${n+1})" style="flex:1;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px;background:${n+1<=dy[s.k]?s.c+'15':'rgba(15,23,42,0.028)'};border:2px solid ${n+1<=dy[s.k]?s.c+'40':'rgba(15,23,42,0.056)'};transition:all .15s;opacity:${n+1<=dy[s.k]?'1':'0.4'}" onpointerdown="this.style.transform='scale(0.9)'" onpointerup="this.style.transform='scale(1)'" onpointerleave="this.style.transform='scale(1)'">${e}</div>`).join('')}</div>
     </div>`;
   });
   html+=`</div>`;
   // Sleep
   html+=`<div class="card"><div class="lbl">😴 SLEEP</div>
     <div style="display:flex;gap:10px">
-      <div style="flex:1"><div style="font-size:12px;color:#888;margin-bottom:4px">Bedtime</div><input class="inp" type="time" value="${dy.bed||''}" onchange="setDayField('bed',this.value)"></div>
-      <div style="flex:1"><div style="font-size:12px;color:#888;margin-bottom:4px">Wake time</div><input class="inp" type="time" value="${dy.wake||''}" onchange="setDayField('wake',this.value)"></div>
+      <div style="flex:1"><div style="font-size:12px;color:#64748B;margin-bottom:4px">Bedtime</div><input class="inp" type="time" value="${dy.bed||''}" onchange="setDayField('bed',this.value)"></div>
+      <div style="flex:1"><div style="font-size:12px;color:#64748B;margin-bottom:4px">Wake time</div><input class="inp" type="time" value="${dy.wake||''}" onchange="setDayField('wake',this.value)"></div>
     </div>
-    ${dy.bed&&dy.wake?`<div style="font-size:14px;color:#60A5FA;margin-top:8px;font-weight:600">💤 ${(()=>{let d=dy.wake.split(":").reduce((a,b,i)=>a+b*(i?1:60),0)-dy.bed.split(":").reduce((a,b,i)=>a+b*(i?1:60),0);if(d<0)d+=1440;return(d/60).toFixed(1)})()} hours of sleep</div>`:''}</div>`;
+    ${dy.bed&&dy.wake?`<div style="font-size:14px;color:#2563EB;margin-top:8px;font-weight:600">💤 ${(()=>{let d=dy.wake.split(":").reduce((a,b,i)=>a+b*(i?1:60),0)-dy.bed.split(":").reduce((a,b,i)=>a+b*(i?1:60),0);if(d<0)d+=1440;return(d/60).toFixed(1)})()} hours of sleep</div>`:''}</div>`;
   // Water
   html+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div class="lbl">💧 WATER</div></div>
     <div style="display:flex;align-items:center;justify-content:center;gap:20px;padding:12px 0">
-      <button onclick="setDayField('water',Math.max(0,${dy.water}-1))" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(96,165,250,0.3);background:rgba(96,165,250,0.06);color:#60A5FA;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">−</button>
-      <div style="text-align:center"><div class="hf" style="font-size:40px;font-weight:800;color:${dy.water>=10?'#34D399':'#60A5FA'}">${dy.water}</div><div style="font-size:11px;color:#888;margin-top:2px">of 10 glasses</div></div>
-      <button onclick="setDayField('water',Math.min(15,${dy.water}+1))" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(96,165,250,0.3);background:rgba(96,165,250,0.06);color:#60A5FA;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">+</button>
+      <button onclick="setDayField('water',Math.max(0,${dy.water}-1))" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(37,99,235,0.3);background:rgba(37,99,235,0.06);color:#2563EB;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">−</button>
+      <div style="text-align:center"><div class="hf" style="font-size:40px;font-weight:800;color:${dy.water>=10?'#059669':'#2563EB'}">${dy.water}</div><div style="font-size:11px;color:#64748B;margin-top:2px">of 10 glasses</div></div>
+      <button onclick="setDayField('water',Math.min(15,${dy.water}+1))" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(37,99,235,0.3);background:rgba(37,99,235,0.06);color:#2563EB;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">+</button>
     </div>
-    <div class="progress-bar" style="height:6px"><div class="progress-fill" style="background:${dy.water>=10?'#34D399':'#60A5FA'};width:${Math.min(100,dy.water/10*100)}%"></div></div>
+    <div class="progress-bar" style="height:6px"><div class="progress-fill" style="background:${dy.water>=10?'#059669':'#2563EB'};width:${Math.min(100,dy.water/10*100)}%"></div></div>
   </div>`;
   // Steps
   html+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div class="lbl">👟 STEPS</div></div>
     <div style="display:flex;align-items:center;justify-content:center;gap:20px;padding:12px 0">
-      <button onclick="setDayField('steps',Math.max(0,${dy.steps||0}-1000))" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(167,139,250,0.3);background:rgba(167,139,250,0.06);color:#A78BFA;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">−</button>
-      <div style="text-align:center"><div class="hf" style="font-size:40px;font-weight:800;color:${(dy.steps||0)>=8000?'#34D399':'#A78BFA'}">${((dy.steps||0)/1000).toFixed(1)}k</div><div style="font-size:11px;color:#888;margin-top:2px">of 8k steps</div></div>
-      <button onclick="setDayField('steps',Math.min(40000,${dy.steps||0}+1000))" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(167,139,250,0.3);background:rgba(167,139,250,0.06);color:#A78BFA;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">+</button>
+      <button onclick="setDayField('steps',Math.max(0,${dy.steps||0}-1000))" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(124,58,237,0.3);background:rgba(124,58,237,0.06);color:#7C3AED;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">−</button>
+      <div style="text-align:center"><div class="hf" style="font-size:40px;font-weight:800;color:${(dy.steps||0)>=8000?'#059669':'#7C3AED'}">${((dy.steps||0)/1000).toFixed(1)}k</div><div style="font-size:11px;color:#64748B;margin-top:2px">of 8k steps</div></div>
+      <button onclick="setDayField('steps',Math.min(40000,${dy.steps||0}+1000))" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(124,58,237,0.3);background:rgba(124,58,237,0.06);color:#7C3AED;font-size:24px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center">+</button>
     </div>
-    <div class="progress-bar" style="height:6px"><div class="progress-fill" style="background:${(dy.steps||0)>=8000?'#34D399':'#A78BFA'};width:${Math.min(100,(dy.steps||0)/8000*100)}%"></div></div>
+    <div class="progress-bar" style="height:6px"><div class="progress-fill" style="background:${(dy.steps||0)>=8000?'#059669':'#7C3AED'};width:${Math.min(100,(dy.steps||0)/8000*100)}%"></div></div>
   </div>`;
   // Weight — prominent
-  html+=`<div class="card" style="background:linear-gradient(135deg,rgba(212,168,83,0.04),rgba(212,168,83,0.01));border-color:rgba(212,168,83,0.12);padding:20px">
-    <div class="lbl" style="color:#D4A853">⚖️ LOG WEIGHT</div>
-    <div style="display:flex;gap:8px;margin-top:6px"><input id="weightInput" class="inp" type="number" step="0.1" placeholder="e.g. ${getCW()}" style="font-size:18px;padding:14px"><button class="btn" style="background:#D4A853;color:#000;padding:14px 22px;font-size:16px" onclick="logWeight()">Log</button></div></div>`;
+  html+=`<div class="card" style="background:linear-gradient(135deg,rgba(217,119,6,0.04),rgba(217,119,6,0.01));border-color:rgba(217,119,6,0.12);padding:20px">
+    <div class="lbl" style="color:#D97706">⚖️ LOG WEIGHT</div>
+    <div style="display:flex;gap:8px;margin-top:6px"><input id="weightInput" class="inp" type="number" step="0.1" placeholder="e.g. ${getCW()}" style="font-size:18px;padding:14px"><button class="btn" style="background:#D97706;color:#fff;padding:14px 22px;font-size:16px" onclick="logWeight()">Log</button></div></div>`;
   // Note — inviting
   html+=`<div class="card" style="padding:20px"><div class="lbl">📝 JOURNAL</div>
     <textarea class="inp" placeholder="How was your day? Any wins or struggles? Anything on your mind?" onchange="setDayField('note',this.value)" style="font-size:15px;min-height:70px">${esc(dy.note||'')}</textarea></div>`;
   // Sync
-  html+=`<button class="btn" style="width:100%;padding:18px;font-size:16px;background:linear-gradient(135deg,#34D399,#059669);color:#000;margin-top:8px;border-radius:14px" onclick="syncToClaude()">📤 Send Check-in to Claude</button>
-    <div style="text-align:center;font-size:11px;color:#666;margin-top:6px;padding-bottom:8px">Full day summary → feedback + sync to Jivanam</div>`;
+  html+=`<button class="btn" style="width:100%;padding:18px;font-size:16px;background:linear-gradient(135deg,#047857,#059669);color:#fff;margin-top:8px;border-radius:14px" onclick="syncToClaude()">📤 Send Check-in to Claude</button>
+    <div style="text-align:center;font-size:11px;color:#94A3B8;margin-top:6px;padding-bottom:8px">Full day summary → feedback + sync to Jivanam</div>`;
   return html;
 },
 
 fuel(){
   const dy=getDay();let html='';
   const cals=todayCals(),target=1750,pct=Math.min(100,Math.round(cals/target*100));
-  const color=cals<=target?'#34D399':cals<=target*1.1?'#F59E0B':'#ef4444';
+  const color=cals<=target?'#059669':cals<=target*1.1?'#EA580C':'#DC2626';
 
   // Calorie summary — visual hero
   const ringPct=Math.min(100,pct);
@@ -449,18 +464,18 @@ fuel(){
     <div style="display:flex;align-items:center;gap:20px">
       <div style="position:relative;width:100px;height:100px;flex-shrink:0">
         <svg width="100" height="100" style="transform:rotate(-90deg)">
-          <circle cx="50" cy="50" r="${calRingR}" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="8"/>
+          <circle cx="50" cy="50" r="${calRingR}" fill="none" stroke="rgba(15,23,42,0.056)" stroke-width="8"/>
           <circle cx="50" cy="50" r="${calRingR}" fill="none" stroke="${color}" stroke-width="8" stroke-dasharray="${calRingC}" stroke-dashoffset="${calRingC-ringPct/100*calRingC}" stroke-linecap="round" style="transition:stroke-dashoffset .6s"/>
         </svg>
         <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
           <span class="hf" style="font-size:22px;font-weight:800;color:${color}">${cals}</span>
-          <span style="font-size:9px;color:#888">kcal</span>
+          <span style="font-size:9px;color:#64748B">kcal</span>
         </div>
       </div>
       <div style="flex:1">
         <div class="lbl" style="color:${color};margin-bottom:4px">🔥 CALORIES</div>
-        <div style="font-size:14px;color:#ddd;margin-bottom:4px">of <strong>${target}</strong> kcal budget</div>
-        <div style="font-size:16px;font-weight:700;color:${cals<=target?'#34D399':'#ef4444'}">${cals<=target?(target-cals)+' remaining':'Over by '+(cals-target)}</div>
+        <div style="font-size:14px;color:#1E293B;margin-bottom:4px">of <strong>${target}</strong> kcal budget</div>
+        <div style="font-size:16px;font-weight:700;color:${cals<=target?'#059669':'#DC2626'}">${cals<=target?(target-cals)+' remaining':'Over by '+(cals-target)}</div>
       </div>
     </div>
   </div>`;
@@ -469,9 +484,9 @@ fuel(){
   if((dy.meals||[]).length){
     html+=`<div class="card"><div class="lbl">✅ LOGGED TODAY</div>`;
     (dy.meals||[]).forEach(m=>{
-      html+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)">
-        <div><span style="font-size:12px;color:#888">${esc(m.t)}</span> <span style="font-size:14px;color:#ddd">${esc(m.x)}</span></div>
-        ${m.cal?`<span class="hf" style="font-size:14px;font-weight:700;color:#D4A853">${m.cal} kcal</span>`:''}
+      html+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(15,23,42,0.042)">
+        <div><span style="font-size:12px;color:#64748B">${esc(m.t)}</span> <span style="font-size:14px;color:#1E293B">${esc(m.x)}</span></div>
+        ${m.cal?`<span class="hf" style="font-size:14px;font-weight:700;color:#D97706">${m.cal} kcal</span>`:''}
       </div>`;
     });
     html+=`</div>`;
@@ -482,23 +497,23 @@ fuel(){
       const cal=it.match(/~?(\d{2,4})/);
       const calNum=cal?cal[1]:'';
       const name=it.split('~')[0].trim();
-      html+=`<div onclick="quickLogMeal('${esc(it)}')" style="display:flex;justify-content:space-between;align-items:center;padding:14px 12px;margin-bottom:4px;border-radius:10px;cursor:pointer;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04)" onpointerdown="this.style.background='rgba(52,211,153,0.1)';this.style.borderColor='rgba(52,211,153,0.2)'" onpointerup="this.style.background='rgba(255,255,255,0.02)';this.style.borderColor='rgba(255,255,255,0.04)'" onpointerleave="this.style.background='rgba(255,255,255,0.02)';this.style.borderColor='rgba(255,255,255,0.04)'">
-        <span style="font-size:14px;color:#ccc;flex:1">${esc(name)}</span>
-        ${calNum?`<span class="hf" style="font-size:13px;font-weight:700;color:#D4A853;margin:0 12px">${calNum}</span>`:''}
-        <span style="font-size:20px;color:#34D399;font-weight:700">+</span>
+      html+=`<div onclick="quickLogMeal('${esc(it)}')" style="display:flex;justify-content:space-between;align-items:center;padding:14px 12px;margin-bottom:4px;border-radius:10px;cursor:pointer;background:rgba(15,23,42,0.028);border:1px solid rgba(15,23,42,0.056)" onpointerdown="this.style.background='rgba(5,150,105,0.1)';this.style.borderColor='rgba(5,150,105,0.2)'" onpointerup="this.style.background='rgba(15,23,42,0.028)';this.style.borderColor='rgba(15,23,42,0.056)'" onpointerleave="this.style.background='rgba(15,23,42,0.028)';this.style.borderColor='rgba(15,23,42,0.056)'">
+        <span style="font-size:14px;color:#334155;flex:1">${esc(name)}</span>
+        ${calNum?`<span class="hf" style="font-size:13px;font-weight:700;color:#D97706;margin:0 12px">${calNum}</span>`:''}
+        <span style="font-size:20px;color:#059669;font-weight:700">+</span>
       </div>`;
     });
     html+=`</div>`;
   });
   // Meal logger
-  html+=`<div class="card" style="border-color:rgba(52,211,153,0.12);background:rgba(52,211,153,0.03)">
-    <div class="hf" style="font-size:12px;font-weight:700;color:#34D399;margin-bottom:8px">📝 LOG SOMETHING ELSE</div>
-    <div style="display:flex;gap:8px"><input id="mealInput" class="inp" placeholder="e.g. Chai + biscuit ~150 kcal" onkeydown="if(event.key==='Enter')logMeal()"><button class="btn" style="background:#34D399;color:#000;padding:12px 18px" onclick="logMeal()">+</button></div>
+  html+=`<div class="card" style="border-color:rgba(5,150,105,0.12);background:rgba(5,150,105,0.03)">
+    <div class="hf" style="font-size:12px;font-weight:700;color:#059669;margin-bottom:8px">📝 LOG SOMETHING ELSE</div>
+    <div style="display:flex;gap:8px"><input id="mealInput" class="inp" placeholder="e.g. Chai + biscuit ~150 kcal" onkeydown="if(event.key==='Enter')logMeal()"><button class="btn" style="background:#059669;color:#fff;padding:12px 18px" onclick="logMeal()">+</button></div>
   </div>`;
   // Kill list
-  html+=`<div class="card" style="border-color:rgba(239,68,68,0.12);background:rgba(239,68,68,0.03)">
-    <div class="hf" style="font-size:12px;font-weight:700;color:#ef4444;margin-bottom:4px">🚫 KILL LIST</div>
-    <div style="font-size:13px;color:#999;line-height:1.9">Outside junk dinner · Fried hospital snacks · Extra chai · Heavy paratha breakfast · Rice (Phase 1-2) · Sugary drinks · Eating after 9 PM</div></div>`;
+  html+=`<div class="card" style="border-color:rgba(220,38,38,0.12);background:rgba(220,38,38,0.03)">
+    <div class="hf" style="font-size:12px;font-weight:700;color:#DC2626;margin-bottom:4px">🚫 KILL LIST</div>
+    <div style="font-size:13px;color:#64748B;line-height:1.9">Outside junk dinner · Fried hospital snacks · Extra chai · Heavy paratha breakfast · Rice (Phase 1-2) · Sugary drinks · Eating after 9 PM</div></div>`;
   return html;
 },
 
@@ -515,85 +530,85 @@ move(){
   html+=`<div style="display:flex;gap:6px;overflow-x:auto;margin-bottom:10px;padding-bottom:4px;-webkit-overflow-scrolling:touch">`;
   for(let i=0;i<7;i++){
     const isToday=i===todayIdx,isSel=i===dayIdx;
-    html+=`<button onclick="selectDay(${i})" style="flex-shrink:0;padding:10px 14px;border-radius:10px;font-size:12px;font-weight:700;font-family:'Outfit',sans-serif;border:1px solid ${isSel?'#D4A853':isToday?'rgba(212,168,83,0.3)':'rgba(255,255,255,0.06)'};background:${isSel?'rgba(212,168,83,0.15)':'rgba(255,255,255,0.02)'};color:${isSel?'#D4A853':isToday?'#D4A853':'#888'};cursor:pointer">${dayNames[i]}</button>`;
+    html+=`<button onclick="selectDay(${i})" style="flex-shrink:0;padding:10px 14px;border-radius:10px;font-size:12px;font-weight:700;font-family:'Outfit',sans-serif;border:1px solid ${isSel?'#D97706':isToday?'rgba(217,119,6,0.3)':'rgba(15,23,42,0.084)'};background:${isSel?'rgba(217,119,6,0.15)':'rgba(15,23,42,0.028)'};color:${isSel?'#D97706':isToday?'#D97706':'#64748B'};cursor:pointer">${dayNames[i]}</button>`;
   }
   html+=`</div>`;
 
   // Day header
-  html+=`<div class="card" style="padding:18px;background:linear-gradient(135deg,rgba(212,168,83,0.06),transparent);border-color:rgba(212,168,83,0.15)">
-    <div class="lbl" style="color:#D4A853;margin-bottom:4px">${dayIdx===todayIdx?'TODAY':'SELECTED DAY'}</div>
-    <div class="hf" style="font-size:18px;font-weight:700;color:#fff">${esc(plan.label)}</div>
+  html+=`<div class="card" style="padding:18px;background:linear-gradient(135deg,rgba(217,119,6,0.06),transparent);border-color:rgba(217,119,6,0.15)">
+    <div class="lbl" style="color:#D97706;margin-bottom:4px">${dayIdx===todayIdx?'TODAY':'SELECTED DAY'}</div>
+    <div class="hf" style="font-size:18px;font-weight:700;color:#0F172A">${esc(plan.label)}</div>
   </div>`;
 
   // AM / PM toggle
   html+=`<div class="grid2" style="margin-bottom:10px">
-    <button onclick="selectSession('am')" style="padding:12px;border-radius:10px;font-size:13px;font-weight:700;font-family:'Outfit',sans-serif;border:1px solid ${session==='am'?'#D4A853':'rgba(255,255,255,0.06)'};background:${session==='am'?'rgba(212,168,83,0.12)':'rgba(255,255,255,0.02)'};color:${session==='am'?'#D4A853':'#888'};cursor:pointer">AM · 08:00–09:30</button>
-    <button onclick="selectSession('pm')" ${!plan.pm?'disabled':''} style="padding:12px;border-radius:10px;font-size:13px;font-weight:700;font-family:'Outfit',sans-serif;border:1px solid ${session==='pm'&&plan.pm?'#D4A853':'rgba(255,255,255,0.06)'};background:${session==='pm'&&plan.pm?'rgba(212,168,83,0.12)':'rgba(255,255,255,0.02)'};color:${!plan.pm?'#444':session==='pm'?'#D4A853':'#888'};cursor:${plan.pm?'pointer':'not-allowed'};opacity:${plan.pm?1:0.5}">${plan.pm?'PM · 18:00–19:30':'PM · REST'}</button>
+    <button onclick="selectSession('am')" style="padding:12px;border-radius:10px;font-size:13px;font-weight:700;font-family:'Outfit',sans-serif;border:1px solid ${session==='am'?'#D97706':'rgba(15,23,42,0.084)'};background:${session==='am'?'rgba(217,119,6,0.12)':'rgba(15,23,42,0.028)'};color:${session==='am'?'#D97706':'#64748B'};cursor:pointer">AM · 08:00–09:30</button>
+    <button onclick="selectSession('pm')" ${!plan.pm?'disabled':''} style="padding:12px;border-radius:10px;font-size:13px;font-weight:700;font-family:'Outfit',sans-serif;border:1px solid ${session==='pm'&&plan.pm?'#D97706':'rgba(15,23,42,0.084)'};background:${session==='pm'&&plan.pm?'rgba(217,119,6,0.12)':'rgba(15,23,42,0.028)'};color:${!plan.pm?'#94A3B8':session==='pm'?'#D97706':'#64748B'};cursor:${plan.pm?'pointer':'not-allowed'};opacity:${plan.pm?1:0.5}">${plan.pm?'PM · 18:00–19:30':'PM · REST'}</button>
   </div>`;
 
   if(!activeSess){
     html+=`<div class="card" style="padding:40px 20px;text-align:center;border-color:rgba(129,140,248,0.15);background:rgba(129,140,248,0.03)">
       <div style="font-size:48px;margin-bottom:10px">🌙</div>
-      <div class="hf" style="font-size:18px;font-weight:700;color:#818CF8">Rest Evening</div>
-      <div style="font-size:13px;color:#888;margin-top:6px">Sunday PM is off. Be with family.</div>
+      <div class="hf" style="font-size:18px;font-weight:700;color:#4F46E5">Rest Evening</div>
+      <div style="font-size:13px;color:#64748B;margin-top:6px">Sunday PM is off. Be with family.</div>
     </div>`;
     return html;
   }
 
   // Session title
-  html+=`<div class="card" style="padding:14px 16px;border-color:rgba(167,139,250,0.2);background:rgba(167,139,250,0.03)">
-    <div class="lbl" style="color:#A78BFA">${session==='am'?'MORNING':'EVENING'} SESSION · 90 MIN</div>
-    <div class="hf" style="font-size:17px;font-weight:700;color:#fff;margin-top:3px">${esc(activeSess.t)}</div>
+  html+=`<div class="card" style="padding:14px 16px;border-color:rgba(124,58,237,0.2);background:rgba(124,58,237,0.03)">
+    <div class="lbl" style="color:#7C3AED">${session==='am'?'MORNING':'EVENING'} SESSION · 90 MIN</div>
+    <div class="hf" style="font-size:17px;font-weight:700;color:#0F172A;margin-top:3px">${esc(activeSess.t)}</div>
   </div>`;
 
   // Exercises
   activeSess.ex.forEach((e,i)=>{
     const exKey=`${dayIdx}_${session}_${e.n}`;
     const xd=(dy.ex||{})[exKey]||{},has=e.t==="S"?(xd.s||[]).length>0:!!xd.dur||(e.t==="K"?!!xd.sets:false);
-    const tc=e.t==="W"?"#F59E0B":e.t==="C"?"#60A5FA":e.t==="K"?"#D4A853":"#A78BFA";
+    const tc=e.t==="W"?"#EA580C":e.t==="C"?"#2563EB":e.t==="K"?"#D97706":"#7C3AED";
     const open=expandedEx===exKey;
     if(e.t==="W"||e.t==="C"){
       html+=`<div class="card" style="border-left:4px solid ${tc};display:flex;align-items:center;justify-content:space-between;padding:14px 16px">
         <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
-          <div style="width:22px;height:22px;border-radius:6px;background:${has?'#34D399':'rgba(255,255,255,0.05)'};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:${has?'#000':'transparent'};flex-shrink:0">✓</div>
-          <div style="min-width:0"><div style="font-size:14px;color:${has?'#777':'#ddd'};overflow:hidden;text-overflow:ellipsis">${esc(e.n)}</div><div style="font-size:11px;color:#666">${esc(e.p)}</div></div>
+          <div style="width:22px;height:22px;border-radius:6px;background:${has?'#059669':'rgba(15,23,42,0.07)'};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:${has?'#fff':'transparent'};flex-shrink:0">✓</div>
+          <div style="min-width:0"><div style="font-size:14px;color:${has?'#94A3B8':'#1E293B'};overflow:hidden;text-overflow:ellipsis">${esc(e.n)}</div><div style="font-size:11px;color:#94A3B8">${esc(e.p)}</div></div>
         </div>
-        ${has?`<span style="font-size:13px;color:#34D399;font-weight:600;flex-shrink:0">✓</span>`:`<button class="btn" style="padding:8px 16px;background:${tc}15;color:${tc};border:1px solid ${tc}30;font-size:12px;flex-shrink:0" onclick="event.stopPropagation();quickExDone('${exKey.replace(/'/g,"\\'")}','${e.t}',${parseInt(e.p)||5})">Done</button>`}
+        ${has?`<span style="font-size:13px;color:#059669;font-weight:600;flex-shrink:0">✓</span>`:`<button class="btn" style="padding:8px 16px;background:${tc}15;color:${tc};border:1px solid ${tc}30;font-size:12px;flex-shrink:0" onclick="event.stopPropagation();quickExDone('${exKey.replace(/'/g,"\\'")}','${e.t}',${parseInt(e.p)||5})">Done</button>`}
       </div>`;
       if(e.hip){
-        html+=`<div style="margin:-8px 2px 8px 6px;padding:8px 12px;background:rgba(245,158,11,0.06);border-left:3px solid #F59E0B;border-radius:0 8px 8px 0;font-size:11px;color:#F59E0B;line-height:1.5">⚠️ ${esc(e.hip)}</div>`;
+        html+=`<div style="margin:-8px 2px 8px 6px;padding:8px 12px;background:rgba(234,88,12,0.06);border-left:3px solid #EA580C;border-radius:0 8px 8px 0;font-size:11px;color:#EA580C;line-height:1.5">⚠️ ${esc(e.hip)}</div>`;
       }
     } else {
       html+=`<div class="card ex-row" style="border-left-color:${tc}">
         <div class="ex-header" onclick="expandExKey('${exKey.replace(/'/g,"\\'")}','${e.t}')">
-          <div style="width:22px;height:22px;border-radius:6px;background:${has?'#34D399':'rgba(255,255,255,0.05)'};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:${has?'#000':'transparent'};flex-shrink:0">✓</div>
-          <span style="flex:1;font-size:14px;color:${has?'#777':'#ddd'}">${esc(e.n)}</span>
-          <span class="hf" style="font-size:12px;color:#666">${esc(e.p)}</span>
-          <span style="color:#444;font-size:14px;transform:${open?'rotate(180deg)':'none'};transition:transform .2s;display:inline-block;margin-left:6px">▾</span>
+          <div style="width:22px;height:22px;border-radius:6px;background:${has?'#059669':'rgba(15,23,42,0.07)'};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:${has?'#fff':'transparent'};flex-shrink:0">✓</div>
+          <span style="flex:1;font-size:14px;color:${has?'#94A3B8':'#1E293B'}">${esc(e.n)}</span>
+          <span class="hf" style="font-size:12px;color:#94A3B8">${esc(e.p)}</span>
+          <span style="color:#94A3B8;font-size:14px;transform:${open?'rotate(180deg)':'none'};transition:transform .2s;display:inline-block;margin-left:6px">▾</span>
         </div>`;
       if(e.hip){
-        html+=`<div style="margin:0 14px 8px;padding:8px 12px;background:rgba(245,158,11,0.06);border-left:3px solid #F59E0B;border-radius:0 8px 8px 0;font-size:11px;color:#F59E0B;line-height:1.5">⚠️ ${esc(e.hip)}</div>`;
+        html+=`<div style="margin:0 14px 8px;padding:8px 12px;background:rgba(234,88,12,0.06);border-left:3px solid #EA580C;border-radius:0 8px 8px 0;font-size:11px;color:#EA580C;line-height:1.5">⚠️ ${esc(e.hip)}</div>`;
       }
       if(open){
         html+=`<div class="ex-detail">`;
         if(e.t==="S"){
           (xd.s||[]).forEach((s,si)=>{
-            html+=`<div class="set-row"><span style="font-size:13px;color:#888;width:24px;font-weight:600">S${s.n}</span>
+            html+=`<div class="set-row"><span style="font-size:13px;color:#64748B;width:24px;font-weight:600">S${s.n}</span>
               <input class="inp set-input" type="number" value="${s.r||''}" placeholder="reps" onchange="updateSetKey('${exKey.replace(/'/g,"\\'")}',${si},'r',this.value)">
-              <span style="font-size:14px;color:#555;font-weight:700">×</span>
+              <span style="font-size:14px;color:#94A3B8;font-weight:700">×</span>
               <input class="inp set-input" type="number" value="${s.w||''}" placeholder="kg" onchange="updateSetKey('${exKey.replace(/'/g,"\\'")}',${si},'w',this.value)">
-              <span style="font-size:12px;color:#888">kg</span>
-              <button style="background:none;border:none;color:#666;cursor:pointer;font-size:18px;padding:4px 8px" onclick="removeSetKey('${exKey.replace(/'/g,"\\'")}',${si})">×</button></div>`;
+              <span style="font-size:12px;color:#64748B">kg</span>
+              <button style="background:none;border:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:4px 8px" onclick="removeSetKey('${exKey.replace(/'/g,"\\'")}',${si})">×</button></div>`;
           });
-          html+=`<button class="btn" style="padding:10px 20px;font-size:13px;background:rgba(167,139,250,0.08);color:#A78BFA;margin-top:8px" onclick="addSetKey('${exKey.replace(/'/g,"\\'")}')">+ Add Set</button>`;
+          html+=`<button class="btn" style="padding:10px 20px;font-size:13px;background:rgba(124,58,237,0.08);color:#7C3AED;margin-top:8px" onclick="addSetKey('${exKey.replace(/'/g,"\\'")}')">+ Add Set</button>`;
         }
         if(e.t==="K"){
           html+=`<div style="display:flex;gap:10px;align-items:center;margin-top:8px;flex-wrap:wrap">
             <input class="inp set-input" type="number" value="${xd.sets||''}" placeholder="sets" onchange="updateExFieldKey('${exKey.replace(/'/g,"\\'")}','K','sets',this.value)">
-            <span style="font-size:14px;color:#888">×</span>
+            <span style="font-size:14px;color:#64748B">×</span>
             <input class="inp set-input" type="number" value="${xd.sec||''}" placeholder="sec" onchange="updateExFieldKey('${exKey.replace(/'/g,"\\'")}','K','sec',this.value)">
-            <span style="font-size:14px;color:#888">sec</span>
-            <button class="btn" style="padding:8px 14px;background:rgba(52,211,153,0.08);color:#34D399;border:1px solid rgba(52,211,153,0.2);font-size:12px" onclick="toast('✓ Logged')">✓</button>
+            <span style="font-size:14px;color:#64748B">sec</span>
+            <button class="btn" style="padding:8px 14px;background:rgba(5,150,105,0.08);color:#059669;border:1px solid rgba(5,150,105,0.2);font-size:12px" onclick="toast('✓ Logged')">✓</button>
           </div>`;
         }
         html+=`</div>`;
@@ -603,19 +618,19 @@ move(){
   });
 
   // Hip safety
-  html+=`<div class="card" style="border-color:rgba(239,68,68,0.1);background:rgba(239,68,68,0.03)">
-    <div class="hf" style="font-size:12px;font-weight:700;color:#ef4444;margin-bottom:4px">⚠️ SAFETY RULES</div>
-    <div style="font-size:13px;color:#999;line-height:1.8">Sharp hip pain → stop & sub upper/pool · HR &gt; 150 + dizzy → eat a date, sit 3 min · DOMS blocking function → swap for recovery · Sleep &lt; 6 hrs → cut intensity 30%</div></div>`;
+  html+=`<div class="card" style="border-color:rgba(220,38,38,0.1);background:rgba(220,38,38,0.03)">
+    <div class="hf" style="font-size:12px;font-weight:700;color:#DC2626;margin-bottom:4px">⚠️ SAFETY RULES</div>
+    <div style="font-size:13px;color:#64748B;line-height:1.8">Sharp hip pain → stop & sub upper/pool · HR &gt; 150 + dizzy → eat a date, sit 3 min · DOMS blocking function → swap for recovery · Sleep &lt; 6 hrs → cut intensity 30%</div></div>`;
 
   // Race Ladder
   const cw=getCW();
   html+=`<div class="card"><div class="lbl">🏃 RACE TRAINING LADDER</div>`;
   RC.forEach((r,i)=>{
     const unlocked=cw<=r.u||r.id==="5k_walk",active=D.ar===r.id;
-    html+=`<div style="display:flex;align-items:center;gap:12px;padding:12px 0;${i<RC.length-1?'border-bottom:1px solid rgba(255,255,255,0.03)':''};opacity:${unlocked?1:0.3}">
-      <div style="width:32px;height:32px;border-radius:50%;background:${active?r.c+'20':'rgba(255,255,255,0.04)'};border:${active?'2px solid '+r.c:'1px solid rgba(255,255,255,0.06)'};display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${r.i}</div>
-      <div style="flex:1"><div class="hf" style="font-size:14px;font-weight:700;color:${active?r.c:'#bbb'}">${esc(r.n)}</div>
-        <div style="font-size:11px;color:#666;margin-top:2px">${unlocked?(active?'Week '+D.rw+'/'+r.w+' — '+esc(r.p[Math.min(D.rw-1,r.p.length-1)]):'Available'):'🔒 Unlock at '+r.u+' kg'}</div></div>
+    html+=`<div style="display:flex;align-items:center;gap:12px;padding:12px 0;${i<RC.length-1?'border-bottom:1px solid rgba(15,23,42,0.042)':''};opacity:${unlocked?1:0.3}">
+      <div style="width:32px;height:32px;border-radius:50%;background:${active?r.c+'20':'rgba(15,23,42,0.056)'};border:${active?'2px solid '+r.c:'1px solid rgba(15,23,42,0.084)'};display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${r.i}</div>
+      <div style="flex:1"><div class="hf" style="font-size:14px;font-weight:700;color:${active?r.c:'#475569'}">${esc(r.n)}</div>
+        <div style="font-size:11px;color:#94A3B8;margin-top:2px">${unlocked?(active?'Week '+D.rw+'/'+r.w+' — '+esc(r.p[Math.min(D.rw-1,r.p.length-1)]):'Available'):'🔒 Unlock at '+r.u+' kg'}</div></div>
       ${unlocked&&!active?`<button class="btn" style="padding:8px 16px;font-size:12px;background:${r.c}15;color:${r.c};border:1px solid ${r.c}30" onclick="event.stopPropagation();D.ar='${r.id}';D.rw=1;saveData();render()">Start</button>`:''}
       ${active?`<button class="btn" style="padding:8px 14px;font-size:11px;background:${r.c}12;color:${r.c};border:1px solid ${r.c}20" onclick="event.stopPropagation();D.rw=Math.min(D.rw+1,${r.w});toast('Week '+(D.rw+1)+' started');saveData();render()">✓ Week</button>`:''}
     </div>`;
@@ -626,33 +641,33 @@ move(){
 
 breathe(){
   const dy=getDay();let html='';
-  html+=`<div class="card" style="background:rgba(212,168,83,0.03);border-color:rgba(212,168,83,0.12)">
-    <div class="lbl" style="color:#D4A853">TODAY'S PRACTICE — PHASE 1</div>
-    <div style="font-size:13px;color:#ccc;line-height:2">1. Sit on balcony, spine straight<br>2. Anulom Vilom — 3 min<br>3. Sit with eyes closed — 2 min<br><br>→ 5 min total. That's all.</div></div>`;
+  html+=`<div class="card" style="background:rgba(217,119,6,0.03);border-color:rgba(217,119,6,0.12)">
+    <div class="lbl" style="color:#D97706">TODAY'S PRACTICE — PHASE 1</div>
+    <div style="font-size:13px;color:#334155;line-height:2">1. Sit on balcony, spine straight<br>2. Anulom Vilom — 3 min<br>3. Sit with eyes closed — 2 min<br><br>→ 5 min total. That's all.</div></div>`;
   BRX.forEach(b=>{
     html+=`<div class="card" style="cursor:pointer;padding:18px;display:flex;align-items:center;gap:16px" onclick="startBreath('${esc(b.name)}')">
-      <div style="width:48px;height:48px;border-radius:50%;background:rgba(212,168,83,0.08);border:1px solid rgba(212,168,83,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:#D4A853">▶</div>
-      <div style="flex:1"><div class="hf" style="font-size:16px;font-weight:700;color:#ddd">${esc(b.name)}</div>
-        <div style="font-size:12px;color:#777;margin-top:3px">${Math.round(b.sec/60)} min · ${esc(b.d)}</div></div>
+      <div style="width:48px;height:48px;border-radius:50%;background:rgba(217,119,6,0.08);border:1px solid rgba(217,119,6,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:#D97706">▶</div>
+      <div style="flex:1"><div class="hf" style="font-size:16px;font-weight:700;color:#1E293B">${esc(b.name)}</div>
+        <div style="font-size:12px;color:#94A3B8;margin-top:3px">${Math.round(b.sec/60)} min · ${esc(b.d)}</div></div>
     </div>`;
   });
   if((dy.br||[]).length){
     html+=`<div class="card"><div class="lbl">✅ COMPLETED TODAY</div>`;
-    dy.br.forEach(b=>{html+=`<div style="font-size:14px;color:#34D399;padding:4px 0">✓ ${esc(b.n)} at ${esc(b.a)}</div>`;});
+    dy.br.forEach(b=>{html+=`<div style="font-size:14px;color:#059669;padding:4px 0">✓ ${esc(b.n)} at ${esc(b.a)}</div>`;});
     html+=`</div>`;
   }
-  html+=`<div class="card" style="border-color:rgba(99,102,241,0.12);background:rgba(99,102,241,0.03)">
-    <div class="hf" style="font-size:12px;font-weight:700;color:#818CF8;margin-bottom:8px">🌙 SLEEP PROTOCOL</div>
-    ${["📱 Phone charges OUTSIDE bedroom","🔅 Dim all lights after 9 PM","❄️ Room at 22–24°C","📓 Brain dump: 3 worries → notebook → close it","🧘 5 min Bhramari or Box Breathing in bed","☕ No caffeine after 3 PM","🍽️ No food after 8:30 PM"].map(s=>`<div style="font-size:13px;color:#bbb;padding:4px 0;line-height:1.7">${s}</div>`).join('')}</div>`;
+  html+=`<div class="card" style="border-color:rgba(79,70,229,0.12);background:rgba(79,70,229,0.03)">
+    <div class="hf" style="font-size:12px;font-weight:700;color:#4F46E5;margin-bottom:8px">🌙 SLEEP PROTOCOL</div>
+    ${["📱 Phone charges OUTSIDE bedroom","🔅 Dim all lights after 9 PM","❄️ Room at 22–24°C","📓 Brain dump: 3 worries → notebook → close it","🧘 5 min Bhramari or Box Breathing in bed","☕ No caffeine after 3 PM","🍽️ No food after 8:30 PM"].map(s=>`<div style="font-size:13px;color:#475569;padding:4px 0;line-height:1.7">${s}</div>`).join('')}</div>`;
   return html;
 },
 
 stats(){
   const cw=getCW(),bio=getBio(),streak=getStreak();let html='';
   // Mirror
-  html+=`<div class="card" style="border-color:rgba(212,168,83,0.12)">
+  html+=`<div class="card" style="border-color:rgba(217,119,6,0.12)">
     <div class="lbl">🪞 THE MIRROR — Day 1 vs Today</div>
-    ${[{l:"Weight",a:D.sw+"kg",b:cw+"kg",g:cw<D.sw},{l:"BMI",a:(D.sw/3.35).toFixed(1),b:(cw/3.35).toFixed(1),g:cw<D.sw},{l:"Streak",a:"0",b:streak+"",g:streak>0},{l:"Bio Age",a:bioA(D.sw/3.35,0,5.5,5,3)+"",b:bio+"",g:bio<bioA(D.sw/3.35,0,5.5,5,3)}].map(r=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)"><span style="font-size:15px;color:#888">${esc(r.a)}</span><span style="font-size:13px;color:#666">${r.l} ${r.g?'🟢':'🔴'}</span><span class="hf" style="font-size:15px;color:${r.g?'#34D399':'#ef4444'};font-weight:700">${esc(r.b)}</span></div>`).join('')}</div>`;
+    ${[{l:"Weight",a:D.sw+"kg",b:cw+"kg",g:cw<D.sw},{l:"BMI",a:(D.sw/3.35).toFixed(1),b:(cw/3.35).toFixed(1),g:cw<D.sw},{l:"Streak",a:"0",b:streak+"",g:streak>0},{l:"Bio Age",a:bioA(D.sw/3.35,0,5.5,5,3)+"",b:bio+"",g:bio<bioA(D.sw/3.35,0,5.5,5,3)}].map(r=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(15,23,42,0.042)"><span style="font-size:15px;color:#64748B">${esc(r.a)}</span><span style="font-size:13px;color:#94A3B8">${r.l} ${r.g?'🟢':'🔴'}</span><span class="hf" style="font-size:15px;color:${r.g?'#059669':'#DC2626'};font-weight:700">${esc(r.b)}</span></div>`).join('')}</div>`;
   // Heatmap
   html+=`<div class="card"><div class="lbl">HABIT HEATMAP · 12 WEEKS</div><div id="heatmap" style="display:flex;gap:2px;justify-content:center"></div></div>`;
   // Charts
@@ -660,25 +675,25 @@ stats(){
   {const PACE=1.25,bd=new Date("2026-09-03T00:00:00"),now_=new Date(),dl=Math.max(0,Math.ceil((bd-now_)/86400000)),cw_=getCW();
   const proj=(cw_-dl/7*PACE);
   const dt=k=>{if(cw_<=k)return "DONE ✓";const d=new Date();d.setDate(d.getDate()+Math.ceil((cw_-k)/PACE*7));return d.toLocaleDateString("en-IN",{day:"numeric",month:"short"})+" "+String(d.getFullYear()).slice(2)};
-  html+=`<div class="card" style="background:linear-gradient(135deg,rgba(245,158,11,0.05),rgba(245,158,11,0.01));border-color:rgba(245,158,11,0.15)">
-    <div class="lbl" style="color:#F59E0B">🎯 THE PLAN · 1.25 KG / WEEK</div>
+  html+=`<div class="card" style="background:linear-gradient(135deg,rgba(234,88,12,0.05),rgba(234,88,12,0.01));border-color:rgba(234,88,12,0.15)">
+    <div class="lbl" style="color:#EA580C">🎯 THE PLAN · 1.25 KG / WEEK</div>
     <div style="display:flex;justify-content:space-around;text-align:center;padding:8px 0">
-      <div><div class="hf" style="font-size:24px;font-weight:800;color:#F59E0B">${proj.toFixed(1)}</div><div style="font-size:11px;color:#888">🎂 by 3 Sep (${dl}d)</div></div>
-      <div><div class="hf" style="font-size:24px;font-weight:800;color:#60A5FA">${dt(100)}</div><div style="font-size:11px;color:#888">below 100 kg</div></div>
-      <div><div class="hf" style="font-size:24px;font-weight:800;color:#34D399">${dt(90)}</div><div style="font-size:11px;color:#888">at 90 kg 🏎️</div></div>
+      <div><div class="hf" style="font-size:24px;font-weight:800;color:#EA580C">${proj.toFixed(1)}</div><div style="font-size:11px;color:#64748B">🎂 by 3 Sep (${dl}d)</div></div>
+      <div><div class="hf" style="font-size:24px;font-weight:800;color:#2563EB">${dt(100)}</div><div style="font-size:11px;color:#64748B">below 100 kg</div></div>
+      <div><div class="hf" style="font-size:24px;font-weight:800;color:#059669">${dt(90)}</div><div style="font-size:11px;color:#64748B">at 90 kg 🏎️</div></div>
     </div></div>`;}
   html+=`<div class="card"><div class="lbl">WEIGHT TREND</div><canvas id="weightChart" height="130"></canvas></div>`;
   html+=`<div class="card"><div class="lbl">7-DAY SCORE</div><canvas id="weekChart" height="100"></canvas></div>`;
   // Export
   html+=`<div class="card"><div class="lbl">📤 EXPORT DATA</div>
     <div style="display:flex;gap:10px;margin-top:8px">
-      <button class="btn" style="flex:1;background:rgba(96,165,250,0.12);color:#60A5FA;border:1px solid rgba(96,165,250,0.3)" onclick="exportCSV()">CSV</button>
-      <button class="btn" style="flex:1;background:rgba(167,139,250,0.12);color:#A78BFA;border:1px solid rgba(167,139,250,0.3)" onclick="exportJSON()">JSON</button>
+      <button class="btn" style="flex:1;background:rgba(37,99,235,0.12);color:#2563EB;border:1px solid rgba(37,99,235,0.3)" onclick="exportCSV()">CSV</button>
+      <button class="btn" style="flex:1;background:rgba(124,58,237,0.12);color:#7C3AED;border:1px solid rgba(124,58,237,0.3)" onclick="exportJSON()">JSON</button>
     </div></div>`;
   // Streaks
   html+=`<div class="grid2">
-    <div class="card" style="text-align:center;padding:12px"><div class="hf" style="font-size:24px;font-weight:800;color:#D4A853">${streak}</div><div class="lbl" style="margin-bottom:0">STREAK</div></div>
-    <div class="card" style="text-align:center;padding:12px"><div class="hf" style="font-size:24px;font-weight:800;color:#A78BFA">${D.bst||0}</div><div class="lbl" style="margin-bottom:0">BEST</div></div></div>`;
+    <div class="card" style="text-align:center;padding:12px"><div class="hf" style="font-size:24px;font-weight:800;color:#D97706">${streak}</div><div class="lbl" style="margin-bottom:0">STREAK</div></div>
+    <div class="card" style="text-align:center;padding:12px"><div class="hf" style="font-size:24px;font-weight:800;color:#7C3AED">${D.bst||0}</div><div class="lbl" style="margin-bottom:0">BEST</div></div></div>`;
   return html;
 }
 };
@@ -695,7 +710,7 @@ function initCharts(){
       html+='<div style="display:flex;flex-direction:column;gap:2px">';
       for(let d=0;d<7;d++){
         const s=cells[w*7+d]||0;
-        const c=s===0?'rgba(255,255,255,0.03)':s<30?'#ef444440':s<60?'#f59e0b40':s<80?'#D4A85360':'#34D39960';
+        const c=s===0?'rgba(15,23,42,0.042)':s<30?'#DC262640':s<60?'#EA580C40':s<80?'#D9770660':'#05966960';
         html+=`<div style="width:10px;height:10px;border-radius:2px;background:${c}"></div>`;
       }
       html+='</div>';
@@ -706,13 +721,13 @@ function initCharts(){
   const wCtx=document.getElementById('weightChart');
   if(wCtx&&D.wts.length>1){
     const data=D.wts.slice(-30);const g999=data.map(()=>99.9),g90=data.map(()=>90);
-    charts.weight=new Chart(wCtx,{type:'line',data:{labels:data.map(p=>p.d.slice(5)),datasets:[{data:data.map(p=>p.w),borderColor:'#D4A853',backgroundColor:'rgba(212,168,83,0.1)',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#D4A853'},{data:g999,borderColor:'#F59E0B',borderDash:[6,4],borderWidth:1.5,pointRadius:0,fill:false},{data:g90,borderColor:'#34D399',borderDash:[2,3],borderWidth:1.5,pointRadius:0,fill:false}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1a1a2e',titleColor:'#888',bodyColor:'#D4A853'}},scales:{x:{grid:{display:false},ticks:{color:'#555',font:{size:9}}},y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#555',font:{size:9}}}}}});
+    charts.weight=new Chart(wCtx,{type:'line',data:{labels:data.map(p=>p.d.slice(5)),datasets:[{data:data.map(p=>p.w),borderColor:'#D97706',backgroundColor:'rgba(217,119,6,0.1)',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#D97706'},{data:g999,borderColor:'#EA580C',borderDash:[6,4],borderWidth:1.5,pointRadius:0,fill:false},{data:g90,borderColor:'#059669',borderDash:[2,3],borderWidth:1.5,pointRadius:0,fill:false}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1E293B',titleColor:'#CBD5E1',bodyColor:'#FCD34D'}},scales:{x:{grid:{display:false},ticks:{color:'#94A3B8',font:{size:9}}},y:{grid:{color:'rgba(15,23,42,0.042)'},ticks:{color:'#94A3B8',font:{size:9}}}}}});
   }
   // Week chart
   const kCtx=document.getElementById('weekChart');
   if(kCtx){
     const wkData=Array.from({length:7}).map((_,i)=>{const d=new Date();d.setDate(d.getDate()-(6-i));const k=d.toISOString().split("T")[0];return{d:new Date(k+"T12:00:00").toLocaleDateString("en",{weekday:"short"}),s:hsc(D.days[k])};});
-    charts.week=new Chart(kCtx,{type:'bar',data:{labels:wkData.map(d=>d.d),datasets:[{data:wkData.map(d=>d.s),backgroundColor:'#D4A853',borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:'#555',font:{size:10}}},y:{max:100,grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#555',font:{size:9}}}}}});
+    charts.week=new Chart(kCtx,{type:'bar',data:{labels:wkData.map(d=>d.d),datasets:[{data:wkData.map(d=>d.s),backgroundColor:'#D97706',borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:'#94A3B8',font:{size:10}}},y:{max:100,grid:{color:'rgba(15,23,42,0.042)'},ticks:{color:'#94A3B8',font:{size:9}}}}}});
   }
 }
 
@@ -817,20 +832,20 @@ function startBreath(name){
     const pct=tech.sec>0?(el/tech.sec*100):0;
     const ringR=60,ringC=2*Math.PI*ringR;
     ov.innerHTML=`<button class="ov-close" onclick="closeBreath()" style="font-size:28px">✕</button>
-      <div class="hf" style="font-size:14px;letter-spacing:4px;color:#888;margin-bottom:24px">${esc(tech.name.toUpperCase())}</div>
+      <div class="hf" style="font-size:14px;letter-spacing:4px;color:#64748B;margin-bottom:24px">${esc(tech.name.toUpperCase())}</div>
       <div style="position:relative;width:160px;height:160px;margin-bottom:24px">
         <svg width="160" height="160" style="transform:rotate(-90deg)">
-          <circle cx="80" cy="80" r="${ringR}" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="4"/>
-          <circle cx="80" cy="80" r="${ringR}" fill="none" stroke="${done?'#34D399':'#D4A853'}" stroke-width="4" stroke-dasharray="${ringC}" stroke-dashoffset="${ringC-pct/100*ringC}" stroke-linecap="round" style="transition:stroke-dashoffset 0.5s"/>
+          <circle cx="80" cy="80" r="${ringR}" fill="none" stroke="rgba(15,23,42,0.056)" stroke-width="4"/>
+          <circle cx="80" cy="80" r="${ringR}" fill="none" stroke="${done?'#059669':'#D97706'}" stroke-width="4" stroke-dasharray="${ringC}" stroke-dashoffset="${ringC-pct/100*ringC}" stroke-linecap="round" style="transition:stroke-dashoffset 0.5s"/>
         </svg>
         <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
-          ${done?`<div style="font-size:48px">✨</div><div class="hf" style="font-size:14px;color:#34D399;margin-top:4px">DONE</div>`
-          :`<div class="hf" style="font-size:44px;font-weight:200;color:#fff">${Math.floor(rm/60)}:${(rm%60).toString().padStart(2,'0')}</div>`}
+          ${done?`<div style="font-size:48px">✨</div><div class="hf" style="font-size:14px;color:#059669;margin-top:4px">DONE</div>`
+          :`<div class="hf" style="font-size:44px;font-weight:200;color:#0F172A">${Math.floor(rm/60)}:${(rm%60).toString().padStart(2,'0')}</div>`}
         </div>
       </div>
-      <button style="width:72px;height:72px;border-radius:50%;border:3px solid ${run?'#ef4444':done?'#34D399':'#D4A853'};background:${run?'rgba(239,68,68,0.06)':done?'rgba(52,211,153,0.06)':'rgba(212,168,83,0.06)'};color:${run?'#ef4444':done?'#34D399':'#D4A853'};font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center" onclick="toggleBreath()">${run?'❚❚':done?'✓':'▶'}</button>
-      ${!run&&!done?`<div style="margin-top:28px;max-width:280px;text-align:center">${tech.st.map((s,i)=>`<div style="font-size:14px;color:#777;line-height:2">${i+1}. ${esc(s)}</div>`).join('')}</div>`:''}
-      ${done?`<div class="hf" style="margin-top:16px;font-size:13px;color:#888">Tap ✓ to log</div>`:''}`;
+      <button style="width:72px;height:72px;border-radius:50%;border:3px solid ${run?'#DC2626':done?'#059669':'#D97706'};background:${run?'rgba(220,38,38,0.06)':done?'rgba(5,150,105,0.06)':'rgba(217,119,6,0.06)'};color:${run?'#DC2626':done?'#059669':'#D97706'};font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center" onclick="toggleBreath()">${run?'❚❚':done?'✓':'▶'}</button>
+      ${!run&&!done?`<div style="margin-top:28px;max-width:280px;text-align:center">${tech.st.map((s,i)=>`<div style="font-size:14px;color:#94A3B8;line-height:2">${i+1}. ${esc(s)}</div>`).join('')}</div>`:''}
+      ${done?`<div class="hf" style="margin-top:16px;font-size:13px;color:#64748B">Tap ✓ to log</div>`:''}`;
     ov.classList.remove('hidden');
   }
   window.toggleBreath=()=>{
@@ -857,12 +872,12 @@ function startFlow(type){
   function renderFlow(){
     const s=steps[ci],rm=s.d?s.d-tm:0,last=ci===steps.length-1;
     ov.innerHTML=`<button class="ov-close" onclick="closeFlow()">✕</button>
-      <div class="hf" style="font-size:10px;letter-spacing:3px;color:#D4A853">${title} · ${ci+1}/${steps.length}</div>
+      <div class="hf" style="font-size:10px;letter-spacing:3px;color:#D97706">${title} · ${ci+1}/${steps.length}</div>
       <div style="font-size:48px;margin:20px 0">${s.i}</div>
-      <div class="hf" style="font-size:20px;font-weight:700;color:#fff;text-align:center;max-width:260px">${esc(s.l)}</div>
-      ${s.d>0?`<div class="hf" style="font-size:32px;font-weight:200;color:#fff;margin:16px 0">${Math.floor(rm/60)}:${(rm%60).toString().padStart(2,'0')}</div>
-        ${tm<s.d?`<button class="btn" style="padding:6px 20px;border-radius:14px;border:1px solid #60A5FA;background:rgba(96,165,250,0.1);color:#60A5FA" onclick="toggleFlow()">${run?'Pause':'Start Timer'}</button>`:''}`:''}
-      <button class="btn" style="margin-top:20px;padding:12px 32px;background:${last?'linear-gradient(135deg,#34D399,#059669)':s.d&&tm<s.d?'#222':'#D4A853'};color:${last||!s.d||tm>=s.d?'#000':'#555'};font-size:15px;opacity:${s.d&&tm<s.d?0.4:1}" onclick="nextFlowStep()">${last?'✨ Complete':'Next →'}</button>
+      <div class="hf" style="font-size:20px;font-weight:700;color:#0F172A;text-align:center;max-width:260px">${esc(s.l)}</div>
+      ${s.d>0?`<div class="hf" style="font-size:32px;font-weight:200;color:#0F172A;margin:16px 0">${Math.floor(rm/60)}:${(rm%60).toString().padStart(2,'0')}</div>
+        ${tm<s.d?`<button class="btn" style="padding:6px 20px;border-radius:14px;border:1px solid #2563EB;background:rgba(37,99,235,0.1);color:#2563EB" onclick="toggleFlow()">${run?'Pause':'Start Timer'}</button>`:''}`:''}
+      <button class="btn" style="margin-top:20px;padding:12px 32px;background:${last?'linear-gradient(135deg,#047857,#059669)':s.d&&tm<s.d?'#E2E8F0':'#D97706'};color:${last||!s.d||tm>=s.d?'#fff':'#94A3B8'};font-size:15px;opacity:${s.d&&tm<s.d?0.4:1}" onclick="nextFlowStep()">${last?'✨ Complete':'Next →'}</button>
       <div class="dot-row">${steps.map((_,j)=>`<div class="dot ${j<ci?'done':j===ci?'active':''}"></div>`).join('')}</div>`;
     ov.classList.remove('hidden');
   }
@@ -890,17 +905,17 @@ function showLetter(){
   const ov=document.getElementById('overlayLetter');
   ov.innerHTML=`<button class="ov-close" onclick="document.getElementById('overlayLetter').classList.add('hidden')">✕</button>
     <div style="max-width:320px;text-align:center">
-      <div class="hf" style="font-size:10px;letter-spacing:3px;color:#34D399">📨 LETTER FROM FUTURE KEYUR</div>
-      <div style="font-size:11px;color:#888;margin-top:6px;margin-bottom:16px">From the version of you at 90 kg, driving a Porsche</div>
-      ${D.ltr?`<div style="font-size:14px;color:#ddd;line-height:1.9;text-align:left;font-style:italic;padding:16px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid rgba(52,211,153,0.1)">${esc(D.ltr)}</div>
-        <button class="btn" style="margin-top:12px;background:rgba(255,255,255,0.05);color:#888" onclick="generateLetter()">Regenerate</button>`
-      :`<button class="btn" style="padding:14px 28px;border:1px solid rgba(52,211,153,0.3);background:rgba(52,211,153,0.08);color:#34D399;font-size:15px" onclick="generateLetter()">✨ Generate Letter</button>`}
+      <div class="hf" style="font-size:10px;letter-spacing:3px;color:#059669">📨 LETTER FROM FUTURE KEYUR</div>
+      <div style="font-size:11px;color:#64748B;margin-top:6px;margin-bottom:16px">From the version of you at 90 kg, driving a Porsche</div>
+      ${D.ltr?`<div style="font-size:14px;color:#1E293B;line-height:1.9;text-align:left;font-style:italic;padding:16px;background:rgba(15,23,42,0.042);border-radius:10px;border:1px solid rgba(5,150,105,0.1)">${esc(D.ltr)}</div>
+        <button class="btn" style="margin-top:12px;background:rgba(15,23,42,0.07);color:#64748B" onclick="generateLetter()">Regenerate</button>`
+      :`<button class="btn" style="padding:14px 28px;border:1px solid rgba(5,150,105,0.3);background:rgba(5,150,105,0.08);color:#059669;font-size:15px" onclick="generateLetter()">✨ Generate Letter</button>`}
     </div>`;
   ov.classList.remove('hidden');
 }
 async function generateLetter(){
   const ov=document.getElementById('overlayLetter');
-  ov.querySelector('div > div:last-child').innerHTML='<div style="color:#888;animation:pulse 1.5s infinite;margin-top:16px">Writing from the future...</div>';
+  ov.querySelector('div > div:last-child').innerHTML='<div style="color:#64748B;animation:pulse 1.5s infinite;margin-top:16px">Writing from the future...</div>';
   try{
     const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:"Write a 130-word first-person letter from Future Keyur Patel who has reached 90kg and drives a Porsche, to his current self at "+getCW()+"kg who just started this wellness journey. He's the MD of Health1 Super Speciality Hospitals in Ahmedabad. His wife Megha noticed the transformation first. His chronic hip pain is gone. His stress went from unbearable to manageable. Be deeply personal, warm, and specific. End with one line of tough love. Write raw text only — no greeting or sign-off formatting."}]})});
     const data=await r.json();
@@ -914,67 +929,67 @@ async function generateLetter(){
 // ── PORSCHE ──
 function showPorsche(){
   const ov=document.getElementById('overlayPorsche');const cw=getCW();const por=D.por||{};
-  const bodyColor=({"Racing Yellow":"#F5C518","GT Silver":"#A8B0B8","Shark Blue":"#1A5276","Black":"#1a1a1a"})[por.Color]||"#2a2a2a";
-  const intColor=({"Black Leather":"#1a1a1a","Bordeaux Red":"#6B1C2A","Espresso":"#3E2723"})[por.Interior]||"#222";
+  const bodyColor=({"Racing Yellow":"#F5C518","GT Silver":"#A8B0B8","Shark Blue":"#1A5276","Black":"#1a1a1a"})[por.Color]||"#CBD5E1";
+  const intColor=({"Black Leather":"#1a1a1a","Bordeaux Red":"#6B1C2A","Espresso":"#3E2723"})[por.Interior]||"#E2E8F0";
   let html=`<button class="ov-close" onclick="document.getElementById('overlayPorsche').classList.add('hidden')">✕</button>
     <div style="max-width:380px;width:100%;max-height:85vh;overflow-y:auto;padding:0 10px">
-    <div style="text-align:center;margin-bottom:6px"><div class="hf" style="font-size:22px;font-weight:800;color:#fff">YOUR PORSCHE</div><div style="font-size:12px;color:#888;margin-top:2px">Build it as you lose weight</div></div>
-    <div style="background:linear-gradient(165deg,#0c1a2e,#0a0a16);border-radius:20px;padding:0;margin-bottom:16px;position:relative;overflow:hidden;border:1px solid rgba(212,168,83,0.12)">
+    <div style="text-align:center;margin-bottom:6px"><div class="hf" style="font-size:22px;font-weight:800;color:#0F172A">YOUR PORSCHE</div><div style="font-size:12px;color:#64748B;margin-top:2px">Build it as you lose weight</div></div>
+    <div style="background:linear-gradient(165deg,#EFF6FF,#FFF7ED);border-radius:20px;padding:0;margin-bottom:16px;position:relative;overflow:hidden;border:1px solid rgba(217,119,6,0.12)">
       <!-- Top bar -->
-      <div style="padding:20px 24px 16px;border-bottom:1px solid rgba(212,168,83,0.08)">
+      <div style="padding:20px 24px 16px;border-bottom:1px solid rgba(217,119,6,0.08)">
         <div style="display:flex;justify-content:space-between;align-items:flex-start">
           <div>
-            <div style="font-size:9px;letter-spacing:4px;color:rgba(212,168,83,0.5);font-family:Outfit,sans-serif;font-weight:600">CUSTOM ORDER</div>
-            <div class="hf" style="font-size:26px;font-weight:800;color:#fff;margin-top:4px;letter-spacing:-0.5px">${por.Model||'Porsche'}</div>
-            ${por.Model?`<div style="font-size:11px;color:rgba(255,255,255,0.25);margin-top:2px;letter-spacing:1px">${por.Model==='911 Carrera'?'3.0L Twin-Turbo Flat-6 · 379 hp':por.Model==='Taycan'?'Dual Motor · 402 hp · All-Electric':por.Model==='Cayenne'?'3.0L V6 Turbo · 348 hp · AWD':'Configured by Dr. Keyur Patel'}</div>`:``}
+            <div style="font-size:9px;letter-spacing:4px;color:rgba(217,119,6,0.5);font-family:Outfit,sans-serif;font-weight:600">CUSTOM ORDER</div>
+            <div class="hf" style="font-size:26px;font-weight:800;color:#0F172A;margin-top:4px;letter-spacing:-0.5px">${por.Model||'Porsche'}</div>
+            ${por.Model?`<div style="font-size:11px;color:rgba(15,23,42,0.35);margin-top:2px;letter-spacing:1px">${por.Model==='911 Carrera'?'3.0L Twin-Turbo Flat-6 · 379 hp':por.Model==='Taycan'?'Dual Motor · 402 hp · All-Electric':por.Model==='Cayenne'?'3.0L V6 Turbo · 348 hp · AWD':'Configured by Dr. Keyur Patel'}</div>`:``}
           </div>
           <div style="text-align:right">
-            <div style="font-size:9px;color:rgba(212,168,83,0.4);letter-spacing:2px;font-family:Outfit,sans-serif">PROGRESS</div>
-            <div class="hf" style="font-size:24px;font-weight:800;color:#D4A853;margin-top:2px">${Math.round(Object.keys(por).length/6*100)}%</div>
+            <div style="font-size:9px;color:rgba(217,119,6,0.4);letter-spacing:2px;font-family:Outfit,sans-serif">PROGRESS</div>
+            <div class="hf" style="font-size:24px;font-weight:800;color:#D97706;margin-top:2px">${Math.round(Object.keys(por).length/6*100)}%</div>
           </div>
         </div>
       </div>
       <!-- Visual config summary -->
       <div style="padding:16px 24px 20px">
-        ${por.Color?`<div style="display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)">
-          <div style="width:44px;height:44px;border-radius:12px;background:${bodyColor};border:2px solid rgba(255,255,255,0.1);box-shadow:0 4px 16px ${bodyColor}40"></div>
-          <div><div style="font-size:9px;color:#888;letter-spacing:1.5px;font-family:Outfit,sans-serif">EXTERIOR</div><div style="font-size:15px;color:#fff;font-weight:600;margin-top:2px">${esc(por.Color)}</div></div>
+        ${por.Color?`<div style="display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid rgba(15,23,42,0.042)">
+          <div style="width:44px;height:44px;border-radius:12px;background:${bodyColor};border:2px solid rgba(15,23,42,0.14);box-shadow:0 4px 16px ${bodyColor}40"></div>
+          <div><div style="font-size:9px;color:#64748B;letter-spacing:1.5px;font-family:Outfit,sans-serif">EXTERIOR</div><div style="font-size:15px;color:#0F172A;font-weight:600;margin-top:2px">${esc(por.Color)}</div></div>
         </div>`:''}
-        ${por.Interior?`<div style="display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)">
-          <div style="width:44px;height:44px;border-radius:12px;background:${intColor};border:2px solid rgba(255,255,255,0.08);position:relative;overflow:hidden"><div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent,transparent 3px,rgba(255,255,255,0.03) 3px,rgba(255,255,255,0.03) 4px)"></div></div>
-          <div><div style="font-size:9px;color:#888;letter-spacing:1.5px;font-family:Outfit,sans-serif">INTERIOR</div><div style="font-size:15px;color:#fff;font-weight:600;margin-top:2px">${esc(por.Interior)}</div></div>
+        ${por.Interior?`<div style="display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid rgba(15,23,42,0.042)">
+          <div style="width:44px;height:44px;border-radius:12px;background:${intColor};border:2px solid rgba(15,23,42,0.112);position:relative;overflow:hidden"><div style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent,transparent 3px,rgba(15,23,42,0.042) 3px,rgba(15,23,42,0.042) 4px)"></div></div>
+          <div><div style="font-size:9px;color:#64748B;letter-spacing:1.5px;font-family:Outfit,sans-serif">INTERIOR</div><div style="font-size:15px;color:#0F172A;font-weight:600;margin-top:2px">${esc(por.Interior)}</div></div>
         </div>`:''}
-        ${por.Wheels?`<div style="display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)">
-          <div style="width:44px;height:44px;border-radius:50%;border:3px solid #888;display:flex;align-items:center;justify-content:center;position:relative"><div style="width:22px;height:22px;border-radius:50%;border:2px solid #666"></div><div style="position:absolute;width:2px;height:100%;background:#77777740;transform:rotate(45deg)"></div><div style="position:absolute;width:2px;height:100%;background:#77777740;transform:rotate(-45deg)"></div><div style="position:absolute;width:2px;height:100%;background:#77777740"></div></div>
-          <div><div style="font-size:9px;color:#888;letter-spacing:1.5px;font-family:Outfit,sans-serif">WHEELS</div><div style="font-size:15px;color:#fff;font-weight:600;margin-top:2px">${esc(por.Wheels)}</div></div>
+        ${por.Wheels?`<div style="display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid rgba(15,23,42,0.042)">
+          <div style="width:44px;height:44px;border-radius:50%;border:3px solid #64748B;display:flex;align-items:center;justify-content:center;position:relative"><div style="width:22px;height:22px;border-radius:50%;border:2px solid #94A3B8"></div><div style="position:absolute;width:2px;height:100%;background:#77777740;transform:rotate(45deg)"></div><div style="position:absolute;width:2px;height:100%;background:#77777740;transform:rotate(-45deg)"></div><div style="position:absolute;width:2px;height:100%;background:#77777740"></div></div>
+          <div><div style="font-size:9px;color:#64748B;letter-spacing:1.5px;font-family:Outfit,sans-serif">WHEELS</div><div style="font-size:15px;color:#0F172A;font-weight:600;margin-top:2px">${esc(por.Wheels)}</div></div>
         </div>`:''}
-        ${por.Tech?`<div style="display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)">
-          <div style="width:44px;height:44px;border-radius:12px;background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.2);display:flex;align-items:center;justify-content:center;font-size:18px">⚡</div>
-          <div><div style="font-size:9px;color:#888;letter-spacing:1.5px;font-family:Outfit,sans-serif">TECHNOLOGY</div><div style="font-size:15px;color:#fff;font-weight:600;margin-top:2px">${esc(por.Tech)}</div></div>
+        ${por.Tech?`<div style="display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid rgba(15,23,42,0.042)">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.2);display:flex;align-items:center;justify-content:center;font-size:18px">⚡</div>
+          <div><div style="font-size:9px;color:#64748B;letter-spacing:1.5px;font-family:Outfit,sans-serif">TECHNOLOGY</div><div style="font-size:15px;color:#0F172A;font-weight:600;margin-top:2px">${esc(por.Tech)}</div></div>
         </div>`:''}
         ${por.Accent?`<div style="display:flex;align-items:center;gap:16px;padding:10px 0">
-          <div style="width:44px;height:44px;border-radius:12px;background:rgba(212,168,83,0.1);border:1px solid rgba(212,168,83,0.2);display:flex;align-items:center;justify-content:center;font-size:18px">✦</div>
-          <div><div style="font-size:9px;color:#888;letter-spacing:1.5px;font-family:Outfit,sans-serif">ACCENT</div><div style="font-size:15px;color:#fff;font-weight:600;margin-top:2px">${esc(por.Accent)}</div></div>
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(217,119,6,0.1);border:1px solid rgba(217,119,6,0.2);display:flex;align-items:center;justify-content:center;font-size:18px">✦</div>
+          <div><div style="font-size:9px;color:#64748B;letter-spacing:1.5px;font-family:Outfit,sans-serif">ACCENT</div><div style="font-size:15px;color:#0F172A;font-weight:600;margin-top:2px">${esc(por.Accent)}</div></div>
         </div>`:''}
-        ${Object.keys(por).length===0?`<div style="text-align:center;padding:20px 0"><div style="font-size:40px;opacity:0.15;margin-bottom:8px">🔒</div><div style="font-size:13px;color:#555">Your configuration will appear here as you unlock steps</div></div>`:''}
+        ${Object.keys(por).length===0?`<div style="text-align:center;padding:20px 0"><div style="font-size:40px;opacity:0.15;margin-bottom:8px">🔒</div><div style="font-size:13px;color:#94A3B8">Your configuration will appear here as you unlock steps</div></div>`:''}
       </div>
     </div>
-    ${Object.keys(por).length?`<div class="card" style="background:rgba(212,168,83,0.03);border-color:rgba(212,168,83,0.12)"><div class="lbl" style="color:#D4A853">SPEC SHEET</div>
-      ${["Model","Color","Interior","Wheels","Tech","Accent"].filter(k=>por[k]).map(k=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.03)"><span style="color:#888;font-size:13px">${k}</span><span style="color:#ddd;font-size:14px;font-weight:600">${k==="Color"?`<span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${bodyColor};vertical-align:middle;margin-right:6px"></span>`:``}${esc(por[k])}</span></div>`).join('')}
+    ${Object.keys(por).length?`<div class="card" style="background:rgba(217,119,6,0.03);border-color:rgba(217,119,6,0.12)"><div class="lbl" style="color:#D97706">SPEC SHEET</div>
+      ${["Model","Color","Interior","Wheels","Tech","Accent"].filter(k=>por[k]).map(k=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(15,23,42,0.042)"><span style="color:#64748B;font-size:13px">${k}</span><span style="color:#1E293B;font-size:14px;font-weight:600">${k==="Color"?`<span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${bodyColor};vertical-align:middle;margin-right:6px"></span>`:``}${esc(por[k])}</span></div>`).join('')}
     </div>`:``}`;
   PS.forEach(p=>{
     const ok=cw<=p.kg,ch=por[p.s],act=ok&&!ch&&p.o.length>0;
     const colorMap={"Racing Yellow":"#F5C518","GT Silver":"#A8B0B8","Shark Blue":"#1A5276","Black":"#1a1a1a","Black Leather":"#1a1a1a","Bordeaux Red":"#6B1C2A","Espresso":"#3E2723"};
-    html+=`<div class="card" style="border-color:${ch?'rgba(52,211,153,0.15)':act?'rgba(212,168,83,0.15)':'rgba(255,255,255,0.04)'};background:${ch?'rgba(52,211,153,0.04)':act?'rgba(212,168,83,0.04)':'rgba(255,255,255,0.02)'}">
-      <div style="display:flex;justify-content:space-between;align-items:center"><span class="hf" style="font-size:15px;font-weight:700;color:${ch?'#34D399':act?'#D4A853':'#555'}">${esc(p.s)}</span><span style="font-size:11px;color:#666">${ok?'✅ Unlocked':'🔒 '+p.kg+'kg'}</span></div>
-      ${ch?`<div style="font-size:14px;color:#34D399;margin-top:6px;font-weight:600;display:flex;align-items:center;gap:8px">${colorMap[ch]?`<div style="width:20px;height:20px;border-radius:50%;background:${colorMap[ch]};border:2px solid rgba(255,255,255,0.1)"></div>`:``}✓ ${esc(ch)}</div>`:''}
+    html+=`<div class="card" style="border-color:${ch?'rgba(5,150,105,0.15)':act?'rgba(217,119,6,0.15)':'rgba(15,23,42,0.056)'};background:${ch?'rgba(5,150,105,0.04)':act?'rgba(217,119,6,0.04)':'rgba(15,23,42,0.028)'}">
+      <div style="display:flex;justify-content:space-between;align-items:center"><span class="hf" style="font-size:15px;font-weight:700;color:${ch?'#059669':act?'#D97706':'#94A3B8'}">${esc(p.s)}</span><span style="font-size:11px;color:#94A3B8">${ok?'✅ Unlocked':'🔒 '+p.kg+'kg'}</span></div>
+      ${ch?`<div style="font-size:14px;color:#059669;margin-top:6px;font-weight:600;display:flex;align-items:center;gap:8px">${colorMap[ch]?`<div style="width:20px;height:20px;border-radius:50%;background:${colorMap[ch]};border:2px solid rgba(15,23,42,0.14)"></div>`:``}✓ ${esc(ch)}</div>`:''}
       ${act?`<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">${p.o.map(o=>{
         const cc=colorMap[o];
         return cc
-          ?`<button class="btn" style="padding:12px 18px;font-size:13px;border:1px solid rgba(212,168,83,0.3);background:rgba(212,168,83,0.06);color:#D4A853;display:flex;align-items:center;gap:8px" onclick="choosePorsche('${esc(p.s)}','${esc(o)}')"><div style="width:18px;height:18px;border-radius:50%;background:${cc};border:2px solid rgba(255,255,255,0.15)"></div>${esc(o)}</button>`
-          :`<button class="btn" style="padding:12px 18px;font-size:13px;border:1px solid rgba(212,168,83,0.3);background:rgba(212,168,83,0.06);color:#D4A853" onclick="choosePorsche('${esc(p.s)}','${esc(o)}')">${esc(o)}</button>`;
+          ?`<button class="btn" style="padding:12px 18px;font-size:13px;border:1px solid rgba(217,119,6,0.3);background:rgba(217,119,6,0.06);color:#D97706;display:flex;align-items:center;gap:8px" onclick="choosePorsche('${esc(p.s)}','${esc(o)}')"><div style="width:18px;height:18px;border-radius:50%;background:${cc};border:2px solid rgba(15,23,42,0.21)"></div>${esc(o)}</button>`
+          :`<button class="btn" style="padding:12px 18px;font-size:13px;border:1px solid rgba(217,119,6,0.3);background:rgba(217,119,6,0.06);color:#D97706" onclick="choosePorsche('${esc(p.s)}','${esc(o)}')">${esc(o)}</button>`;
       }).join('')}</div>`:''}
-      ${!ok?`<div style="font-size:12px;color:#555;margin-top:6px">Lose ${(cw-p.kg).toFixed(1)} more kg to unlock</div>`:''}
+      ${!ok?`<div style="font-size:12px;color:#94A3B8;margin-top:6px">Lose ${(cw-p.kg).toFixed(1)} more kg to unlock</div>`:''}
     </div>`;
   });
   html+=`</div>`;ov.innerHTML=html;ov.classList.remove('hidden');

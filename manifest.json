@@ -7,8 +7,8 @@
   "scope": "/wellness/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0c0c14",
-  "theme_color": "#0c0c14",
+  "background_color": "#FFF9F2",
+  "theme_color": "#FFF9F2",
   "lang": "en",
   "dir": "ltr",
   "categories": [
