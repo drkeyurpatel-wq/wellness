@@ -123,7 +123,7 @@ textarea.inp{resize:vertical;min-height:60px;font-size:14px;line-height:1.6}
    ═══════════════════════════════════════ */
 
 // ── DATA ──
-const INIT = {sw:117.5,tgt:90,days:{},wts:[{d:tod(),w:117.5}],ar:"5k_walk",rw:1,por:{},ltr:""};
+const INIT = {sw:120,tgt:85,v:2,days:{},wts:[{d:"2026-10-13",w:120}],ar:"5k_walk",rw:1,por:{},ltr:""};
 const HB = [
   {id:"wake",l:"Up on time",i:"☀️",g:0},{id:"pranayama",l:"Pranayama",i:"🌬️",g:1},
   {id:"exercise",l:"Exercise",i:"💪",g:2},{id:"water",l:"Water 10+",i:"💧",g:2},
@@ -131,17 +131,34 @@ const HB = [
   {id:"noAlc",l:"No alcohol",i:"🍷",g:3},{id:"sleepOk",l:"Slept ok",i:"🌙",g:4}
 ];
 const GN=["ROUTINE","MIND","BODY","FUEL","REST"];
-const MS=[{kg:108,r:"New Bike",i:"🏍️",c:"#D97706"},{kg:100,r:"BYD Sealion 7",i:"🚗",c:"#2563EB"},{kg:90,r:"Porsche",i:"🏎️",c:"#059669"}];
-const PS=[{kg:113,s:"Model",o:["911 Carrera","Taycan","Cayenne"]},{kg:111,s:"Color",o:["Racing Yellow","GT Silver","Shark Blue","Black"]},{kg:108,s:"Interior",o:["Black Leather","Bordeaux Red","Espresso"]},{kg:105,s:"Wheels",o:['20" Carrera','21" Spyder']},{kg:102,s:"Tech",o:["Sport Chrono","Night Vision","PASM"]},{kg:90,s:"FULL SPEC",o:[]}];
-const WP={
-  1:{label:"Monday · Push A + Badminton",am:{t:"Push A + Badminton",ex:[{n:"Elliptical warm-up",p:"5m",t:"W"},{n:"Chest press machine",p:"3×10",t:"S"},{n:"Incline chest press",p:"3×10",t:"S"},{n:"Seated shoulder press",p:"3×10",t:"S"},{n:"DB lateral raise",p:"3×12",t:"S"},{n:"Tricep pushdown",p:"3×12",t:"S"},{n:"Overhead tricep ext (DB)",p:"3×12",t:"S"},{n:"Plank hold",p:"3×30s",t:"K"},{n:"Badminton",p:"45m",t:"C",hip:"Sudden lateral lunges load the hip — ease off if it flares"}]},pm:{t:"4 km Evening Walk",ex:[{n:"Warm-up walk",p:"5m",t:"W"},{n:"Brisk 4 km walk",p:"45m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
-  2:{label:"Tuesday · Pull A + Badminton",am:{t:"Pull A + Badminton",ex:[{n:"Row machine warm-up",p:"5m",t:"W"},{n:"Lat pulldown (wide)",p:"3×10",t:"S"},{n:"Seated cable row",p:"3×10",t:"S"},{n:"Single-arm DB row",p:"3×10",t:"S"},{n:"Face pull",p:"3×12",t:"S"},{n:"DB curl",p:"3×12",t:"S"},{n:"Hammer curl",p:"3×12",t:"S"},{n:"Dead bug",p:"3×10",t:"K"},{n:"Badminton",p:"45m",t:"C",hip:"Sudden lateral lunges load the hip — ease off if it flares"}]},pm:{t:"4 km Evening Walk",ex:[{n:"Warm-up walk",p:"5m",t:"W"},{n:"Brisk 4 km walk",p:"45m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
-  3:{label:"Wednesday · Legs A + Badminton",am:{t:"Legs A (hip-aware) + Badminton",ex:[{n:"Bike warm-up",p:"5m",t:"W"},{n:"Leg press",p:"3×10",t:"S",hip:"Moderate depth only — NOT super deep"},{n:"Leg curl machine",p:"3×12",t:"S"},{n:"Leg extension",p:"3×12",t:"S"},{n:"Seated calf raise",p:"3×15",t:"S"},{n:"Glute bridge",p:"3×15",t:"S"},{n:"Cable wood-chop",p:"3×10",t:"S"},{n:"Hanging knee raise",p:"3×10",t:"K"},{n:"Badminton (light footwork)",p:"40m",t:"C",hip:"Leg day + badminton — keep rallies easy, no deep lunges"}]},pm:{t:"4 km Evening Walk",ex:[{n:"Warm-up walk",p:"5m",t:"W"},{n:"Brisk 4 km walk",p:"45m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
-  4:{label:"Thursday · Push B + Badminton",am:{t:"Push B + Badminton",ex:[{n:"Bike warm-up",p:"5m",t:"W"},{n:"Flat DB chest press",p:"3×10",t:"S"},{n:"Machine shoulder press",p:"3×10",t:"S"},{n:"Cable fly",p:"3×12",t:"S"},{n:"DB front raise",p:"3×12",t:"S"},{n:"Rope tricep pushdown",p:"3×12",t:"S"},{n:"Cable crunch",p:"3×15",t:"K"},{n:"Badminton",p:"45m",t:"C",hip:"Sudden lateral lunges load the hip — ease off if it flares"}]},pm:{t:"4 km Evening Walk",ex:[{n:"Warm-up walk",p:"5m",t:"W"},{n:"Brisk 4 km walk",p:"45m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
-  5:{label:"Friday · Pull B + Badminton",am:{t:"Pull B + Badminton",ex:[{n:"Elliptical warm-up",p:"5m",t:"W"},{n:"Close-grip lat pulldown",p:"3×10",t:"S"},{n:"Machine row",p:"3×10",t:"S"},{n:"Rear delt fly",p:"3×12",t:"S"},{n:"DB shrug",p:"3×12",t:"S"},{n:"Preacher/machine curl",p:"3×12",t:"S"},{n:"Reverse curl",p:"3×12",t:"S"},{n:"Bird-dog",p:"3×10",t:"K"},{n:"Badminton",p:"45m",t:"C",hip:"Sudden lateral lunges load the hip — ease off if it flares"}]},pm:{t:"4 km Evening Walk",ex:[{n:"Warm-up walk",p:"5m",t:"W"},{n:"Brisk 4 km walk",p:"45m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
-  6:{label:"Saturday · Legs B + Badminton",am:{t:"Legs B + Core + Badminton",ex:[{n:"Bike warm-up",p:"5m",t:"W"},{n:"Leg press (lighter, higher reps)",p:"3×15",t:"S",hip:"Moderate depth only"},{n:"Romanian DB deadlift (light)",p:"3×10",t:"S",hip:"Hinge carefully — stop if hip flares"},{n:"Leg curl",p:"3×12",t:"S"},{n:"Standing calf raise",p:"3×15",t:"S"},{n:"Adductor/abductor machine",p:"3×12",t:"S",hip:"Gentle range only"},{n:"Side plank",p:"3×20s",t:"K"},{n:"Badminton",p:"45m",t:"C",hip:"Leg day + badminton — keep rallies easy"}]},pm:{t:"4 km Evening Walk",ex:[{n:"Warm-up walk",p:"5m",t:"W"},{n:"Brisk 4 km walk",p:"45m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}},
-  0:{label:"Sunday · Active Recovery",am:{t:"Recovery — Walk + Pool",ex:[{n:"Long easy walk",p:"60m",t:"C"},{n:"Pool recovery",p:"20m",t:"C",hip:"Freestyle/backstroke — breaststroke kick aggravates the hip"},{n:"Full-body stretch",p:"10m",t:"W"}]},pm:{t:"Optional Light Walk",ex:[{n:"Easy 4 km walk (optional)",p:"45m",t:"C"},{n:"Stretch",p:"5m",t:"W"}]}}
+const MS=[{kg:108,r:"New Bike",i:"🏍️",c:"#D97706"},{kg:100,r:"BYD Sealion 7",i:"🚗",c:"#2563EB"},{kg:85,r:"Porsche",i:"🏎️",c:"#059669"}];
+const PS=[{kg:115,s:"Model",o:["911 Carrera","Taycan","Cayenne"]},{kg:111,s:"Color",o:["Racing Yellow","GT Silver","Shark Blue","Black"]},{kg:106,s:"Interior",o:["Black Leather","Bordeaux Red","Espresso"]},{kg:101,s:"Wheels",o:['20" Carrera','21" Spyder']},{kg:95,s:"Tech",o:["Sport Chrono","Night Vision","PASM"]},{kg:85,s:"FULL SPEC",o:[]}];
+const STR={
+  Push:[{n:"Elliptical warm-up",p:"5m",t:"W"},{n:"Chest press machine",p:"3×10",t:"S"},{n:"Incline chest press",p:"3×10",t:"S"},{n:"Seated shoulder press",p:"3×10",t:"S"},{n:"DB lateral raise",p:"3×12",t:"S"},{n:"Tricep pushdown",p:"3×12",t:"S"},{n:"Plank hold",p:"3×30s",t:"K"}],
+  Pull:[{n:"Row machine warm-up",p:"5m",t:"W"},{n:"Lat pulldown (wide)",p:"3×10",t:"S"},{n:"Seated cable row",p:"3×10",t:"S"},{n:"Single-arm DB row",p:"3×10",t:"S"},{n:"Face pull",p:"3×12",t:"S"},{n:"DB curl",p:"3×12",t:"S"},{n:"Dead bug",p:"3×10",t:"K"}],
+  Legs:[{n:"Bike warm-up",p:"5m",t:"W"},{n:"Leg press",p:"3×10",t:"S"},{n:"Romanian DB deadlift",p:"3×10",t:"S"},{n:"Leg curl machine",p:"3×12",t:"S"},{n:"Leg extension",p:"3×12",t:"S"},{n:"Standing calf raise",p:"3×15",t:"S"},{n:"Hanging knee raise",p:"3×10",t:"K"}],
+  Upper:[{n:"Bike warm-up",p:"5m",t:"W"},{n:"Flat DB chest press",p:"3×10",t:"S"},{n:"Close-grip lat pulldown",p:"3×10",t:"S"},{n:"Machine shoulder press",p:"3×10",t:"S"},{n:"Machine row",p:"3×10",t:"S"},{n:"Cable fly",p:"3×12",t:"S"},{n:"Rope tricep pushdown",p:"3×12",t:"S"},{n:"Cable crunch",p:"3×15",t:"K"}],
+  Lower:[{n:"Elliptical warm-up",p:"5m",t:"W"},{n:"Goblet squat",p:"3×10",t:"S"},{n:"Walking lunges",p:"3×10/side",t:"S"},{n:"Leg curl",p:"3×12",t:"S"},{n:"Adductor/abductor machine",p:"3×12",t:"S"},{n:"Seated calf raise",p:"3×15",t:"S"},{n:"Bird-dog",p:"3×10",t:"K"}]
 };
+const STRN=["Push","Pull","Legs","Upper","Lower"];
+const TRV=[{n:"Brisk walk 5 km",p:"50m",t:"C"},{n:"Push-ups",p:"3×12",t:"C"},{n:"Bodyweight squats",p:"3×20",t:"C"},{n:"Reverse lunges",p:"3×10/side",t:"C"},{n:"Glute bridge",p:"3×15",t:"C"},{n:"Plank",p:"3×40s",t:"C"},{n:"Burpees",p:"3×8",t:"C"}];
+const TRAVEL_RULES=["🥤 Carry whey sachets + roasted chana — protein holds at 150 g","🍛 Dal / paneer / curd / eggs + sabzi. Skip rice, naan, dessert, buffet starters","🍷 Zero alcohol, or one drink max","🚶 5 km walk + 30-min room circuit (Move tab)","⚖️ Travel weigh-ins stay out of the 7-day trend"];
+// ── PLAN · 120 → 95 kg by 3 Mar 2027 → 85 kg by 3 Sep 2027
+const PL={s:"2026-10-13",sw:120,ramp:"2026-10-22",m:"2027-03-03",mw:95,e:"2027-09-03",gw:85};
+const CK=["2026-11-13","2026-12-13","2027-01-13","2027-02-13","2027-03-03","2027-05-03","2027-07-03","2027-09-03"];
+const PROT=150;
+function dnum(k){return Date.UTC(+k.slice(0,4),+k.slice(5,7)-1,+k.slice(8,10))/86400000}
+function kOf(n){return new Date(n*86400000).toISOString().slice(0,10)}
+function planW(k){const t=dnum(k),a=dnum(PL.s),m=dnum(PL.m),e=dnum(PL.e);if(t<=a)return PL.sw;if(t<=m)return +(PL.sw-(PL.sw-PL.mw)*(t-a)/(m-a)).toFixed(1);if(t<=e)return +(PL.mw-(PL.mw-PL.gw)*(t-m)/(e-m)).toFixed(1);return PL.gw}
+function avg7(k){const t=dnum(k||tod());const v=D.wts.filter(x=>!x.tr&&dnum(x.d)<=t&&dnum(x.d)>t-7);if(!v.length)return null;return +(v.reduce((a,x)=>a+x.w,0)/v.length).toFixed(1)}
+function calBand(){const k=tod();if(k<=PL.ramp)return{t:1800,l:"Walk-only days · till 22 Oct"};const w=avg7()||getCW();return w>112?{t:2000,l:"120–112 kg band"}:w>104?{t:1900,l:"112–104 kg band"}:w>95?{t:1800,l:"104–95 kg band"}:{t:2300,l:"95–85 kg phase"}}
+function calTarget(){return calBand().t}
+function behindAlert(){const t=dnum(tod());for(let i=0;i<14;i++){const k=kOf(t-i);if(k<PL.s)return false;const a=avg7(k);if(a===null||a-planW(k)<=1)return false;}return true}
+function fmtD(k){return new Date(k+"T12:00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short",year:k.slice(0,4)===tod().slice(0,4)?undefined:"numeric"})}
+function weekKeys(){const t=dnum(tod()),dow=(new Date(tod()+"T12:00:00").getDay()+6)%7;return Array.from({length:7},(_,i)=>kOf(t-dow+i))}
+function weekStats(){let str=0,sport=0,walk=0,steps=0;weekKeys().forEach(k=>{const d=D.days[k];if(!d)return;Object.values(d.ex||{}).forEach(x=>{if(x.t!=='F')return;if(x.k==='str')str++;else if(x.k==='sport')sport++;else if(x.k==='walk')walk++;});if((d.steps||0)>=10000)steps++;});return{str,sport,walk,steps}}
+function strDoneToday(){return Object.values(getDay().ex||{}).find(x=>x.t==='F'&&x.k==='str')}
+function nextStr(){let n=0;Object.keys(D.days).filter(k=>k<tod()).forEach(k=>Object.values(D.days[k].ex||{}).forEach(x=>{if(x.t==='F'&&x.k==='str'&&STR[x.n])n++;}));return STRN[n%STRN.length]}
 const BRX=[{name:"Anulom Vilom",sec:300,d:"Calms nerves",st:["Close right nostril","Inhale left 4 counts","Close left nostril","Exhale right 4 counts","10 full rounds"]},{name:"Kapalbhati",sec:180,d:"Burns belly fat",st:["Sharp exhale, belly IN","Passive inhale","20 strokes × 3 rounds"]},{name:"Bhramari",sec:120,d:"Kills anxiety instantly",st:["Close ears with thumbs","Deep inhale","Exhale with HUMMM","5-7 rounds"]},{name:"Box Breathing",sec:180,d:"Navy SEAL reset",st:["Inhale 4, Hold 4","Exhale 4, Hold 4","6-8 rounds"]}];
 const MLs={"☀️ Pre-workout 7:20":["500ml water + pinch of salt + black coffee ~5 kcal","1 small date if low energy ~20 kcal"],"🌅 Post-workout Breakfast 9:45":["Whey 30g + 3 egg-white + 1 whole-egg omelette + 2 moong dal cheela + curd (100g) ~520 kcal 45g protein","Whey 30g + oats (50g) cooked in milk + 10 almonds + 1 apple + 2 egg whites ~520 kcal 40g protein","Whey 30g + paneer bhurji (100g) + 2 multigrain roti + salad ~500 kcal 42g protein"],"🍱 Lunch 1PM (hospital)":["2 multigrain roti + dal + sabzi + salad + curd (100g) ~500 kcal 30g protein","Brown rice (1 katori) + rajma/chole + sabzi + salad ~480 kcal 28g protein","Khichdi (1.5 katori) + kadhi + salad + 2 boiled eggs ~520 kcal 32g protein"],"🍵 Snack 5PM":["Greek yogurt (150g) + 10 almonds ~180 kcal 14g protein","Roasted chana (30g) + green tea ~110 kcal 7g protein","2 boiled eggs + cucumber ~160 kcal 13g protein"],"🌙 Dinner 8:30PM (light)":["Moong dal + sabzi + 1 roti + salad ~380 kcal 25g protein","Veg khichdi (1 katori) + curd + salad ~360 kcal 20g protein","Grilled paneer (100g) + stir-fry veg + salad ~400 kcal 28g protein"],"💪 Post-dinner (training days only)":["Whey 25g in water ~120 kcal 25g protein"]};
 const MRN=[{l:"Get out of bed",i:"🛏️",d:0},{l:"Bathroom + face wash",i:"🚿",d:0},{l:"Glass of warm water",i:"💧",d:0},{l:"Go to balcony",i:"🌅",d:0},{l:"Anulom Vilom",i:"🌬️",d:180},{l:"Sit with eyes closed",i:"🧘",d:120},{l:"You're ready. Go conquer.",i:"⚡",d:0}];
@@ -169,7 +186,8 @@ let breathInterval = null;
 let flowInterval = null;
 let charts = {};
 let selDay = null;  // day index for move tab (null = today)
-let selSes = 'am';  // 'am' or 'pm' session selection
+let selSes = 'am';
+let selKind = 'sport';  // kind for free activity logging
 
 // Storage — localStorage for standalone, window.storage for artifact
 async function loadData(){
@@ -178,6 +196,8 @@ async function loadData(){
   }catch(e){}
   try{const s=localStorage.getItem("kw-html-2");if(s)D=JSON.parse(s);}catch(e){}
   if(D.ltr&&/August 2026/.test(D.ltr))D.ltr="";
+  if(D.v!==2){D.sw=120;D.tgt=85;D.v=2;D.ltr="";saveData();}
+  if(D.ltr&&/hip|90 ?kg/i.test(D.ltr))D.ltr="";
 }
 async function saveData(){
   try{localStorage.setItem("kw-html-2",JSON.stringify(D));}catch(e){}
@@ -192,7 +212,7 @@ function setDay(fn){
   saveData();
   render();
 }
-function getCW(){return D.wts.length?D.wts[D.wts.length-1].w:115.9}
+function getCW(){return D.wts.length?D.wts[D.wts.length-1].w:D.sw}
 function getStreak(){
   let s=0,d=new Date();
   for(let i=0;i<365;i++){const k=d.toISOString().split("T")[0];if(D.days[k]&&hsc(D.days[k])>=54){s++;d.setDate(d.getDate()-1);}else break;}
@@ -238,7 +258,7 @@ function getTimeMachine(){
   if(rate<=0)return{rate:0,dates:MS.map(m=>{const need=cw-m.kg;return{...m,dt:need<=0?"DONE ✅":"STALLED ⚠️"};}),msg:"⚠️ Weight not dropping. Tighten diet + move more."};
   return{rate,dates:MS.map(m=>{const need=cw-m.kg;if(need<=0)return{...m,dt:"DONE ✅"};const d=new Date();d.setDate(d.getDate()+Math.ceil(need/rate));return{...m,dt:d.toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})};})};
 }
-function getNM(){const cw=getCW();return MS.find(m=>cw>m.kg)||MS[2]}
+function getNM(){const cw=getCW();return MS.find(m=>cw>m.kg)||MS[MS.length-1]}
 function getAR(){return RC.find(r=>r.id===D.ar)||RC[0]}
 
 // ── LIVING UI ──
@@ -306,6 +326,27 @@ home(){
     <div style="display:flex;gap:8px"><input id="weightInput" class="inp" type="number" step="0.1" placeholder="${D.wts.some(x=>x.d===tod())?'Logged today ✓ — update?':'Weight today — not logged yet'}" style="font-size:18px;padding:14px"><button class="btn" style="background:#D97706;color:#fff;padding:14px 22px;font-size:16px" onclick="logWeight()">Log</button></div>
   </div>`;
 
+  // Plan check
+  {const a=avg7(),pw=planW(tod()),nx=CK.find(k=>k>tod())||CK[CK.length-1],nw=planW(nx);
+   const ref=a!==null?a:cw,dl=+(ref-pw).toFixed(1),ok=dl<=0.3,cc=ok?'#059669':dl<=1?'#D97706':'#DC2626';
+   html+=`<div class="card" style="padding:18px;border-color:${cc}33;background:linear-gradient(135deg,${cc}0d,transparent)">
+    <div class="lbl" style="color:${cc}">ON PLAN? · 120 → 95 BY 3 MAR → 85 BY 3 SEP</div>
+    <div class="grid3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px;text-align:center">
+      <div><div class="hf" style="font-size:22px;font-weight:800;color:#0F172A">${pw}</div><div style="font-size:10px;color:#64748B;letter-spacing:1px">PLAN TODAY</div></div>
+      <div><div class="hf" style="font-size:22px;font-weight:800;color:#0F172A">${a!==null?a:'–'}</div><div style="font-size:10px;color:#64748B;letter-spacing:1px">7-DAY AVG</div></div>
+      <div><div class="hf" style="font-size:22px;font-weight:800;color:${cc}">${a===null?'–':(dl>0?'+':'')+dl}</div><div style="font-size:10px;color:#64748B;letter-spacing:1px">${a===null?'LOG DAILY':Math.abs(dl)<=0.3?'ON PLAN':dl>0?'KG BEHIND':'KG AHEAD'}</div></div>
+    </div>
+    <div style="font-size:14px;color:#334155;margin-top:12px;padding-top:10px;border-top:1px solid rgba(15,23,42,0.06)">Next checkpoint <strong>${fmtD(nx)} → ${nw} kg</strong> · ${Math.max(0,ref-nw).toFixed(1)} kg to go</div>
+    ${behindAlert()?`<div style="margin-top:10px;padding:10px 12px;border-radius:10px;background:rgba(220,38,38,0.07);color:#B91C1C;font-size:13px;font-weight:600">2 weeks behind plan. Cut 150 kcal or add one sport session — not both.</div>`:''}
+  </div>`;}
+  // Travel day
+  html+=`<div class="card" style="padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;${dy.travel?'border-color:rgba(37,99,235,0.3);background:rgba(37,99,235,0.05)':''}" onclick="toggleTravel()">
+    <div style="font-size:24px">✈️</div>
+    <div style="flex:1"><div class="hf" style="font-size:15px;font-weight:700;color:${dy.travel?'#2563EB':'#0F172A'}">Travel day</div><div style="font-size:12px;color:#64748B;margin-top:2px">${dy.travel?'On — walk + room circuit, travel food rules, weigh-in kept out of the trend':'Tap when you are on the road'}</div></div>
+    <div style="width:44px;height:26px;border-radius:13px;background:${dy.travel?'#2563EB':'rgba(15,23,42,0.12)'};position:relative;transition:all .2s"><div style="position:absolute;top:3px;left:${dy.travel?'21px':'3px'};width:20px;height:20px;border-radius:50%;background:#fff;transition:all .2s"></div></div>
+  </div>`;
+  if(dy.travel){html+=`<div class="card" style="border-color:rgba(37,99,235,0.15)"><div class="lbl" style="color:#2563EB">ON THE ROAD</div>${TRAVEL_RULES.map(r=>`<div style="font-size:14px;color:#334155;padding:5px 0;line-height:1.5">${r}</div>`).join('')}</div>`;}
+
   // Next reward
   html+=`<div class="card" style="cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(150deg,#fff,${nm.c}14);border-color:${nm.c}40" onclick="showPorsche()">
     <div style="display:flex;justify-content:space-between;align-items:center">
@@ -365,7 +406,8 @@ home(){
 
 fuel(){
   const dy=getDay();let html='';
-  const cals=todayCals(),target=1750,pct=Math.min(100,Math.round(cals/target*100));
+  const band=calBand(),cals=todayCals(),target=band.t,pct=Math.min(100,Math.round(cals/target*100));
+  const prot=todayProt(),pp=Math.min(100,Math.round(prot/PROT*100)),pc=prot>=PROT?'#059669':prot>=PROT*0.7?'#D97706':'#7C3AED';
   const color=cals<=target?'#059669':cals<=target*1.1?'#EA580C':'#DC2626';
 
   // Calorie summary — visual hero
@@ -387,14 +429,20 @@ fuel(){
         <div class="lbl" style="color:${color};margin-bottom:4px">🔥 CALORIES</div>
         <div style="font-size:14px;color:#1E293B;margin-bottom:4px">of <strong>${target}</strong> kcal budget</div>
         <div style="font-size:16px;font-weight:700;color:${cals<=target?'#059669':'#DC2626'}">${cals<=target?(target-cals)+' remaining':'Over by '+(cals-target)}</div>
+        <div style="font-size:11px;color:#94A3B8;margin-top:3px">${esc(band.l)}</div>
       </div>
     </div>
+    <div style="margin-top:16px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="lbl" style="color:${pc};margin-bottom:4px">🥚 PROTEIN</span><span style="font-size:14px;color:#1E293B"><strong class="hf" style="font-size:18px;color:${pc}">${prot}</strong> / ${PROT} g</span></div>
+      <div class="progress-bar" style="height:8px"><div class="progress-fill" style="background:${pc};width:${pp}%"></div></div>
+    </div>
   </div>`;
+  if(dy.travel){html+=`<div class="card" style="border-color:rgba(37,99,235,0.15);background:rgba(37,99,235,0.03)"><div class="lbl" style="color:#2563EB">✈️ TRAVEL DAY</div>${TRAVEL_RULES.slice(0,3).map(r=>`<div style="font-size:14px;color:#334155;padding:4px 0;line-height:1.5">${r}</div>`).join('')}</div>`;}
 
   // Meal logger
   html+=`<div class="card" style="border-color:rgba(5,150,105,0.12);background:rgba(5,150,105,0.03)">
     <div class="hf" style="font-size:12px;font-weight:700;color:#059669;margin-bottom:8px">📝 LOG WHAT YOU ATE</div>
-    <div style="display:flex;gap:8px"><input id="mealInput" class="inp" placeholder="Anything — e.g. dhokla + chai ~250 kcal" onkeydown="if(event.key==='Enter')logMeal()"><button class="btn" style="background:#059669;color:#fff;padding:12px 18px" onclick="logMeal()">+</button></div>
+    <div style="display:flex;gap:8px"><input id="mealInput" class="inp" placeholder="e.g. paneer bhurji + 2 roti ~450 kcal 25g protein" onkeydown="if(event.key==='Enter')logMeal()"><button class="btn" style="background:#059669;color:#fff;padding:12px 18px" onclick="logMeal()">+</button></div>
   </div>`;
   // Today's logged meals with calories
   if((dy.meals||[]).length){
@@ -402,7 +450,7 @@ fuel(){
     (dy.meals||[]).forEach(m=>{
       html+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(15,23,42,0.042)">
         <div><span style="font-size:12px;color:#64748B">${esc(m.t)}</span> <span style="font-size:14px;color:#1E293B">${esc(m.x)}</span></div>
-        ${m.cal?`<span class="hf" style="font-size:14px;font-weight:700;color:#D97706">${m.cal} kcal</span>`:''}
+        <span style="text-align:right;flex-shrink:0;margin-left:8px">${m.cal?`<span class="hf" style="font-size:14px;font-weight:700;color:#D97706">${m.cal} kcal</span>`:''}${(m.p||parseProt(m.x))?`<div style="font-size:11px;color:#7C3AED;font-weight:700">${m.p||parseProt(m.x)} g protein</div>`:''}</span>
       </div>`;
     });
     html+=`</div>`;
@@ -426,98 +474,86 @@ fuel(){
 },
 
 move(){
-  const dy=getDay(),ar=getAR();let html='';
-  const todayIdx=new Date().getDay();
-  const dayIdx=todayIdx;
-  const plan=WP[dayIdx]||WP[todayIdx];
-  const session=selSes;
-  const activeSess=session==='am'?plan.am:plan.pm;
-  const dayNames=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-
-  // Free entry
-  const freeEx=Object.entries(dy.ex||{}).filter(([k,x])=>x.t==='F');
+  const dy=getDay(),k=tod(),ramp=k<=PL.ramp,ws=weekStats();let html='';
+  // Weekly scoreboard
+  const tile=(n,goal,label,c)=>`<div style="text-align:center;padding:12px 4px;border-radius:12px;background:${n>=goal?'rgba(5,150,105,0.08)':'rgba(15,23,42,0.03)'};border:1px solid ${n>=goal?'rgba(5,150,105,0.25)':'rgba(15,23,42,0.06)'}"><div class="hf" style="font-size:26px;font-weight:800;color:${n>=goal?'#059669':c}">${n}<span style="font-size:14px;color:#94A3B8">/${goal}</span></div><div style="font-size:10px;color:#64748B;letter-spacing:1px;margin-top:2px">${label}</div></div>`;
+  if(ramp){
+    const walked=Object.values(dy.ex||{}).some(x=>x.t==='F'&&x.k==='walk');
+    html+=`<div class="card" style="padding:18px;background:linear-gradient(135deg,rgba(234,88,12,0.07),transparent);border-color:rgba(234,88,12,0.18)">
+      <div class="lbl" style="color:#EA580C">WALK-ONLY DAYS · TILL 22 OCT</div>
+      <div class="hf" style="font-size:18px;font-weight:700;color:#0F172A">5 km brisk walk, every day</div>
+      <div style="font-size:13px;color:#64748B;margin-top:4px">5.5–6 km/h · about 50–55 min. Strength + sport start 23 Oct.</div>
+      <div style="display:flex;gap:10px;align-items:center;margin-top:12px">${walked?`<span class="hf" style="font-size:15px;font-weight:700;color:#059669">✓ Walk done today</span>`:`<button class="btn" style="background:#EA580C;color:#fff" onclick="logKind('walk','5 km walk',55)">✓ 5 km walk done</button>`}<span style="font-size:13px;color:#64748B;margin-left:auto">${ws.walk}/7 this week</span></div>
+    </div>`;
+  } else {
+    html+=`<div class="card" style="padding:16px"><div class="lbl">THIS WEEK · MON–SUN</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">${tile(ws.str,5,'STRENGTH','#7C3AED')}${tile(ws.sport,3,'SPORT','#2563EB')}${tile(ws.steps,7,'10K-STEP DAYS','#EA580C')}</div></div>`;
+  }
+  // Steps
+  const st=dy.steps||0;
+  html+=`<div class="card" style="padding:16px"><div style="display:flex;justify-content:space-between;align-items:baseline"><div class="lbl">👣 STEPS TODAY</div><span style="font-size:12px;color:${st>=10000?'#059669':'#94A3B8'};font-weight:700">${st>=10000?'✓ 10k done':st?(10000-st).toLocaleString('en-IN')+' to 10k':'Goal 10,000'}</span></div>
+    <div style="display:flex;gap:8px;margin-top:4px"><input id="stepsInput" class="inp" type="number" inputmode="numeric" placeholder="${st?st.toLocaleString('en-IN')+' — update?':'From your phone or watch'}" onkeydown="if(event.key==='Enter')logSteps()"><button class="btn" style="background:#EA580C;color:#fff;padding:12px 18px" onclick="logSteps()">Save</button></div>
+    <div class="progress-bar" style="height:6px;margin-top:10px"><div class="progress-fill" style="background:${st>=10000?'#059669':'#EA580C'};width:${Math.min(100,st/100)}%"></div></div></div>`;
+  // Free entry with kind
+  const freeEx=Object.entries(dy.ex||{}).filter(([kk,x])=>x.t==='F');
+  const KN={str:'Strength',sport:'Sport',walk:'Walk',other:'Other'},KC={str:'#7C3AED',sport:'#2563EB',walk:'#EA580C',other:'#64748B'};
   html+=`<div class="card" style="border-color:rgba(5,150,105,0.12);background:rgba(5,150,105,0.03);padding:18px">
     <div class="hf" style="font-size:12px;font-weight:700;color:#059669;margin-bottom:8px">🏃 LOG WHAT YOU DID</div>
-    <div style="display:flex;gap:8px"><input id="freeExInput" class="inp" placeholder="e.g. Badminton, swim, 4 km walk" onkeydown="if(event.key==='Enter')logFreeEx()"><input id="freeExMin" class="inp" type="number" placeholder="min" style="width:76px"><button class="btn" style="background:#059669;color:#fff;padding:12px 16px" onclick="logFreeEx()">+</button></div>
-    ${freeEx.length?`<div style="margin-top:10px">${freeEx.map(([k,x])=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(15,23,42,0.042)"><span style="font-size:14px;color:#1E293B">✓ ${esc(x.n)}</span><span style="display:flex;gap:10px;align-items:center"><span class="hf" style="font-size:13px;font-weight:700;color:#059669">${x.dur?x.dur+' min':''}</span><button style="background:none;border:none;color:#94A3B8;font-size:18px;cursor:pointer" onclick="removeFreeEx('${k}')">×</button></span></div>`).join('')}</div>`:''}
-  </div>
-  <div class="lbl" style="margin:14px 4px 6px">SUGGESTED FOR TODAY</div>`;
-
-  // Day header
-  html+=`<div class="card" style="padding:18px;background:linear-gradient(135deg,rgba(217,119,6,0.06),transparent);border-color:rgba(217,119,6,0.15)">
-    <div class="lbl" style="color:#D97706;margin-bottom:4px">${dayIdx===todayIdx?'TODAY':'SELECTED DAY'}</div>
-    <div class="hf" style="font-size:18px;font-weight:700;color:#0F172A">${esc(plan.label)}</div>
+    <div style="display:flex;gap:6px;margin-bottom:8px">${Object.keys(KN).map(x=>`<button onclick="selKind='${x}';render()" style="flex:1;padding:8px 4px;border-radius:9px;font-size:12px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;border:1px solid ${selKind===x?KC[x]:'rgba(15,23,42,0.08)'};background:${selKind===x?KC[x]+'18':'#fff'};color:${selKind===x?KC[x]:'#64748B'}">${KN[x]}</button>`).join('')}</div>
+    <div style="display:flex;gap:8px"><input id="freeExInput" class="inp" placeholder="${selKind==='sport'?'e.g. Badminton, tennis, swim':selKind==='str'?'e.g. Push day':selKind==='walk'?'e.g. 5 km walk':'Anything'}" onkeydown="if(event.key==='Enter')logFreeEx()"><input id="freeExMin" class="inp" type="number" placeholder="min" style="width:76px"><button class="btn" style="background:#059669;color:#fff;padding:12px 16px" onclick="logFreeEx()">+</button></div>
+    ${freeEx.length?`<div style="margin-top:10px">${freeEx.map(([kk,x])=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(15,23,42,0.042)"><span style="font-size:14px;color:#1E293B">✓ ${esc(x.n)} <span style="font-size:10px;font-weight:700;color:${KC[x.k]||'#64748B'};margin-left:4px">${(KN[x.k]||'').toUpperCase()}</span></span><span style="display:flex;gap:10px;align-items:center"><span class="hf" style="font-size:13px;font-weight:700;color:#059669">${x.dur?x.dur+' min':''}</span><button style="background:none;border:none;color:#94A3B8;font-size:18px;cursor:pointer" onclick="removeFreeEx('${kk}')">×</button></span></div>`).join('')}</div>`:''}
   </div>`;
-
-  // AM / PM toggle
-  html+=`<div class="grid2" style="margin-bottom:10px">
-    <button onclick="selectSession('am')" style="padding:12px;border-radius:10px;font-size:13px;font-weight:700;font-family:'Outfit',sans-serif;border:1px solid ${session==='am'?'#D97706':'rgba(15,23,42,0.084)'};background:${session==='am'?'rgba(217,119,6,0.12)':'rgba(15,23,42,0.028)'};color:${session==='am'?'#D97706':'#64748B'};cursor:pointer">AM · 08:00–09:30</button>
-    <button onclick="selectSession('pm')" ${!plan.pm?'disabled':''} style="padding:12px;border-radius:10px;font-size:13px;font-weight:700;font-family:'Outfit',sans-serif;border:1px solid ${session==='pm'&&plan.pm?'#D97706':'rgba(15,23,42,0.084)'};background:${session==='pm'&&plan.pm?'rgba(217,119,6,0.12)':'rgba(15,23,42,0.028)'};color:${!plan.pm?'#94A3B8':session==='pm'?'#D97706':'#64748B'};cursor:${plan.pm?'pointer':'not-allowed'};opacity:${plan.pm?1:0.5}">${plan.pm?'PM · 18:00–19:30':'PM · REST'}</button>
+  // Suggested session
+  let title,list,sessKey,doneLbl,doneName;
+  const sd=strDoneToday();
+  if(dy.travel){title='Travel · walk + 30-min room circuit';list=TRV;sessKey='travel';doneName='Travel circuit';doneLbl='✓ Circuit done';}
+  else if(ramp){return html;}
+  else{const nm=sd&&STR[sd.n]?sd.n:nextStr();title=nm+' day · ~60 min';list=STR[nm];sessKey=nm;doneName=nm;doneLbl='✓ Mark '+nm+' done';}
+  html+=`<div class="lbl" style="margin:14px 4px 6px">SUGGESTED STRENGTH SESSION</div>
+  <div class="card" style="padding:16px;border-color:rgba(124,58,237,0.2);background:rgba(124,58,237,0.03);display:flex;align-items:center;gap:10px">
+    <div style="flex:1"><div class="hf" style="font-size:17px;font-weight:700;color:#0F172A">${esc(title)}</div><div style="font-size:12px;color:#64748B;margin-top:2px">Rotation: Push → Pull → Legs → Upper → Lower</div></div>
+    ${sd&&!dy.travel?`<span class="hf" style="font-size:14px;font-weight:700;color:#059669">✓ Done</span>`:`<button class="btn" style="background:#7C3AED;color:#fff;padding:10px 14px;font-size:13px" onclick="logKind('str','${doneName}',${dy.travel?30:60})">${doneLbl}</button>`}
   </div>`;
-
-  if(!activeSess){
-    html+=`<div class="card" style="padding:40px 20px;text-align:center;border-color:rgba(129,140,248,0.15);background:rgba(129,140,248,0.03)">
-      <div style="font-size:48px;margin-bottom:10px">🌙</div>
-      <div class="hf" style="font-size:18px;font-weight:700;color:#4F46E5">Rest Evening</div>
-      <div style="font-size:13px;color:#64748B;margin-top:6px">Sunday PM is off. Be with family.</div>
-    </div>`;
-    return html;
-  }
-
-  // Session title
-  html+=`<div class="card" style="padding:14px 16px;border-color:rgba(124,58,237,0.2);background:rgba(124,58,237,0.03)">
-    <div class="lbl" style="color:#7C3AED">${session==='am'?'MORNING':'EVENING'} SESSION · 90 MIN</div>
-    <div class="hf" style="font-size:17px;font-weight:700;color:#0F172A;margin-top:3px">${esc(activeSess.t)}</div>
-  </div>`;
-
-  // Exercises
-  activeSess.ex.forEach((e,i)=>{
-    const exKey=`${dayIdx}_${session}_${e.n}`;
+  list.forEach(e=>{
+    const exKey=`${sessKey}_${e.n}`;
     const xd=(dy.ex||{})[exKey]||{},has=e.t==="S"?(xd.s||[]).length>0:!!xd.dur||(e.t==="K"?!!xd.sets:false);
     const tc=e.t==="W"?"#EA580C":e.t==="C"?"#2563EB":e.t==="K"?"#D97706":"#7C3AED";
-    const open=expandedEx===exKey;
+    const open=expandedEx===exKey,ek=exKey.replace(/'/g,"\\'");
     if(e.t==="W"||e.t==="C"){
       html+=`<div class="card" style="border-left:4px solid ${tc};display:flex;align-items:center;justify-content:space-between;padding:14px 16px">
         <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
           <div style="width:22px;height:22px;border-radius:6px;background:${has?'#059669':'rgba(15,23,42,0.07)'};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:${has?'#fff':'transparent'};flex-shrink:0">✓</div>
-          <div style="min-width:0"><div style="font-size:14px;color:${has?'#94A3B8':'#1E293B'};overflow:hidden;text-overflow:ellipsis">${esc(e.n)}</div><div style="font-size:11px;color:#94A3B8">${esc(e.p)}</div></div>
+          <div style="min-width:0"><div style="font-size:14px;color:${has?'#94A3B8':'#1E293B'}">${esc(e.n)}</div><div style="font-size:11px;color:#94A3B8">${esc(e.p)}</div></div>
         </div>
-        ${has?`<span style="font-size:13px;color:#059669;font-weight:600;flex-shrink:0">✓</span>`:`<button class="btn" style="padding:8px 16px;background:${tc}15;color:${tc};border:1px solid ${tc}30;font-size:12px;flex-shrink:0" onclick="event.stopPropagation();quickExDone('${exKey.replace(/'/g,"\\'")}','${e.t}',${parseInt(e.p)||5})">Done</button>`}
+        ${has?`<span style="font-size:13px;color:#059669;font-weight:600;flex-shrink:0">✓</span>`:`<button class="btn" style="padding:8px 16px;background:${tc}15;color:${tc};border:1px solid ${tc}30;font-size:12px;flex-shrink:0" onclick="event.stopPropagation();quickExDone('${ek}','${e.t}',${parseInt(e.p)||5})">Done</button>`}
       </div>`;
-      if(e.hip){
-        html+=`<div style="margin:-8px 2px 8px 6px;padding:8px 12px;background:rgba(234,88,12,0.06);border-left:3px solid #EA580C;border-radius:0 8px 8px 0;font-size:11px;color:#EA580C;line-height:1.5">⚠️ ${esc(e.hip)}</div>`;
-      }
     } else {
       html+=`<div class="card ex-row" style="border-left-color:${tc}">
-        <div class="ex-header" onclick="expandExKey('${exKey.replace(/'/g,"\\'")}','${e.t}')">
+        <div class="ex-header" onclick="expandExKey('${ek}','${e.t}')">
           <div style="width:22px;height:22px;border-radius:6px;background:${has?'#059669':'rgba(15,23,42,0.07)'};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:${has?'#fff':'transparent'};flex-shrink:0">✓</div>
           <span style="flex:1;font-size:14px;color:${has?'#94A3B8':'#1E293B'}">${esc(e.n)}</span>
           <span class="hf" style="font-size:12px;color:#94A3B8">${esc(e.p)}</span>
           <span style="color:#94A3B8;font-size:14px;transform:${open?'rotate(180deg)':'none'};transition:transform .2s;display:inline-block;margin-left:6px">▾</span>
         </div>`;
-      if(e.hip){
-        html+=`<div style="margin:0 14px 8px;padding:8px 12px;background:rgba(234,88,12,0.06);border-left:3px solid #EA580C;border-radius:0 8px 8px 0;font-size:11px;color:#EA580C;line-height:1.5">⚠️ ${esc(e.hip)}</div>`;
-      }
       if(open){
         html+=`<div class="ex-detail">`;
         if(e.t==="S"){
-          (xd.s||[]).forEach((s,si)=>{
-            html+=`<div class="set-row"><span style="font-size:13px;color:#64748B;width:24px;font-weight:600">S${s.n}</span>
-              <input class="inp set-input" type="number" value="${s.r||''}" placeholder="reps" onchange="updateSetKey('${exKey.replace(/'/g,"\\'")}',${si},'r',this.value)">
+          (xd.s||[]).forEach((st,si)=>{
+            html+=`<div class="set-row"><span style="font-size:13px;color:#64748B;width:24px;font-weight:600">S${st.n}</span>
+              <input class="inp set-input" type="number" value="${st.r||''}" placeholder="reps" onchange="updateSetKey('${ek}',${si},'r',this.value)">
               <span style="font-size:14px;color:#94A3B8;font-weight:700">×</span>
-              <input class="inp set-input" type="number" value="${s.w||''}" placeholder="kg" onchange="updateSetKey('${exKey.replace(/'/g,"\\'")}',${si},'w',this.value)">
+              <input class="inp set-input" type="number" value="${st.w||''}" placeholder="kg" onchange="updateSetKey('${ek}',${si},'w',this.value)">
               <span style="font-size:12px;color:#64748B">kg</span>
-              <button style="background:none;border:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:4px 8px" onclick="removeSetKey('${exKey.replace(/'/g,"\\'")}',${si})">×</button></div>`;
+              <button style="background:none;border:none;color:#94A3B8;cursor:pointer;font-size:18px;padding:4px 8px" onclick="removeSetKey('${ek}',${si})">×</button></div>`;
           });
-          html+=`<button class="btn" style="padding:10px 20px;font-size:13px;background:rgba(124,58,237,0.08);color:#7C3AED;margin-top:8px" onclick="addSetKey('${exKey.replace(/'/g,"\\'")}')">+ Add Set</button>`;
+          html+=`<button class="btn" style="padding:10px 20px;font-size:13px;background:rgba(124,58,237,0.08);color:#7C3AED;margin-top:8px" onclick="addSetKey('${ek}')">+ Add Set</button>`;
         }
         if(e.t==="K"){
           html+=`<div style="display:flex;gap:10px;align-items:center;margin-top:8px;flex-wrap:wrap">
-            <input class="inp set-input" type="number" value="${xd.sets||''}" placeholder="sets" onchange="updateExFieldKey('${exKey.replace(/'/g,"\\'")}','K','sets',this.value)">
+            <input class="inp set-input" type="number" value="${xd.sets||''}" placeholder="sets" onchange="updateExFieldKey('${ek}','K','sets',this.value)">
             <span style="font-size:14px;color:#64748B">×</span>
-            <input class="inp set-input" type="number" value="${xd.sec||''}" placeholder="sec" onchange="updateExFieldKey('${exKey.replace(/'/g,"\\'")}','K','sec',this.value)">
+            <input class="inp set-input" type="number" value="${xd.sec||''}" placeholder="sec" onchange="updateExFieldKey('${ek}','K','sec',this.value)">
             <span style="font-size:14px;color:#64748B">sec</span>
-            <button class="btn" style="padding:8px 14px;background:rgba(5,150,105,0.08);color:#059669;border:1px solid rgba(5,150,105,0.2);font-size:12px" onclick="toast('✓ Logged')">✓</button>
           </div>`;
         }
         html+=`</div>`;
@@ -525,7 +561,6 @@ move(){
       html+=`</div>`;
     }
   });
-
   return html;
 },
 
@@ -555,6 +590,13 @@ breathe(){
 stats(){
   const cw=getCW(),bio=getBio(),streak=getStreak();let html='';
   const tm=getTimeMachine();
+  // Checkpoints
+  {const t=tod(),nx=CK.find(k=>k>t);
+   html+=`<div class="card" style="padding:16px"><div class="lbl">🎯 CHECKPOINTS · 7-DAY AVERAGE VS PLAN</div>`+CK.map((k,ix)=>{
+     const pw=planW(k),past=k<=t,a=past?avg7(k):null,hit=a!==null&&a<=pw+0.3,isNx=k===nx;
+     const st=past?(a===null?'<span style="color:#94A3B8">no log</span>':`<span style="color:${hit?'#059669':'#DC2626'};font-weight:700">${a} ${hit?'✓':'✗'}</span>`):isNx?`<span style="color:#2563EB;font-weight:700">next</span>`:'';
+     const sep=ix===4?'border-bottom:2px solid rgba(15,23,42,0.12)':'border-bottom:1px solid rgba(15,23,42,0.042)';
+     return `<div style="display:flex;align-items:center;padding:9px 0;${sep};${isNx?'background:rgba(37,99,235,0.04)':''}"><span style="flex:1;font-size:14px;color:#334155">${fmtD(k)}</span><span class="hf" style="width:80px;text-align:right;font-size:16px;font-weight:700;color:#0F172A">${pw} kg</span><span style="width:90px;text-align:right;font-size:13px">${st}</span></div>`;}).join('')+`</div>`;}
   // Time Machine
   html+=`<div class="card" style="border-color:rgba(37,99,235,0.12);background:rgba(37,99,235,0.03)">
     <div class="lbl">⏰ TIME MACHINE</div>`;
@@ -570,7 +612,7 @@ stats(){
   // Letter
   html+=`<div class="card" style="cursor:pointer;padding:16px;border-color:rgba(5,150,105,0.12);background:rgba(5,150,105,0.03);display:flex;align-items:center;gap:14px" onclick="showLetter()">
     <div style="font-size:28px">📨</div>
-    <div style="flex:1"><div class="hf" style="font-size:14px;font-weight:700;color:#059669">Letter from Future Keyur</div><div style="font-size:11px;color:#94A3B8;margin-top:2px">The one at 90 kg, driving a Porsche</div></div>
+    <div style="flex:1"><div class="hf" style="font-size:14px;font-weight:700;color:#059669">Letter from Future Keyur</div><div style="font-size:11px;color:#94A3B8;margin-top:2px">The one at 85 kg, driving a Porsche</div></div>
     <div style="font-size:16px;color:#94A3B8">→</div>
   </div>`;
   // Mirror
@@ -580,7 +622,7 @@ stats(){
   // Heatmap
   html+=`<div class="card"><div class="lbl">HABIT HEATMAP · 12 WEEKS</div><div id="heatmap" style="display:flex;gap:2px;justify-content:center"></div></div>`;
   // Charts
-  html+=`<div class="card"><div class="lbl">WEIGHT TREND</div><canvas id="weightChart" height="130"></canvas></div>`;
+  html+=`<div class="card"><div class="lbl">WEIGHT TREND</div><div style="font-size:11px;color:#64748B;margin-bottom:6px"><span style="color:#D97706">●</span> weight &nbsp;<span style="color:#94A3B8">●</span> travel day &nbsp;<span style="color:#2563EB">- -</span> plan &nbsp;<span style="color:#059669">··</span> 85 kg</div><canvas id="weightChart" height="150"></canvas></div>`;
   html+=`<div class="card"><div class="lbl">7-DAY SCORE</div><canvas id="weekChart" height="100"></canvas></div>`;
   // Export
   html+=`<div class="card"><div class="lbl">📤 EXPORT DATA</div>
@@ -618,8 +660,8 @@ function initCharts(){
   // Weight chart
   const wCtx=document.getElementById('weightChart');
   if(wCtx&&D.wts.length>1){
-    const data=D.wts.slice(-30);const g999=data.map(()=>99.9),g90=data.map(()=>90);
-    charts.weight=new Chart(wCtx,{type:'line',data:{labels:data.map(p=>p.d.slice(5)),datasets:[{data:data.map(p=>p.w),borderColor:'#D97706',backgroundColor:'rgba(217,119,6,0.1)',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#D97706'},{data:g999,borderColor:'#EA580C',borderDash:[6,4],borderWidth:1.5,pointRadius:0,fill:false},{data:g90,borderColor:'#059669',borderDash:[2,3],borderWidth:1.5,pointRadius:0,fill:false}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1E293B',titleColor:'#CBD5E1',bodyColor:'#FCD34D'}},scales:{x:{grid:{display:false},ticks:{color:'#94A3B8',font:{size:9}}},y:{grid:{color:'rgba(15,23,42,0.042)'},ticks:{color:'#94A3B8',font:{size:9}}}}}});
+    const data=D.wts.slice(-60),pl=data.map(p=>planW(p.d)),g85=data.map(()=>PL.gw);
+    charts.weight=new Chart(wCtx,{type:'line',data:{labels:data.map(p=>p.d.slice(5)),datasets:[{label:'Weight',data:data.map(p=>p.w),borderColor:'#D97706',backgroundColor:'rgba(217,119,6,0.1)',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:data.map(p=>p.tr?'#94A3B8':'#D97706')},{label:'Plan',data:pl,borderColor:'#2563EB',borderDash:[6,4],borderWidth:1.5,pointRadius:0,fill:false},{label:'Goal',data:g85,borderColor:'#059669',borderDash:[2,3],borderWidth:1.5,pointRadius:0,fill:false}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1E293B',titleColor:'#CBD5E1',bodyColor:'#FCD34D'}},scales:{x:{grid:{display:false},ticks:{color:'#94A3B8',font:{size:9}}},y:{grid:{color:'rgba(15,23,42,0.042)'},ticks:{color:'#94A3B8',font:{size:9}}}}}});
   }
   // Week chart
   const kCtx=document.getElementById('weekChart');
@@ -640,11 +682,14 @@ function toast(msg,color){
 }
 function toggleHabit(id){setDay(c=>{const on=!c.h[id];toast(on?'✓ '+HB.find(h=>h.id===id).l:'✗ Unmarked','rgba('+(on?'52,211,153':'239,68,68')+',0.95)');return{...c,h:{...c.h,[id]:on}};})}
 function setDayField(k,v){setDay(c=>({...c,[k]:v}))}
+function toggleTravel(){setDay(c=>{const on=!c.travel;const i=D.wts.findIndex(e=>e.d===tod());if(i>=0)D.wts[i].tr=on;toast(on?'✈️ Travel day on':'🏠 Home day');return{...c,travel:on};})}
 function logWeight(){
   const el=document.getElementById('weightInput');if(!el)return;
   const w=parseFloat(el.value);if(isNaN(w)||w<50||w>200)return;
   const i=D.wts.findIndex(e=>e.d===tod());
-  if(i>=0)D.wts[i].w=w;else D.wts.push({d:tod(),w});
+  const tr=!!getDay().travel;
+  if(i>=0){D.wts[i].w=w;D.wts[i].tr=tr;}else D.wts.push({d:tod(),w,tr});
+  D.wts.sort((a,b)=>a.d<b.d?-1:1);
   toast('⚖️ '+w+' kg logged');
   saveData();render();
 }
@@ -652,17 +697,19 @@ function logMeal(){
   const el=document.getElementById('mealInput');if(!el||!el.value.trim())return;
   const cal=parseCal(el.value);
   toast('🍽️ Logged'+(cal?' · '+cal+' kcal':''));
-  setDay(c=>({...c,meals:[...(c.meals||[]),{t:timeStr(),x:el.value.trim(),cal}]}));
+  setDay(c=>({...c,meals:[...(c.meals||[]),{t:timeStr(),x:el.value.trim(),cal,p:parseProt(el.value)}]}));
 }
 function quickLogMeal(item){
   const cal=parseCal(item);
   toast('🍽️ Logged'+(cal?' · '+cal+' kcal':''));
-  setDay(c=>({...c,meals:[...(c.meals||[]),{t:timeStr(),x:item,cal}]}));
+  setDay(c=>({...c,meals:[...(c.meals||[]),{t:timeStr(),x:item,cal,p:parseProt(item)}]}));
 }
 function parseCal(str){
   const m=str.match(/~?(\d{2,4})\s*kcal/i)||str.match(/~(\d{2,4})/);
   return m?parseInt(m[1]):0;
 }
+function parseProt(str){const m=String(str).match(/(\d{1,3})\s*g\s*protein/i);return m?parseInt(m[1]):0}
+function todayProt(){return(getDay().meals||[]).reduce((a,m)=>a+(m.p!==undefined?m.p:parseProt(m.x)),0)}
 function todayCals(){
   const dy=getDay();
   return(dy.meals||[]).reduce((sum,m)=>sum+(m.cal||0),0);
@@ -691,8 +738,10 @@ function logFreeEx(){
   const el=document.getElementById('freeExInput'),m=document.getElementById('freeExMin');if(!el||!el.value.trim())return;
   const k='free_'+Date.now(),n=el.value.trim(),dur=parseInt(m&&m.value)||0;
   toast('✓ '+n+' logged');
-  setDay(c=>({...c,ex:{...(c.ex||{}),[k]:{t:'F',n,dur}},h:{...c.h,exercise:true}}));
+  setDay(c=>({...c,ex:{...(c.ex||{}),[k]:{t:'F',k:selKind,n,dur}},h:{...c.h,exercise:true}}));
 }
+function logKind(kind,n,dur){const k='free_'+Date.now();toast('✓ '+n+' logged');setDay(c=>({...c,ex:{...(c.ex||{}),[k]:{t:'F',k:kind,n,dur}},h:{...c.h,exercise:true}}));}
+function logSteps(){const el=document.getElementById('stepsInput');if(!el)return;const v=parseInt(el.value);if(isNaN(v)||v<0||v>100000)return;toast('👣 '+v.toLocaleString('en-IN')+' steps');setDayField('steps',v);}
 function removeFreeEx(k){setDay(c=>{const ex={...(c.ex||{})};delete ex[k];return{...c,ex};});}
 function quickExDone(name,type,dur){
   toast('✓ '+name+' done');
@@ -811,7 +860,7 @@ function showLetter(){
   ov.innerHTML=`<button class="ov-close" onclick="document.getElementById('overlayLetter').classList.add('hidden')">✕</button>
     <div style="max-width:320px;text-align:center">
       <div class="hf" style="font-size:10px;letter-spacing:3px;color:#059669">📨 LETTER FROM FUTURE KEYUR</div>
-      <div style="font-size:11px;color:#64748B;margin-top:6px;margin-bottom:16px">From the version of you at 90 kg, driving a Porsche</div>
+      <div style="font-size:11px;color:#64748B;margin-top:6px;margin-bottom:16px">From the version of you at 85 kg, driving a Porsche</div>
       ${D.ltr?`<div style="font-size:14px;color:#1E293B;line-height:1.9;text-align:left;font-style:italic;padding:16px;background:rgba(15,23,42,0.042);border-radius:10px;border:1px solid rgba(5,150,105,0.1)">${esc(D.ltr)}</div>
         <button class="btn" style="margin-top:12px;background:rgba(15,23,42,0.07);color:#64748B" onclick="generateLetter()">Regenerate</button>`
       :`<button class="btn" style="padding:14px 28px;border:1px solid rgba(5,150,105,0.3);background:rgba(5,150,105,0.08);color:#059669;font-size:15px" onclick="generateLetter()">✨ Generate Letter</button>`}
@@ -822,11 +871,11 @@ async function generateLetter(){
   const ov=document.getElementById('overlayLetter');
   ov.querySelector('div > div:last-child').innerHTML='<div style="color:#64748B;animation:pulse 1.5s infinite;margin-top:16px">Writing from the future...</div>';
   try{
-    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:"Today is "+new Date().toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"})+". Write a 130-word first-person letter dated "+futureStamp()+" from Future Keyur Patel who has reached 90kg and drives a Porsche, to his current self at "+getCW()+"kg who just started this wellness journey. He's the MD of Health1 Super Speciality Hospitals in Ahmedabad. His wife Megha noticed the transformation first. His chronic hip pain is gone. His stress went from unbearable to manageable. Be deeply personal, warm, and specific. End with one line of tough love. Write raw text only — no greeting or sign-off formatting."}]})});
+    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:"Today is "+new Date().toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"})+". Write a 130-word first-person letter dated "+futureStamp()+" from Future Keyur Patel who has reached 85kg and drives a Porsche, to his current self at "+getCW()+"kg who just started this wellness journey. He's the MD of Health1 Super Speciality Hospitals in Ahmedabad. His wife Megha noticed the transformation first. His stress went from unbearable to manageable. Be deeply personal, warm, and specific. End with one line of tough love. Write raw text only — no greeting or sign-off formatting."}]})});
     const data=await r.json();
     D.ltr=data.content?.[0]?.text||"The future is being written. Every day you show up, you're building me.";
   }catch(e){
-    D.ltr="I'm writing this from "+futureStamp()+". The Porsche key is surprisingly heavy — or maybe my hands are just lighter without the weight. Megha noticed before I did. Not the number on the scale — the way I moved, the energy in my voice, the fact that I was awake before my alarm.\n\nThe hip pain vanished somewhere around 100 kg. I don't even remember when exactly. That's the thing about gradual transformation — you don't notice the exact moment everything changes.\n\nI take the stairs now. Two at a time. I ran a Half Marathon last month. Me. The guy who couldn't walk to Oxygen Park without getting winded.\n\nYou know what made the difference? Not the perfect days. The days I showed up anyway.\n\nDon't you dare stop.";
+    D.ltr="I'm writing this from "+futureStamp()+". The Porsche key is surprisingly heavy — or maybe my hands are just lighter without the weight. Megha noticed before I did. Not the number on the scale — the way I moved, the energy in my voice, the fact that I was awake before my alarm.\n\nThe breathlessness on the stairs vanished somewhere around 100 kg. I don't even remember when exactly. That's the thing about gradual transformation — you don't notice the exact moment everything changes.\n\nI take the stairs now. Two at a time. I ran a Half Marathon last month. Me. The guy who couldn't walk to Oxygen Park without getting winded.\n\nYou know what made the difference? Not the perfect days. The days I showed up anyway.\n\nDon't you dare stop.";
   }
   saveData();showLetter();
 }
@@ -919,7 +968,7 @@ function syncToClaude(){
   const d=getDay(),cw=getCW(),sc=hsc(d),bio=getBio(),ar=getAR();
   const msg="DAILY WELLNESS CHECK-IN — "+tod()+
     "\nWeight: "+cw+"kg | Water: "+d.water+" glasses | Steps: "+(d.steps||0)+" | Score: "+sc+"% | Bio Age: "+bio+
-    "\nCalories: "+todayCals()+"/1800 kcal"+
+    "\nCalories: "+todayCals()+"/"+calTarget()+" kcal | Protein: "+todayProt()+"/"+PROT+" g"+
     "\nMood: "+d.mood+"/5 | Energy: "+d.energy+"/5 | Stress: "+d.stress+"/5"+
     "\nSleep: "+(d.bed||"?")+" → "+(d.wake||"?")+
     "\n✅ Done ("+HB.filter(h=>d.h[h.id]).length+"/"+HB.length+"): "+HB.filter(h=>d.h[h.id]).map(h=>h.l).join(", ")+

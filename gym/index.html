@@ -71,12 +71,12 @@
   <div class="head">
     <div class="toprow">
       <div class="brand">HEALTH<b>1</b> · TRAIN</div>
-      <div class="count"><span class="n" id="days">–</span><span class="l"> days to Sept 3</span></div>
+      <div class="count"><span class="n" id="days">–</span><span class="l"> days to 3 Sep 2027</span></div>
     </div>
     <div class="bigrow">
       <div class="stat"><div class="lab">NOW</div><div class="val"><span id="now">–</span><small> kg</small></div></div>
       <div class="arrow">→</div>
-      <div class="stat goal"><div class="lab">GOAL</div><div class="val">99.9<small> kg</small></div></div>
+      <div class="stat goal"><div class="lab">GOAL</div><div class="val">85<small> kg</small></div></div>
     </div>
     <div class="bar"><i id="barfill" style="width:0%"></i></div>
     <div class="subrow"><span id="lost">–</span><span id="togo">–</span></div>
@@ -94,13 +94,15 @@
 
 <script>
 // ── constants ───────────────────────────────────────────────
-var START_WT=117.5, GOAL_WT=99.9, BIRTHDAY=new Date("2026-09-03T00:00:00");
+var START_WT=120, GOAL_WT=85, BIRTHDAY=new Date("2027-09-03T00:00:00");
 var PPL={
   Push:{accent:"#DC2626",lifts:[["Machine chest press","3 × 10"],["Incline DB press","3 × 10"],["Machine shoulder press","3 × 10"],["DB lateral raise","3 × 12"],["Tricep pushdown","3 × 12"],["Overhead tricep ext.","3 × 12"],["Plank","3 × 30s"]]},
   Pull:{accent:"#2563EB",lifts:[["Lat pulldown (wide)","3 × 10"],["Seated cable row","3 × 10"],["Single-arm DB row","3 × 10/side"],["Face pull (cable)","3 × 12"],["DB curl","3 × 12"],["Hammer curl","3 × 12"],["Dead bug","3 × 10/side"]]},
-  Legs:{accent:"#059669",note:"Hip-aware — moderate depth only, stop on sharp hip pain",lifts:[["Leg press (moderate depth)","3 × 10"],["Leg curl machine","3 × 12"],["Leg extension","3 × 12"],["Seated calf raise","3 × 15"],["Glute bridge on mat","3 × 15"],["Cable wood-chop","3 × 10/side"],["Hanging knee raise","3 × 10"]]}
+  Legs:{accent:"#059669",lifts:[["Leg press","3 × 10"],["Leg curl machine","3 × 12"],["Leg extension","3 × 12"],["Seated calf raise","3 × 15"],["Glute bridge on mat","3 × 15"],["Cable wood-chop","3 × 10/side"],["Hanging knee raise","3 × 10"]]},
+  Upper:{accent:"#7C3AED",lifts:[["Flat DB press","3 × 10"],["Lat pulldown (close grip)","3 × 10"],["Seated DB shoulder press","3 × 10"],["Machine row","3 × 10"],["Cable fly","3 × 12"],["Rope pushdown + DB curl superset","3 × 12"]]},
+  Lower:{accent:"#EA580C",lifts:[["Goblet squat","3 × 10"],["Romanian DB deadlift","3 × 10"],["Walking lunges","3 × 10/side"],["Leg curl machine","3 × 12"],["Standing calf raise","3 × 15"],["Hanging knee raise","3 × 10"]]}
 };
-var ROT=["Push","Pull","Legs"];
+var ROT=["Push","Pull","Legs","Upper","Lower"];
 var MEALS=[["Breakfast (9:30)","4 egg whites + 2 whole eggs bhurji · 2 multigrain roti · curd"],["Mid-morning","Whey 30g in water · handful almonds"],["Lunch","Dal/rajma · 1 cup rice or 2 roti · paneer or soy sabzi · salad (no raw tomato)"],["Evening","Besan chilla or roasted chana · masala chai (1)"],["Dinner (by 21:00)","Soy chunk or paneer curry · sautéed veg · 1 roti"]];
 
 // ── storage ─────────────────────────────────────────────────
@@ -116,7 +118,7 @@ if(Object.keys(E).length===0){E[tk()]={weight:START_WT,gym:false,badminton:false
 function series(){return Object.keys(E).filter(function(k){return E[k]&&E[k].weight!=null}).sort().map(function(k){return {date:k,label:fmt(k),weight:Number(E[k].weight)}})}
 function daysTo(){var n=new Date(),t=new Date(BIRTHDAY);return Math.max(0,Math.ceil((t-new Date(n.toISOString().slice(0,10)))/86400000))}
 function gymCount(){return Object.keys(E).filter(function(k){return E[k].gym}).length}
-function workoutForIndex(i){return ROT[((i%3)+3)%3]}
+function workoutForIndex(i){return ROT[((i%ROT.length)+ROT.length)%ROT.length]}
 function streak(){var s=0,d=new Date(tk()+"T00:00:00");while(true){var k=d.toISOString().slice(0,10),e=E[k];if(e&&(e.gym||e.badminton||e.walk)){s++;d.setDate(d.getDate()-1)}else break}return s}
 
 function todayWorkout(){var t=E[tk()]||{};return t.workoutType?t.workoutType:workoutForIndex(gymCount())}
@@ -181,7 +183,7 @@ function render(tab){
     document.getElementById("m3").innerHTML=(togo>0?togo:0)+'<small>kg</small>';
     var perWk=togo>0&&dd>0?(togo/(dd/7)):0;
     document.getElementById("pace").innerHTML=togo>0&&dd>0?
-      ('Need <b style="color:var(--text)">'+perWk.toFixed(2)+' kg/week</b> to hit '+GOAL_WT+' by your birthday ('+dd+' days). '+(perWk>1?"That\u2019s aggressive — front-loaded water weight helps early, then expect ~0.8\u20131 kg/wk.":"That\u2019s a sustainable pace.")):
+      ('Need <b style="color:var(--text)">'+perWk.toFixed(2)+' kg/week</b> to hit '+GOAL_WT+' by 3 Sep 2027 ('+dd+' days). '+(perWk>1.25?"That\u2019s aggressive — front-loaded water weight helps early, then expect ~0.8\u20131 kg/wk.":"That\u2019s a sustainable pace.")):
       "Goal reached — log to maintain.";
     drawChart(s);
   }
@@ -196,7 +198,7 @@ function render(tab){
     var blocks=ROT.map(function(d){var p=PPL[d];var lifts=p.lifts.map(function(x){return '<div class="lift"><span>'+x[0]+'</span><span>'+x[1]+'</span></div>'}).join("");var hip=p.note?'<div class="hip">⚠ '+p.note+'</div>':"";return '<div class="card al" style="--accent:'+p.accent+'"><div class="badge" style="background:'+p.accent+'22;color:'+p.accent+'">'+d+'</div><div style="margin-top:10px">'+lifts+hip+'</div></div>'}).join("");
     var meals=MEALS.map(function(m){return '<div class="meal"><div class="m1">'+m[0].toUpperCase()+'</div><div class="m2">'+m[1]+'</div></div>'}).join("");
     v.innerHTML=
-      '<div class="card"><div class="lab">WEEKLY RHYTHM</div><div class="pln">AM — gym (Push/Pull/Legs rotation, ~60 min) + badminton<br>PM — 4 km evening walk, daily<br>Venue — Arvind Uplands · self-directed</div></div>'+
+      '<div class="card"><div class="lab">WEEKLY RHYTHM</div><div class="pln">Strength ×5 — Push / Pull / Legs / Upper / Lower, ~60 min<br>Sport ×3 — any sport, 40–45 min<br>10,000 steps every day<br>Venue — Arvind Uplands · self-directed</div></div>'+
       blocks+
       '<div class="card"><div class="lab">MEALS — ~2000 kcal · 175 g protein · lacto-ovo veg</div><div style="margin-top:8px">'+meals+'</div></div>';
   }
