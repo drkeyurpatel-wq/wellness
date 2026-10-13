@@ -71,12 +71,12 @@
   <div class="head">
     <div class="toprow">
       <div class="brand">HEALTH<b>1</b> · TRAIN</div>
-      <div class="count"><span class="n" id="days">–</span><span class="l"> days to 3 Sep 2027</span></div>
+      <div class="count"><span class="n" id="days">–</span><span class="l" id="daysL"> days to goal</span></div>
     </div>
     <div class="bigrow">
       <div class="stat"><div class="lab">NOW</div><div class="val"><span id="now">–</span><small> kg</small></div></div>
       <div class="arrow">→</div>
-      <div class="stat goal"><div class="lab">GOAL</div><div class="val">85<small> kg</small></div></div>
+      <div class="stat goal"><div class="lab">GOAL</div><div class="val" id="goalV">–<small> kg</small></div></div>
     </div>
     <div class="bar"><i id="barfill" style="width:0%"></i></div>
     <div class="subrow"><span id="lost">–</span><span id="togo">–</span></div>
@@ -94,7 +94,11 @@
 
 <script>
 // ── constants ───────────────────────────────────────────────
-var START_WT=120, GOAL_WT=85, BIRTHDAY=new Date("2027-09-03T00:00:00");
+var PF=null;try{PF=(JSON.parse(localStorage.getItem("kw-html-2"))||{}).pf||null}catch(e){}
+if(!PF){location.replace("../");}
+var ISK=!!(PF&&PF.k);
+var START_WT=ISK?120:(PF?PF.sw:0), GOAL_WT=ISK?85:(PF?PF.gw:0), BIRTHDAY=new Date((ISK?"2027-09-03":(PF?PF.gd:"2030-01-01"))+"T00:00:00");
+var NSTR=ISK?5:(PF?PF.str:3), NSPORT=ISK?3:(PF?PF.sport:2);
 var PPL={
   Push:{accent:"#DC2626",lifts:[["Machine chest press","3 × 10"],["Incline DB press","3 × 10"],["Machine shoulder press","3 × 10"],["DB lateral raise","3 × 12"],["Tricep pushdown","3 × 12"],["Overhead tricep ext.","3 × 12"],["Plank","3 × 30s"]]},
   Pull:{accent:"#2563EB",lifts:[["Lat pulldown (wide)","3 × 10"],["Seated cable row","3 × 10"],["Single-arm DB row","3 × 10/side"],["Face pull (cable)","3 × 12"],["DB curl","3 × 12"],["Hammer curl","3 × 12"],["Dead bug","3 × 10/side"]]},
@@ -127,7 +131,7 @@ function todayWorkout(){var t=E[tk()]||{};return t.workoutType?t.workoutType:wor
 function renderHead(){
   var s=series();var latest=s.length?s[s.length-1].weight:START_WT;
   var lost=+(START_WT-latest).toFixed(1), togo=+(latest-GOAL_WT).toFixed(1);
-  document.getElementById("days").textContent=daysTo();
+  document.getElementById("days").textContent=daysTo();var gv=document.getElementById("goalV");if(gv)gv.innerHTML=GOAL_WT+"<small> kg</small>";var dl=document.getElementById("daysL");if(dl)dl.textContent=" days to "+BIRTHDAY.toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
   document.getElementById("now").textContent=latest.toFixed(1);
   var pct=Math.max(0,Math.min(100,((START_WT-latest)/(START_WT-GOAL_WT))*100));
   document.getElementById("barfill").style.width=pct+"%";
@@ -183,7 +187,7 @@ function render(tab){
     document.getElementById("m3").innerHTML=(togo>0?togo:0)+'<small>kg</small>';
     var perWk=togo>0&&dd>0?(togo/(dd/7)):0;
     document.getElementById("pace").innerHTML=togo>0&&dd>0?
-      ('Need <b style="color:var(--text)">'+perWk.toFixed(2)+' kg/week</b> to hit '+GOAL_WT+' by 3 Sep 2027 ('+dd+' days). '+(perWk>1.25?"That\u2019s aggressive — front-loaded water weight helps early, then expect ~0.8\u20131 kg/wk.":"That\u2019s a sustainable pace.")):
+      ('Need <b style="color:var(--text)">'+perWk.toFixed(2)+' kg/week</b> to hit '+GOAL_WT+' by '+BIRTHDAY.toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})+' ('+dd+' days). '+(perWk>1.25?"That\u2019s aggressive — front-loaded water weight helps early, then expect ~0.8\u20131 kg/wk.":"That\u2019s a sustainable pace.")):
       "Goal reached — log to maintain.";
     drawChart(s);
   }
@@ -198,9 +202,9 @@ function render(tab){
     var blocks=ROT.map(function(d){var p=PPL[d];var lifts=p.lifts.map(function(x){return '<div class="lift"><span>'+x[0]+'</span><span>'+x[1]+'</span></div>'}).join("");var hip=p.note?'<div class="hip">⚠ '+p.note+'</div>':"";return '<div class="card al" style="--accent:'+p.accent+'"><div class="badge" style="background:'+p.accent+'22;color:'+p.accent+'">'+d+'</div><div style="margin-top:10px">'+lifts+hip+'</div></div>'}).join("");
     var meals=MEALS.map(function(m){return '<div class="meal"><div class="m1">'+m[0].toUpperCase()+'</div><div class="m2">'+m[1]+'</div></div>'}).join("");
     v.innerHTML=
-      '<div class="card"><div class="lab">WEEKLY RHYTHM</div><div class="pln">Strength ×5 — Push / Pull / Legs / Upper / Lower, ~60 min<br>Sport ×3 — any sport, 40–45 min<br>10,000 steps every day<br>Venue — Arvind Uplands · self-directed</div></div>'+
+      '<div class="card"><div class="lab">WEEKLY RHYTHM</div><div class="pln">Strength ×'+NSTR+' — Push / Pull / Legs / Upper / Lower rotation, ~60 min<br>Sport ×'+NSPORT+' — any sport, 40–45 min<br>10,000 steps every day</div></div>'+
       blocks+
-      '<div class="card"><div class="lab">MEALS — ~2000 kcal · 175 g protein · lacto-ovo veg</div><div style="margin-top:8px">'+meals+'</div></div>';
+      '<div class="card"><div class="lab">MEALS — SAMPLE DAY · LACTO-OVO VEG</div><div style="margin-top:8px">'+meals+'</div></div>';
   }
 }
 

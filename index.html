@@ -12,7 +12,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
 <link rel="shortcut icon" href="./favicon.ico">
-<title>Keyur's Wellness</title>
+<title>Wellness</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -86,7 +86,7 @@ textarea.inp{resize:vertical;min-height:60px;font-size:14px;line-height:1.6}
   <div style="display:flex;justify-content:space-between;align-items:center">
     <div>
       <div class="lbl" style="color:var(--gold);margin-bottom:2px;font-size:9px">PHASE 1 · IGNITION</div>
-      <h1 style="font-size:18px;font-weight:800;color:#0F172A;letter-spacing:-0.5px;font-family:'Outfit',sans-serif">Keyur's Wellness</h1>
+      <h1 style="font-size:18px;font-weight:800;color:#0F172A;letter-spacing:-0.5px;font-family:'Outfit',sans-serif" id="appTitle">Wellness</h1>
     </div>
     <div style="font-size:12px;color:var(--txt3)" id="dateStr"></div>
   </div>
@@ -115,6 +115,7 @@ textarea.inp{resize:vertical;min-height:60px;font-size:14px;line-height:1.6}
 <div id="overlayBreath" class="ov hidden"></div>
 <div id="overlayFlow" class="ov hidden"></div>
 <div id="overlayLetter" class="ov hidden"></div>
+<div id="overlaySetup" class="ov hidden"></div>
 <div id="overlayPorsche" class="ov hidden"></div>
 
 <script>
@@ -123,7 +124,7 @@ textarea.inp{resize:vertical;min-height:60px;font-size:14px;line-height:1.6}
    ═══════════════════════════════════════ */
 
 // ── DATA ──
-const INIT = {sw:120,tgt:85,v:2,days:{},wts:[{d:"2026-10-13",w:120}],ar:"5k_walk",rw:1,por:{},ltr:""};
+const INIT = {sw:0,tgt:0,v:3,days:{},wts:[],ar:"5k_walk",rw:1,por:{},ltr:""};
 const HB = [
   {id:"wake",l:"Up on time",i:"☀️",g:0},{id:"pranayama",l:"Pranayama",i:"🌬️",g:1},
   {id:"exercise",l:"Exercise",i:"💪",g:2},{id:"water",l:"Water 10+",i:"💧",g:2},
@@ -146,21 +147,31 @@ const TRAVEL_RULES=["🥤 Carry whey sachets + roasted chana — protein holds a
 // ── PLAN · 120 → 95 kg by 3 Mar 2027 → 85 kg by 3 Sep 2027
 const PL={s:"2026-10-13",sw:120,ramp:"2026-10-22",m:"2027-03-03",mw:95,e:"2027-09-03",gw:85};
 const CK=["2026-11-13","2026-12-13","2027-01-13","2027-02-13","2027-03-03","2027-05-03","2027-07-03","2027-09-03"];
-const PROT=150;
+function isK(){return !!(D.pf&&D.pf.k)}
+function monthly(s,e){const out=[];const d=new Date(s+"T12:00:00"),day=d.getDate();for(let i=1;i<=36;i++){const x=new Date(d);x.setDate(1);x.setMonth(d.getMonth()+i);x.setDate(Math.min(day,new Date(x.getFullYear(),x.getMonth()+1,0).getDate()));const k=x.toISOString().slice(0,10);if(k>=e)break;out.push(k);}out.push(e);return out}
+function plan(){
+  if(isK())return{pts:[[PL.s,PL.sw],[PL.m,PL.mw],[PL.e,PL.gw]],s:PL.s,sw:PL.sw,gw:PL.gw,ramp:PL.ramp,ck:CK,str:5,sport:3,prot:150,h:183,head:"120 → 95 BY 3 MAR → 85 BY 3 SEP"};
+  const f=D.pf||{sd:tod(),sw:getCW()||100,gw:getCW()||100,gd:tod(),str:3,sport:2,prot:120,h:170};
+  return{pts:[[f.sd,f.sw],[f.gd,f.gw]],s:f.sd,sw:f.sw,gw:f.gw,ramp:"",ck:monthly(f.sd,f.gd),str:f.str,sport:f.sport,prot:f.prot,h:f.h,head:`${f.sw} → ${f.gw} KG BY ${fmtD(f.gd).toUpperCase()}`};
+}
 function dnum(k){return Date.UTC(+k.slice(0,4),+k.slice(5,7)-1,+k.slice(8,10))/86400000}
 function kOf(n){return new Date(n*86400000).toISOString().slice(0,10)}
-function planW(k){const t=dnum(k),a=dnum(PL.s),m=dnum(PL.m),e=dnum(PL.e);if(t<=a)return PL.sw;if(t<=m)return +(PL.sw-(PL.sw-PL.mw)*(t-a)/(m-a)).toFixed(1);if(t<=e)return +(PL.mw-(PL.mw-PL.gw)*(t-m)/(e-m)).toFixed(1);return PL.gw}
+function planW(k){const P=plan(),t=dnum(k),q=P.pts;if(t<=dnum(q[0][0]))return q[0][1];for(let i=1;i<q.length;i++){const a=dnum(q[i-1][0]),b=dnum(q[i][0]);if(t<=b)return +(q[i-1][1]+(q[i][1]-q[i-1][1])*(t-a)/Math.max(1,b-a)).toFixed(1);}return P.gw}
 function avg7(k){const t=dnum(k||tod());const v=D.wts.filter(x=>!x.tr&&dnum(x.d)<=t&&dnum(x.d)>t-7);if(!v.length)return null;return +(v.reduce((a,x)=>a+x.w,0)/v.length).toFixed(1)}
-function calBand(){const k=tod();if(k<=PL.ramp)return{t:1800,l:"Walk-only days · till 22 Oct"};const w=avg7()||getCW();return w>112?{t:2000,l:"120–112 kg band"}:w>104?{t:1900,l:"112–104 kg band"}:w>95?{t:1800,l:"104–95 kg band"}:{t:2300,l:"95–85 kg phase"}}
+function calBand(){const k=tod();
+  if(isK()){if(k<=PL.ramp)return{t:1800,l:"Walk-only days · till 22 Oct"};const w=avg7()||getCW();return w>112?{t:2000,l:"120–112 kg band"}:w>104?{t:1900,l:"112–104 kg band"}:w>95?{t:1800,l:"104–95 kg band"}:{t:2300,l:"95–85 kg phase"};}
+  const f=D.pf;if(!f)return{t:2000,l:""};const w=avg7()||getCW()||f.sw,bmr=10*w+6.25*f.h-5*f.age+(f.sex==='F'?-161:5),tdee=bmr*1.55;
+  const days=Math.max(28,dnum(f.gd)-dnum(f.sd)),def=Math.min(1000,Math.max(0,(f.sw-f.gw)*7700/days));
+  let t=Math.round((tdee-def)/50)*50;t=Math.max(f.sex==='F'?1200:1500,t);return{t,l:"Your daily target"}}
 function calTarget(){return calBand().t}
-function behindAlert(){const t=dnum(tod());for(let i=0;i<14;i++){const k=kOf(t-i);if(k<PL.s)return false;const a=avg7(k);if(a===null||a-planW(k)<=1)return false;}return true}
+function behindAlert(){const t=dnum(tod()),st=plan().s;for(let i=0;i<14;i++){const k=kOf(t-i);if(k<st)return false;const a=avg7(k);if(a===null||a-planW(k)<=1)return false;}return true}
 function fmtD(k){return new Date(k+"T12:00:00").toLocaleDateString("en-IN",{day:"numeric",month:"short",year:k.slice(0,4)===tod().slice(0,4)?undefined:"numeric"})}
 function weekKeys(){const t=dnum(tod()),dow=(new Date(tod()+"T12:00:00").getDay()+6)%7;return Array.from({length:7},(_,i)=>kOf(t-dow+i))}
 function weekStats(){let str=0,sport=0,walk=0,steps=0;weekKeys().forEach(k=>{const d=D.days[k];if(!d)return;Object.values(d.ex||{}).forEach(x=>{if(x.t!=='F')return;if(x.k==='str')str++;else if(x.k==='sport')sport++;else if(x.k==='walk')walk++;});if((d.steps||0)>=10000)steps++;});return{str,sport,walk,steps}}
 function strDoneToday(){return Object.values(getDay().ex||{}).find(x=>x.t==='F'&&x.k==='str')}
 function nextStr(){let n=0;Object.keys(D.days).filter(k=>k<tod()).forEach(k=>Object.values(D.days[k].ex||{}).forEach(x=>{if(x.t==='F'&&x.k==='str'&&STR[x.n])n++;}));return STRN[n%STRN.length]}
 const BRX=[{name:"Anulom Vilom",sec:300,d:"Calms nerves",st:["Close right nostril","Inhale left 4 counts","Close left nostril","Exhale right 4 counts","10 full rounds"]},{name:"Kapalbhati",sec:180,d:"Burns belly fat",st:["Sharp exhale, belly IN","Passive inhale","20 strokes × 3 rounds"]},{name:"Bhramari",sec:120,d:"Kills anxiety instantly",st:["Close ears with thumbs","Deep inhale","Exhale with HUMMM","5-7 rounds"]},{name:"Box Breathing",sec:180,d:"Navy SEAL reset",st:["Inhale 4, Hold 4","Exhale 4, Hold 4","6-8 rounds"]}];
-const MLs={"☀️ Pre-workout 7:20":["500ml water + pinch of salt + black coffee ~5 kcal","1 small date if low energy ~20 kcal"],"🌅 Post-workout Breakfast 9:45":["Whey 30g + 3 egg-white + 1 whole-egg omelette + 2 moong dal cheela + curd (100g) ~520 kcal 45g protein","Whey 30g + oats (50g) cooked in milk + 10 almonds + 1 apple + 2 egg whites ~520 kcal 40g protein","Whey 30g + paneer bhurji (100g) + 2 multigrain roti + salad ~500 kcal 42g protein"],"🍱 Lunch 1PM (hospital)":["2 multigrain roti + dal + sabzi + salad + curd (100g) ~500 kcal 30g protein","Brown rice (1 katori) + rajma/chole + sabzi + salad ~480 kcal 28g protein","Khichdi (1.5 katori) + kadhi + salad + 2 boiled eggs ~520 kcal 32g protein"],"🍵 Snack 5PM":["Greek yogurt (150g) + 10 almonds ~180 kcal 14g protein","Roasted chana (30g) + green tea ~110 kcal 7g protein","2 boiled eggs + cucumber ~160 kcal 13g protein"],"🌙 Dinner 8:30PM (light)":["Moong dal + sabzi + 1 roti + salad ~380 kcal 25g protein","Veg khichdi (1 katori) + curd + salad ~360 kcal 20g protein","Grilled paneer (100g) + stir-fry veg + salad ~400 kcal 28g protein"],"💪 Post-dinner (training days only)":["Whey 25g in water ~120 kcal 25g protein"]};
+const MLs={"☀️ Pre-workout 7:20":["500ml water + pinch of salt + black coffee ~5 kcal","1 small date if low energy ~20 kcal"],"🌅 Post-workout Breakfast 9:45":["Whey 30g + 3 egg-white + 1 whole-egg omelette + 2 moong dal cheela + curd (100g) ~520 kcal 45g protein","Whey 30g + oats (50g) cooked in milk + 10 almonds + 1 apple + 2 egg whites ~520 kcal 40g protein","Whey 30g + paneer bhurji (100g) + 2 multigrain roti + salad ~500 kcal 42g protein"],"🍱 Lunch 1PM":["2 multigrain roti + dal + sabzi + salad + curd (100g) ~500 kcal 30g protein","Brown rice (1 katori) + rajma/chole + sabzi + salad ~480 kcal 28g protein","Khichdi (1.5 katori) + kadhi + salad + 2 boiled eggs ~520 kcal 32g protein"],"🍵 Snack 5PM":["Greek yogurt (150g) + 10 almonds ~180 kcal 14g protein","Roasted chana (30g) + green tea ~110 kcal 7g protein","2 boiled eggs + cucumber ~160 kcal 13g protein"],"🌙 Dinner 8:30PM (light)":["Moong dal + sabzi + 1 roti + salad ~380 kcal 25g protein","Veg khichdi (1 katori) + curd + salad ~360 kcal 20g protein","Grilled paneer (100g) + stir-fry veg + salad ~400 kcal 28g protein"],"💪 Post-dinner (training days only)":["Whey 25g in water ~120 kcal 25g protein"]};
 const MRN=[{l:"Get out of bed",i:"🛏️",d:0},{l:"Bathroom + face wash",i:"🚿",d:0},{l:"Glass of warm water",i:"💧",d:0},{l:"Go to balcony",i:"🌅",d:0},{l:"Anulom Vilom",i:"🌬️",d:180},{l:"Sit with eyes closed",i:"🧘",d:120},{l:"You're ready. Go conquer.",i:"⚡",d:0}];
 const EVN=[{l:"Phone OUTSIDE bedroom",i:"📱",d:0},{l:"Dim all lights",i:"🔅",d:0},{l:"Brain dump: 3 worries → notebook",i:"📓",d:300},{l:"Bhramari breathing",i:"🐝",d:120},{l:"Lights out. Eyes closed.",i:"🌙",d:0}];
 const RC=[{id:"5k_walk",n:"5K Walk",i:"🚶",c:"#EA580C",u:999,w:6,p:["Walk 20 min easy","Walk 25 min","Walk 30 min","Walk 35 min + jog 2","Walk 30 + jog 5","5K test day"]},{id:"5k_run",n:"5K Run",i:"🏃",c:"#2563EB",u:108,w:8,p:["Run1/Walk2 ×8","Run2/Walk1 ×7","Run3/Walk1 ×6","Run4/Walk1 ×5","Run5/Walk1 ×4","Run 8min ×3","Run 12min ×2","5K test"]},{id:"10k",n:"10K",i:"🏃‍♂️",c:"#7C3AED",u:105,w:8,p:["6K run","7K run","6K + speed work","8K run","7K + tempo","9K run","8K + speed","10K race"]},{id:"half",n:"Half Marathon",i:"🏅",c:"#DB2777",u:100,w:12,p:["10K easy","11K","12K + tempo","11K easy","13K","14K + hills","12K recovery","15K","16K + tempo","14K easy","18K long","21.1K race!"]},{id:"hyrox",n:"Hyrox",i:"💪",c:"#DC2626",u:95,w:10,p:["5K + sled intro","1K×4 + wall balls","Rowing + burpees","1K×4 + farmer carry","Sled pull + lunges","Half simulation","1K×6 all stations","Full sim 75%","Taper","Race day!"]},{id:"70.3",n:"Ironman 70.3",i:"🏊",c:"#0891B2",u:90,w:16,p:["Swim 400m + Bike 20K + Run 5K","S600+B25+R6","S800+B30+R8","Recovery","S1K+B40+R10","S1.2K+B45+R10","S1.4K+B50+R12","Recovery","S1.5K+B55+R14","S1.6K+B65+R15","Recovery","S1.7K+B70+R16","S1.8K+B75+R18","Recovery","Taper","Race day!"]}];
@@ -196,7 +207,7 @@ async function loadData(){
   }catch(e){}
   try{const s=localStorage.getItem("kw-html-2");if(s)D=JSON.parse(s);}catch(e){}
   if(D.ltr&&/August 2026/.test(D.ltr))D.ltr="";
-  if(D.v!==2){D.sw=120;D.tgt=85;D.v=2;D.ltr="";saveData();}
+  if(D.v!==3){D.v=3;delete D.pf;saveData();}
   if(D.ltr&&/hip|90 ?kg/i.test(D.ltr))D.ltr="";
 }
 async function saveData(){
@@ -240,23 +251,24 @@ function getAI(){
   return ins.length?ins:[{t:"✨ Strong week. Keep showing up.",c:"#059669"}];
 }
 function getBio(){
-  const cw=getCW(),bmi=cw/3.35,v=[];
+  const cw=getCW(),bmi=cw/Math.pow(plan().h/100,2),v=[];
   for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);const dd=D.days[d.toISOString().split("T")[0]];if(dd)v.push(dd);}
   const act=v.filter(d=>d.h?.exercise).length;
   const avgStr=v.filter(d=>d.stress).length?v.reduce((a,d)=>a+(d.stress||0),0)/v.filter(d=>d.stress).length:4;
   const alc=v.filter(d=>!d.h?.noAlc).length;
   return bioA(bmi,act,5.5,avgStr,alc);
 }
+function MSx(){return isK()?MS:[{kg:plan().gw,r:"Goal "+plan().gw+" kg",i:"🎯",c:"#059669"}]}
 function getTimeMachine(){
   const cw=getCW();
   if(D.wts.length<2){
-    return{rate:0,dates:MS.map(m=>{const need=cw-m.kg;return{...m,dt:need<=0?"DONE ✅":"Log daily to predict"};}),msg:"⏳ Log weight for 3+ days to see predicted arrival dates"};
+    return{rate:0,dates:MSx().map(m=>{const need=cw-m.kg;return{...m,dt:need<=0?"DONE ✅":"Log daily to predict"};}),msg:"⏳ Log weight for 3+ days to see predicted arrival dates"};
   }
-  const r=D.wts.slice(-14);if(r.length<2)return{rate:0,dates:MS.map(m=>({...m,dt:"Need more data"})),msg:"⏳ Keep logging weight daily"};
+  const r=D.wts.slice(-14);if(r.length<2)return{rate:0,dates:MSx().map(m=>({...m,dt:"Need more data"})),msg:"⏳ Keep logging weight daily"};
   const days=(new Date(r[r.length-1].d)-new Date(r[0].d))/86400000||1;
   const rate=(r[0].w-r[r.length-1].w)/days;
-  if(rate<=0)return{rate:0,dates:MS.map(m=>{const need=cw-m.kg;return{...m,dt:need<=0?"DONE ✅":"STALLED ⚠️"};}),msg:"⚠️ Weight not dropping. Tighten diet + move more."};
-  return{rate,dates:MS.map(m=>{const need=cw-m.kg;if(need<=0)return{...m,dt:"DONE ✅"};const d=new Date();d.setDate(d.getDate()+Math.ceil(need/rate));return{...m,dt:d.toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})};})};
+  if(rate<=0)return{rate:0,dates:MSx().map(m=>{const need=cw-m.kg;return{...m,dt:need<=0?"DONE ✅":"STALLED ⚠️"};}),msg:"⚠️ Weight not dropping. Tighten diet + move more."};
+  return{rate,dates:MSx().map(m=>{const need=cw-m.kg;if(need<=0)return{...m,dt:"DONE ✅"};const d=new Date();d.setDate(d.getDate()+Math.ceil(need/rate));return{...m,dt:d.toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})};})};
 }
 function getNM(){const cw=getCW();return MS.find(m=>cw>m.kg)||MS[MS.length-1]}
 function getAR(){return RC.find(r=>r.id===D.ar)||RC[0]}
@@ -274,6 +286,7 @@ function updateLivingUI(){
 
 // ── HEADER UPDATE ──
 function updateHeader(){
+  const tt=document.getElementById('appTitle');if(tt)tt.textContent=(D.pf&&D.pf.n?D.pf.n+"'s ":"")+"Wellness";
   document.getElementById('dateStr').textContent=new Date().toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
   const sc=hsc(getDay());
   const ring=document.getElementById('scoreRing');
@@ -284,6 +297,7 @@ function updateHeader(){
 
 // ── TAB RENDERING ──
 function render(){
+  if(!D.pf){openSetup();return;}
   updateHeader();
   updateLivingUI();
   const el=document.getElementById('tabContent');
@@ -327,10 +341,10 @@ home(){
   </div>`;
 
   // Plan check
-  {const a=avg7(),pw=planW(tod()),nx=CK.find(k=>k>tod())||CK[CK.length-1],nw=planW(nx);
+  {const P=plan(),a=avg7(),pw=planW(tod()),nx=P.ck.find(k=>k>tod())||P.ck[P.ck.length-1],nw=planW(nx);
    const ref=a!==null?a:cw,dl=+(ref-pw).toFixed(1),ok=dl<=0.3,cc=ok?'#059669':dl<=1?'#D97706':'#DC2626';
    html+=`<div class="card" style="padding:18px;border-color:${cc}33;background:linear-gradient(135deg,${cc}0d,transparent)">
-    <div class="lbl" style="color:${cc}">ON PLAN? · 120 → 95 BY 3 MAR → 85 BY 3 SEP</div>
+    <div class="lbl" style="color:${cc}">ON PLAN? · ${P.head}</div>
     <div class="grid3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px;text-align:center">
       <div><div class="hf" style="font-size:22px;font-weight:800;color:#0F172A">${pw}</div><div style="font-size:10px;color:#64748B;letter-spacing:1px">PLAN TODAY</div></div>
       <div><div class="hf" style="font-size:22px;font-weight:800;color:#0F172A">${a!==null?a:'–'}</div><div style="font-size:10px;color:#64748B;letter-spacing:1px">7-DAY AVG</div></div>
@@ -348,7 +362,7 @@ home(){
   if(dy.travel){html+=`<div class="card" style="border-color:rgba(37,99,235,0.15)"><div class="lbl" style="color:#2563EB">ON THE ROAD</div>${TRAVEL_RULES.map(r=>`<div style="font-size:14px;color:#334155;padding:5px 0;line-height:1.5">${r}</div>`).join('')}</div>`;}
 
   // Next reward
-  html+=`<div class="card" style="cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(150deg,#fff,${nm.c}14);border-color:${nm.c}40" onclick="showPorsche()">
+  if(isK())html+=`<div class="card" style="cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(150deg,#fff,${nm.c}14);border-color:${nm.c}40" onclick="showPorsche()">
     <div style="display:flex;justify-content:space-between;align-items:center">
       <div><div class="lbl" style="color:${nm.c}">NEXT REWARD · TAP TO CONFIGURE 🏎️</div>
         <div class="hf" style="font-size:18px;font-weight:700;color:#0F172A;margin-top:4px">${nm.i} ${esc(nm.r)}</div></div>
@@ -407,7 +421,7 @@ home(){
 fuel(){
   const dy=getDay();let html='';
   const band=calBand(),cals=todayCals(),target=band.t,pct=Math.min(100,Math.round(cals/target*100));
-  const prot=todayProt(),pp=Math.min(100,Math.round(prot/PROT*100)),pc=prot>=PROT?'#059669':prot>=PROT*0.7?'#D97706':'#7C3AED';
+  const PROT=plan().prot,prot=todayProt(),pp=Math.min(100,Math.round(prot/PROT*100)),pc=prot>=PROT?'#059669':prot>=PROT*0.7?'#D97706':'#7C3AED';
   const color=cals<=target?'#059669':cals<=target*1.1?'#EA580C':'#DC2626';
 
   // Calorie summary — visual hero
@@ -474,7 +488,7 @@ fuel(){
 },
 
 move(){
-  const dy=getDay(),k=tod(),ramp=k<=PL.ramp,ws=weekStats();let html='';
+  const P=plan(),dy=getDay(),k=tod(),ramp=!!P.ramp&&k<=P.ramp,ws=weekStats();let html='';
   // Weekly scoreboard
   const tile=(n,goal,label,c)=>`<div style="text-align:center;padding:12px 4px;border-radius:12px;background:${n>=goal?'rgba(5,150,105,0.08)':'rgba(15,23,42,0.03)'};border:1px solid ${n>=goal?'rgba(5,150,105,0.25)':'rgba(15,23,42,0.06)'}"><div class="hf" style="font-size:26px;font-weight:800;color:${n>=goal?'#059669':c}">${n}<span style="font-size:14px;color:#94A3B8">/${goal}</span></div><div style="font-size:10px;color:#64748B;letter-spacing:1px;margin-top:2px">${label}</div></div>`;
   if(ramp){
@@ -487,7 +501,7 @@ move(){
     </div>`;
   } else {
     html+=`<div class="card" style="padding:16px"><div class="lbl">THIS WEEK · MON–SUN</div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">${tile(ws.str,5,'STRENGTH','#7C3AED')}${tile(ws.sport,3,'SPORT','#2563EB')}${tile(ws.steps,7,'10K-STEP DAYS','#EA580C')}</div></div>`;
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">${tile(ws.str,P.str,'STRENGTH','#7C3AED')}${tile(ws.sport,P.sport,'SPORT','#2563EB')}${tile(ws.steps,7,'10K-STEP DAYS','#EA580C')}</div></div>`;
   }
   // Steps
   const st=dy.steps||0;
@@ -591,11 +605,11 @@ stats(){
   const cw=getCW(),bio=getBio(),streak=getStreak();let html='';
   const tm=getTimeMachine();
   // Checkpoints
-  {const t=tod(),nx=CK.find(k=>k>t);
-   html+=`<div class="card" style="padding:16px"><div class="lbl">🎯 CHECKPOINTS · 7-DAY AVERAGE VS PLAN</div>`+CK.map((k,ix)=>{
+  {const P=plan(),t=tod(),nx=P.ck.find(k=>k>t);
+   html+=`<div class="card" style="padding:16px"><div class="lbl">🎯 CHECKPOINTS · 7-DAY AVERAGE VS PLAN</div>`+P.ck.map((k,ix)=>{
      const pw=planW(k),past=k<=t,a=past?avg7(k):null,hit=a!==null&&a<=pw+0.3,isNx=k===nx;
      const st=past?(a===null?'<span style="color:#94A3B8">no log</span>':`<span style="color:${hit?'#059669':'#DC2626'};font-weight:700">${a} ${hit?'✓':'✗'}</span>`):isNx?`<span style="color:#2563EB;font-weight:700">next</span>`:'';
-     const sep=ix===4?'border-bottom:2px solid rgba(15,23,42,0.12)':'border-bottom:1px solid rgba(15,23,42,0.042)';
+     const sep=isK()&&ix===4?'border-bottom:2px solid rgba(15,23,42,0.12)':'border-bottom:1px solid rgba(15,23,42,0.042)';
      return `<div style="display:flex;align-items:center;padding:9px 0;${sep};${isNx?'background:rgba(37,99,235,0.04)':''}"><span style="flex:1;font-size:14px;color:#334155">${fmtD(k)}</span><span class="hf" style="width:80px;text-align:right;font-size:16px;font-weight:700;color:#0F172A">${pw} kg</span><span style="width:90px;text-align:right;font-size:13px">${st}</span></div>`;}).join('')+`</div>`;}
   // Time Machine
   html+=`<div class="card" style="border-color:rgba(37,99,235,0.12);background:rgba(37,99,235,0.03)">
@@ -610,7 +624,7 @@ stats(){
   });
   html+=`</div>`;
   // Letter
-  html+=`<div class="card" style="cursor:pointer;padding:16px;border-color:rgba(5,150,105,0.12);background:rgba(5,150,105,0.03);display:flex;align-items:center;gap:14px" onclick="showLetter()">
+  if(isK())html+=`<div class="card" style="cursor:pointer;padding:16px;border-color:rgba(5,150,105,0.12);background:rgba(5,150,105,0.03);display:flex;align-items:center;gap:14px" onclick="showLetter()">
     <div style="font-size:28px">📨</div>
     <div style="flex:1"><div class="hf" style="font-size:14px;font-weight:700;color:#059669">Letter from Future Keyur</div><div style="font-size:11px;color:#94A3B8;margin-top:2px">The one at 85 kg, driving a Porsche</div></div>
     <div style="font-size:16px;color:#94A3B8">→</div>
@@ -618,12 +632,13 @@ stats(){
   // Mirror
   html+=`<div class="card" style="border-color:rgba(217,119,6,0.12)">
     <div class="lbl">🪞 THE MIRROR — Day 1 vs Today</div>
-    ${[{l:"Weight",a:D.sw+"kg",b:cw+"kg",g:cw<D.sw},{l:"BMI",a:(D.sw/3.35).toFixed(1),b:(cw/3.35).toFixed(1),g:cw<D.sw},{l:"Streak",a:"0",b:streak+"",g:streak>0}].map(r=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(15,23,42,0.042)"><span style="font-size:15px;color:#64748B">${esc(r.a)}</span><span style="font-size:13px;color:#94A3B8">${r.l} ${r.g?'🟢':'🔴'}</span><span class="hf" style="font-size:15px;color:${r.g?'#059669':'#DC2626'};font-weight:700">${esc(r.b)}</span></div>`).join('')}</div>`;
+    ${[{l:"Weight",a:D.sw+"kg",b:cw+"kg",g:cw<D.sw},{l:"BMI",a:(D.sw/Math.pow(plan().h/100,2)).toFixed(1),b:(cw/Math.pow(plan().h/100,2)).toFixed(1),g:cw<D.sw},{l:"Streak",a:"0",b:streak+"",g:streak>0}].map(r=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(15,23,42,0.042)"><span style="font-size:15px;color:#64748B">${esc(r.a)}</span><span style="font-size:13px;color:#94A3B8">${r.l} ${r.g?'🟢':'🔴'}</span><span class="hf" style="font-size:15px;color:${r.g?'#059669':'#DC2626'};font-weight:700">${esc(r.b)}</span></div>`).join('')}</div>`;
   // Heatmap
   html+=`<div class="card"><div class="lbl">HABIT HEATMAP · 12 WEEKS</div><div id="heatmap" style="display:flex;gap:2px;justify-content:center"></div></div>`;
   // Charts
-  html+=`<div class="card"><div class="lbl">WEIGHT TREND</div><div style="font-size:11px;color:#64748B;margin-bottom:6px"><span style="color:#D97706">●</span> weight &nbsp;<span style="color:#94A3B8">●</span> travel day &nbsp;<span style="color:#2563EB">- -</span> plan &nbsp;<span style="color:#059669">··</span> 85 kg</div><canvas id="weightChart" height="150"></canvas></div>`;
+  html+=`<div class="card"><div class="lbl">WEIGHT TREND</div><div style="font-size:11px;color:#64748B;margin-bottom:6px"><span style="color:#D97706">●</span> weight &nbsp;<span style="color:#94A3B8">●</span> travel day &nbsp;<span style="color:#2563EB">- -</span> plan &nbsp;<span style="color:#059669">··</span> goal</div><canvas id="weightChart" height="150"></canvas></div>`;
   html+=`<div class="card"><div class="lbl">7-DAY SCORE</div><canvas id="weekChart" height="100"></canvas></div>`;
+  html+=`<div class="card" style="cursor:pointer;padding:14px 16px;display:flex;align-items:center;gap:12px" onclick="openSetup()"><div style="font-size:22px">⚙️</div><div style="flex:1"><div class="hf" style="font-size:15px;font-weight:700;color:#0F172A">Edit my plan</div><div style="font-size:12px;color:#64748B;margin-top:2px">${esc(plan().head.toLowerCase())}</div></div><div style="color:#94A3B8">→</div></div>`;
   // Export
   html+=`<div class="card"><div class="lbl">📤 EXPORT DATA</div>
     <div style="display:flex;gap:10px;margin-top:8px">
@@ -660,7 +675,7 @@ function initCharts(){
   // Weight chart
   const wCtx=document.getElementById('weightChart');
   if(wCtx&&D.wts.length>1){
-    const data=D.wts.slice(-60),pl=data.map(p=>planW(p.d)),g85=data.map(()=>PL.gw);
+    const data=D.wts.slice(-60),pl=data.map(p=>planW(p.d)),g85=data.map(()=>plan().gw);
     charts.weight=new Chart(wCtx,{type:'line',data:{labels:data.map(p=>p.d.slice(5)),datasets:[{label:'Weight',data:data.map(p=>p.w),borderColor:'#D97706',backgroundColor:'rgba(217,119,6,0.1)',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:data.map(p=>p.tr?'#94A3B8':'#D97706')},{label:'Plan',data:pl,borderColor:'#2563EB',borderDash:[6,4],borderWidth:1.5,pointRadius:0,fill:false},{label:'Goal',data:g85,borderColor:'#059669',borderDash:[2,3],borderWidth:1.5,pointRadius:0,fill:false}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1E293B',titleColor:'#CBD5E1',bodyColor:'#FCD34D'}},scales:{x:{grid:{display:false},ticks:{color:'#94A3B8',font:{size:9}}},y:{grid:{color:'rgba(15,23,42,0.042)'},ticks:{color:'#94A3B8',font:{size:9}}}}}});
   }
   // Week chart
@@ -952,6 +967,51 @@ function choosePorsche(step,choice){
   D.por={...D.por,[step]:choice};saveData();showPorsche();
 }
 
+// ── SETUP · each phone sets its own plan ──
+let sxSex='M';
+function openSetup(){
+  const f=D.pf&&!D.pf.k?D.pf:{},ov=document.getElementById('overlaySetup');
+  const gd=f.gd||(()=>{const d=new Date();d.setMonth(d.getMonth()+6);return d.toISOString().slice(0,10)})();
+  sxSex=f.sex||'M';
+  const fld=(id,l,v,t,ph)=>`<label style="display:block;margin-bottom:12px"><div class="lbl" style="margin-bottom:5px">${l}</div><input id="${id}" class="inp" type="${t||'number'}" ${t?'':'inputmode="decimal" step="0.1"'} value="${v===undefined?'':v}" placeholder="${ph||''}" style="font-size:17px;padding:13px"></label>`;
+  ov.innerHTML=`<div style="max-width:380px;width:100%;max-height:92vh;overflow-y:auto;padding:4px 16px 24px">
+    ${D.pf?`<button class="ov-close" onclick="closeSetup()">✕</button>`:''}
+    <div class="hf" style="font-size:24px;font-weight:800;color:#0F172A;margin:10px 0 4px">Set up your plan</div>
+    <div style="font-size:14px;color:#64748B;margin-bottom:18px">Stays on this phone. Your targets, calories and checkpoints are worked out from this.</div>
+    ${fld('sxN','YOUR NAME',f.n,'text','First name')}
+    <div class="lbl" style="margin-bottom:5px">SEX</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">${['M','F'].map(x=>`<button id="sx${x}" onclick="sxSex='${x}';document.getElementById('sxM').style.cssText=sxBtn(sxSex==='M');document.getElementById('sxF').style.cssText=sxBtn(sxSex==='F')" style="${sxBtn(sxSex===x)}">${x==='M'?'Male':'Female'}</button>`).join('')}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${fld('sxA','AGE',f.age)}${fld('sxH','HEIGHT (CM)',f.h)}${fld('sxW','WEIGHT NOW (KG)',f.sw||(getCW()||''))}${fld('sxG','GOAL (KG)',f.gw)}</div>
+    ${fld('sxD','REACH GOAL BY',gd,'date')}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${fld('sxS','STRENGTH / WEEK',f.str||3)}${fld('sxP','SPORT / WEEK',f.sport||2)}</div>
+    <div id="sxErr" style="color:#DC2626;font-size:13px;min-height:18px;margin:2px 0 8px"></div>
+    <button class="btn" style="width:100%;background:#059669;color:#fff;padding:15px;font-size:16px" onclick="saveSetup()">Start my plan</button>
+  </div>`;
+  ov.classList.remove('hidden');
+}
+function sxBtn(on){return `flex:1;padding:12px;border-radius:10px;font-size:15px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;border:1px solid ${on?'#059669':'rgba(15,23,42,0.1)'};background:${on?'rgba(5,150,105,0.1)':'#fff'};color:${on?'#059669':'#64748B'}`}
+function closeSetup(){document.getElementById('overlaySetup').classList.add('hidden');}
+function saveSetup(){
+  const v=id=>document.getElementById(id).value.trim(),num=id=>parseFloat(v(id)),err=m=>{document.getElementById('sxErr').textContent=m};
+  const n=v('sxN');if(!n)return err('Enter your name');
+  if(/^keyur$/i.test(n)){D.pf={n:'Keyur',k:true};D.sw=PL.sw;D.tgt=PL.gw;saveData();closeSetup();initNav();render();return;}
+  const age=num('sxA'),h=num('sxH'),w=num('sxW'),g=num('sxG'),gd=v('sxD'),st=Math.round(num('sxS')),sp=Math.round(num('sxP'));
+  if(!(age>=15&&age<=90))return err('Enter your age');
+  if(!(h>=120&&h<=230))return err('Enter height in cm');
+  if(!(w>=35&&w<=250))return err('Enter your weight now');
+  if(!(g>=35&&g<=250))return err('Enter your goal weight');
+  if(!gd||gd<=tod())return err('Pick a goal date in the future');
+  const days=dnum(gd)-dnum(tod()),rate=(w-g)/days*7;
+  if(rate>1.0)return err('That needs '+rate.toFixed(1)+' kg/week. Pick a later date (max ~1 kg/week).');
+  const keep=D.pf&&!D.pf.k&&D.pf.sw===w?D.pf.sd:tod();
+  D.pf={n,sex:sxSex,age,h,sw:w,gw:g,gd,sd:keep,str:st>0?Math.min(7,st):3,sport:sp>=0?Math.min(7,sp):2,prot:Math.min(180,Math.max(80,Math.round(g*1.6/5)*5))};
+  D.sw=w;D.tgt=g;
+  if(D.wts.length===1&&D.wts[0].d==='2026-10-13'&&D.wts[0].w===120)D.wts=[];
+  if(!D.wts.some(x=>x.d===tod()))D.wts.push({d:tod(),w});
+  D.wts.sort((a,b)=>a.d<b.d?-1:1);
+  saveData();closeSetup();initNav();render();toast('✓ Plan set');
+}
+
 // ── SYNC ──
 function dlBlob(txt,name,mime){const b=new Blob([txt],{type:mime}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);toast("📤 "+name+" downloaded");}
 function exportCSV(){
@@ -968,7 +1028,7 @@ function syncToClaude(){
   const d=getDay(),cw=getCW(),sc=hsc(d),bio=getBio(),ar=getAR();
   const msg="DAILY WELLNESS CHECK-IN — "+tod()+
     "\nWeight: "+cw+"kg | Water: "+d.water+" glasses | Steps: "+(d.steps||0)+" | Score: "+sc+"% | Bio Age: "+bio+
-    "\nCalories: "+todayCals()+"/"+calTarget()+" kcal | Protein: "+todayProt()+"/"+PROT+" g"+
+    "\nCalories: "+todayCals()+"/"+calTarget()+" kcal | Protein: "+todayProt()+"/"+plan().prot+" g"+
     "\nMood: "+d.mood+"/5 | Energy: "+d.energy+"/5 | Stress: "+d.stress+"/5"+
     "\nSleep: "+(d.bed||"?")+" → "+(d.wake||"?")+
     "\n✅ Done ("+HB.filter(h=>d.h[h.id]).length+"/"+HB.length+"): "+HB.filter(h=>d.h[h.id]).map(h=>h.l).join(", ")+
